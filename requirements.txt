@@ -1,0 +1,17 @@
+Flask
+Bootstrap-Flask
+Flask_Moment
+Flask_WTF
+Flask_SQLAlchemy
+Flask-Mail
+Flask-Login
+Flask-Talisman
+mysqlclient
+PyCryptodome
+requests
+sh>=1.12.4
+
+flake8~=3.6.0
+
+pytest
+pytest-flask
