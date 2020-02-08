@@ -1,7 +1,7 @@
 import os
 from threading import Thread
 from datetime import datetime
-from sh.contrib import git
+from sh import git
 
 from flask import *
 from flask_bootstrap import Bootstrap
@@ -32,14 +32,17 @@ Talisman(app, content_security_policy={
     'img-src': "'self' http://* 'unsafe-inline' data: *",
 })
 app.config['SECRET_KEY'] = 'cbYSt76Vck*7^%4d'
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://flask:ag@bf(*&^^@v320*e@localhost/stunion?charset=utf8"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root: @localhost/test?charset=utf8"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SERVER_NAME'] = 'stunion.ustc.edu.cn'
-app.config['MAIL_SERVER'] = 'smtp.exmail.qq.com'  # 这里用163邮件服务器
-app.config['MAIL_PORT'] = 25
-app.config['MAIL_USE_TLS'] = False  # 启用安全传输层协议
-app.config['MAIL_USERNAME'] = "system@maglee.me"  # 从系统环境变量加载用户名和密码
-app.config['MAIL_PASSWORD'] = "DoYouLoveUSTC1.2."
+#app.config['SERVER_NAME'] = 'stunion.ustc.edu.cn'
+#app.config['SERVER_NAME'] = 'localhost.localdomain'
+
+
+app.config['MAIL_SERVER'] = 'smtp.163.com'   # 邮箱服务器
+app.config['MAIL_PORT'] = 25               # 端口
+#app.config['MAIL_USE_TLS'] = False 
+app.config['MAIL_USERNAME'] = "ustcstuniongirl@163.com" 
+app.config['MAIL_PASSWORD'] = "STUNION2020" 
 
 mail = Mail(app)
 login_manager = LoginManager(app)
@@ -54,14 +57,14 @@ NOT_ACTIVATE_STRING = "对不起，你的账户还未激活！"
 FEMALE = 0
 MALE = 1
 
-GIT_DATA = git.log('-1', '--pretty=%H%n%an%n%s').strip().split("\n")
+#GIT_DATA = git.log('-1', '--pretty=%H%n%an%n%s').strip().split("\n")
 
 
 def checkTimeLimit():
     # 返回1则正在活动
     nowtime = datetime.now()
-    starttime = datetime(2019, 3, 1, 20, 0, 0, 0)
-    endtime = datetime(2019, 3, 14, 0, 0, 0, 0)
+    starttime = datetime(2020, 2, 6, 20, 0, 0, 0)
+    endtime = datetime(2020, 3, 14, 0, 0, 0, 0)
     return starttime <= nowtime < endtime
 
 
@@ -85,9 +88,9 @@ def simpleSendMail(app, msg):
     return thr
 
 
-@app.context_processor
-def git_revision():
-    return {'git_revision': "Revision {}".format(GIT_DATA[0][:7])}
+#@app.context_processor
+#def git_revision():
+#    return {'git_revision': "Revision {}".format(GIT_DATA[0][:7])}
 
 
 class User(UserMixin, db.Model):
@@ -689,7 +692,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()
-        mymsg = mySendMailFormat("Student Union 邀请您激活账户", "system@maglee.me", user.userEmail, "", "auth/email/confirm",
+        mymsg = mySendMailFormat("Student Union 邀请您激活账户", "ustcstuniongirl@163.com", user.userEmail, "", "auth/email/confirm",
                                  token=token, user=user)
         simpleSendMail(app, mymsg)
         flash("注册成功 , 激活账户的邮件已发往您的 USTC 校内邮箱 ！")
@@ -734,7 +737,7 @@ def resend_confirmation():
         db.session.add(newtimestamp)
         db.session.commit()
         token = current_user.generate_confirmation_token()
-        mymsg = mySendMailFormat("Student Union 邀请您激活账户", "system@maglee.me", current_user.userEmail, "",
+        mymsg = mySendMailFormat("Student Union 邀请您激活账户", "ustcstuniongirl@163.com", current_user.userEmail, "",
                                  "auth/email/confirm", token=token, user=current_user)
         simpleSendMail(app, mymsg)
         flash("邮件已经发送，请注意查收！")
@@ -748,7 +751,7 @@ def resend_confirmation():
     db.session.add(stamp)
     db.session.commit()
     token = current_user.generate_confirmation_token()
-    mymsg = mySendMailFormat("Student Union 邀请您激活账户", "system@maglee.me", current_user.userEmail, "",
+    mymsg = mySendMailFormat("Student Union 邀请您激活账户", "ustcstuniongirl@163.com", current_user.userEmail, "",
                              "auth/email/confirm", token=token, user=current_user)
     simpleSendMail(app, mymsg)
     flash("邮件已经发送,请注意查收！")
@@ -781,7 +784,7 @@ def password_reset_request():
         if user:
             token = user.generate_reset_token()
             # send_email(user.email, 'Reset Your Password','auth/email/reset_password', user=user, token=token)
-            mymsg = mySendMailFormat("Student Union 更改您的账户密码", "system@maglee.me", user.userEmail, "",
+            mymsg = mySendMailFormat("Student Union 更改您的账户密码", "ustcstuniongirl@163.com", user.userEmail, "",
                                      "auth/email/reset_password", token=token, user=user)
             simpleSendMail(app, mymsg)
             flash("邮件已经发送，请注意查收！")
@@ -889,6 +892,9 @@ def caslogin():
     cas_login_url = cas_client.get_login_url(service_url=app_login_url)
     return redirect(cas_login_url)
 
+
+db.drop_all()
+db.create_all()
 
 @app.route('/faq', methods=['GET', 'POST'])
 def faq():
