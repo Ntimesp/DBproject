@@ -33,8 +33,16 @@
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">最新活动
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-							<a class="dropdown-item" href="{{ url_for('wish') }}"> 愿望实现 </a>
-							<a class="dropdown-item" href="{{ url_for('sayLoveU') }}"> 表白配对 </a>
+							<a class="dropdown-item" href="{{ url_for('wish') }}"> 愿望大厅 </a>
+                            <p> 我要把天上的星星摘下送给你，照亮你的眼睛~</p>
+							<a class="dropdown-item" href="{{ url_for('holiday') }}"> 假日与你 </a>
+                            <p>我来点亮你的漫漫长假~</p>
+                            <a class="dropdown-item" href="{{ url_for('show') }}"> 镜像show </a>
+                            <p>境像show，遇见多姿多彩的你~</p>
+                            <a class="dropdown-item" href="{{ url_for('sing') }}"> 情歌专场 </a>
+                            <p>你存在，我的歌声里~</p>
+                            <a class="dropdown-item" href="{{ url_for('luck') }}"> 幸运开奖 </a>
+                            <p>今夜，你的幸运之神降临~</p>
 						</div>
 					</li>
 				{% else %}

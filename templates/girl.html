@@ -4,6 +4,7 @@
 
 {% block content %}
 	<br>
+
 	{% if mywish %}
 		{% if userStatus == 0 %}
 			<br>
@@ -15,7 +16,7 @@
 			</div>
 			<br>
 		{% endif %}
-		{% if mywish.wishstatus == 0 or mywish.wishstatus == 3 %}
+		{% if mywish.wishstatus == 0 or mywish.wishstatus == 4 %}
 			<br>
 			<span class="badge badge-pill badge-primary">未被选取</span>
 			<div class="card border-primary mb-3" style="max-width: 36rem;">
@@ -37,7 +38,7 @@
 		
 		{% if mywish.wishstatus == 1 %}
 			<br>
-			<span class="badge badge-warning">已被选取</span>
+			<span class="badge badge-warning">你的愿望已被选取</span>
 			<div class="card border-warning mb-3" style="max-width: 36rem;">
 				<div class="card-header">我的愿望卡</div>
 				<div class="card-body text-warning">
@@ -48,16 +49,26 @@
 			<div class="card text-white bg-info mb-3" style="max-width: 36rem;">
 				<div class="card-header">男生信息</div>
 				<div class="card-body">
-					<h5 class="card-title"><a href="mailto:{{ mywish.boyEmail }}">{{ mywish.boyEmail }}</a></h5>
+					<h5 class="card-title">
+                        对方的昵称：{{ mywish.boyNickName }}
+					    对方的邮箱: <a href="mailto:{{ mywish.boyEmail }}">{{ mywish.boyEmail }}</a>
+					    <br>
+					    对方学号：{{ mywish.boySchoolNum }}
+					    <br>
+					    对方的 QQ 号：{{ mywish.boyQQnum }}
+                        <br>
+                        对方的手机号：{{ mywish.boyTelnum }}
+					    </p>
+                    </h5>
 					<p class="card-text"> 对方正在实现你的愿望，有什么疑问可以直接联系对方哦。</p>
 				</div>
 			</div>
 			<br>
 		{% endif %}
 		
-		{% if mywish.wishstatus == 2 %}
+		{% if mywish.wishstatus == 2  %}
 			<br>
-			<span class="badge badge-pill badge-success">已实现</span>
+			<span class="badge badge-pill badge-success">男生已经确认实现愿望</span>
 			<div class="card border-success mb-3" style="max-width: 36rem;">
 				<div class="card-header">我的愿望</div>
 				<div class="card-body text-success">
@@ -69,16 +80,54 @@
 				<div class="card-header">祝贺你</div>
 				<div class="card-body">
 					<h5 class="card-title"> 对方实现了你的愿望 </h5>
-					<p class="card-text">对方的邮箱: <a href="mailto:{{ mywish.boyEmail }}">{{ mywish.boyEmail }}</a>
+                    <p class="card-text">
+                    <br>
+                    对方的昵称：{{ mywish.boyNickName }}
+					对方的邮箱: <a href="mailto:{{ mywish.boyEmail }}">{{ mywish.boyEmail }}</a>
 					<br>
 					对方学号：{{ mywish.boySchoolNum }}
 					<br>
 					对方的 QQ 号：{{ mywish.boyQQnum }}
+                        <br>
+                        对方的手机号：{{ mywish.boyTelnum }}
 					</p>
 					<p>赶快联系他吧! </p>
 				</div>
 			</div>
+            <br>
+            请确认你认可他的完成，也是对他最大的奖励
+            {{ render_form(achieveform) }}
 		{% endif %}
+
+        {% if mywish.wishstatus == 3  %}
+            <span class="badge badge-pill badge-success">你们已经相互确认实现愿望了</span>
+			<div class="card border-success mb-3" style="max-width: 36rem;">
+				<div class="card-header">我的愿望</div>
+				<div class="card-body text-success">
+					<p class="card-text">{{ mywish.wishcontent }}</p>
+				</div>
+			</div>
+			<br>
+			<div class="card text-white bg-danger mb-3" style="max-width: 48rem;">
+				<div class="card-header">祝贺你</div>
+				<div class="card-body">
+					<h5 class="card-title"> 对方实现了你的愿望 </h5>
+                    <p class="card-text">
+                    <br>
+                    对方的昵称：{{ mywish.boyNickName }}
+					对方的邮箱: <a href="mailto:{{ mywish.boyEmail }}">{{ mywish.boyEmail }}</a>
+					<br>
+					对方学号：{{ mywish.boySchoolNum }}
+					<br>
+					对方的 QQ 号：{{ mywish.boyQQnum }}
+                        <br>
+                        对方的手机号：{{ mywish.boyTelnum }}
+					</p>
+					<p>赶快联系他吧! </p>
+				</div>
+			</div>
+            <br>
+        {% endif %}
 	{% else %}
 		<br>
 		<div class="alert alert-warning" role="alert">
@@ -91,4 +140,8 @@
 	{{ render_form(form) }}
 	{% endif %}
 	<br>
+    <a type="button" class="btn btn-outline-primary" href="{{ url_for('wish') }}">返回愿望大厅</a>
+    <a type="button" class="btn btn-outline-primary" href="{{ url_for('wishpool') }}">愿望池</a>
+    <a type="button" class="btn btn-outline-primary" href="{{ url_for('wishgirlfaq') }}">查看规则</a>
+    <a type="button" class="btn btn-outline-primary" href="{{ url_for('index') }}">返回主页</a>
 {% endblock %}

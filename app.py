@@ -1,7 +1,7 @@
 import os
 from threading import Thread
 from datetime import datetime
-from sh import git
+##from sh import git
 
 from flask import *
 from flask_bootstrap import Bootstrap
@@ -105,12 +105,14 @@ class User(UserMixin, db.Model):
     userRealName = db.Column(db.String(128), nullable=True)
     userSchoolNum = db.Column(db.String(64), unique=True, nullable=True)
     userQQnum = db.Column(db.String(64), unique=True, nullable=True)
+    userTelnum=db.Column(db.String(64), unique=True, nullable=True)
     userSex = db.Column(db.Integer, nullable=True)
     userWeChatNum = db.Column(db.String(64), nullable=True)
     userCellPhoneNum = db.Column(db.String(64), nullable=True)
     userOpenid = db.Column(db.String(256), nullable=True)
     userPasswordHash = db.Column(db.String(256), nullable=True)
     userSecretText = db.Column(db.String(64), nullable=True)
+    userNickName = db.Column(db.String(64), nullable=True)
 
     def setPassword(self, password):
         self.userPasswordHash = generate_password_hash(password)
@@ -261,19 +263,10 @@ def sayLoveU():
 #####################################################################################
 # 愿望实现
 
-class wishDatabase(db.Model):
-    __tablename__ = "wishes"
-    userEmail = db.Column(db.String(64), primary_key=True, unique=True, index=True)
-    userStatus = db.Column(db.Integer, nullable=True)
-    userSchoolNum = db.Column(db.String(64), nullable=True)
-    wishcontent = db.Column(db.String(1000), nullable=True)
-    wishstatus = db.Column(db.Integer, nullable=True)
-    # 0 未选取 1 已选取 2 已完成
-    wishid = db.Column(db.Integer, nullable=True)
-    girlQQnum = db.Column(db.String(64), nullable=True)
-    boyQQnum = db.Column(db.String(64), nullable=True)
-    boyEmail = db.Column(db.String(64), nullable=True)
-    boySchoolNum = db.Column(db.String(64), nullable=True)
+class thumbWish(db.Model):
+    thumbId=db.Column(db.Integer, primary_key=True, unique=True, index=True)
+    wishUserEmail=db.Column(db.String(64))
+    thumbUpEmail=db.Column(db.String(64))
 
 
 class wishform(FlaskForm):
@@ -286,6 +279,10 @@ class selectform(FlaskForm):
                         validators=[], coerce=int)
     submit1 = SubmitField("选择愿望")
 
+class thumbUpform(FlaskForm):
+    wishid = RadioField("点赞愿望", choices=[(i, "%d 号愿望" % i) for i in range(1, 6)],
+                        validators=[], coerce=int)
+    submit4 = SubmitField("点赞愿望")
 
 class finishform(FlaskForm):
     submit2 = SubmitField("完成愿望")
@@ -294,26 +291,83 @@ class finishform(FlaskForm):
 class updateform(FlaskForm):
     submit3 = SubmitField("刷新愿望")
 
+class refreshform(FlaskForm):
+    submit4=SubmitField("重新领取愿望")
 
 class selectwishes(db.Model):
     userEmail = db.Column(db.String(64), primary_key=True, unique=True, index=True)
     userSchoolNum = db.Column(db.String(64), nullable=True)
-    girlEmail = db.Column(db.String(64), nullable=True)
-    girlQQnum = db.Column(db.String(64), nullable=True)
-    girlSchoolNum = db.Column(db.String(64), nullable=True)
-    wishstatus = db.Column(db.Integer, nullable=True)
-    # 0 未完成 1 已完成
-    selecttime = db.Column(db.String(64), nullable=True)
-    lastviewtime = db.Column(db.String(64), nullable=True)
-    lastupdatetime = db.Column(db.String(64), nullable=True)
-    cashid = db.Column(db.String(1000), nullable=True)
     userStatus = db.Column(db.Integer, nullable=True)
 
+    girlNickName=db.Column(db.String(64),nullable=True)
+    girlEmail = db.Column(db.String(64), nullable=True)
+    girlQQnum = db.Column(db.String(64), nullable=True)
+    girlTelnum=db.Column(db.String(64),nullable=True)
+    girlSchoolNum = db.Column(db.String(64), nullable=True)
+    cashid= db.Column(db.String(1000), nullable=True)
+    wishstatus = db.Column(db.Integer, nullable=True)
+    # 0 选取未完成 1选取完成
+    selecttime = db.Column(db.String(64), nullable=True)
+    lastviewtime= db.Column(db.String(64), nullable=True)
+    lastupdatetime = db.Column(db.String(64), nullable=True)
+    achievestatus= db.Column(db.Integer, nullable=True)
+    #0 为女生确认完成 ，1 为女生未确认完成
+
+class wishDatabase(db.Model):
+    __tablename__ = "wishes"
+    userEmail = db.Column(db.String(64), primary_key=True, unique=True, index=True)
+    userStatus = db.Column(db.Integer, nullable=True)
+    userSchoolNum = db.Column(db.String(64), nullable=True)
+    wishNickName = db.Column(db.String(64), nullable=True)
+    girlQQnum = db.Column(db.String(64), nullable=True)
+    girlTelnum=db.Column(db.Integer,nullable=True)
+    wishcontent = db.Column(db.String(1000), nullable=True)
+    wishstatus = db.Column(db.Integer, nullable=True)
+    # 0 未选取 1 男生已选取 2 男生已完成 3女生已经确认
+    wishid = db.Column(db.Integer, nullable=True)
+
+    boyNickName=db.Column(db.String(64),nullable=True)
+    boyQQnum = db.Column(db.String(64), nullable=True)
+    boyEmail = db.Column(db.String(64), nullable=True)
+    boySchoolNum = db.Column(db.String(64), nullable=True)
+    boyTelnum=db.Column(db.Integer,nullable=True)
+
+    thumbUpNum=db.Column(db.Integer,nullable=True,default=0)
+class achieveform(FlaskForm):
+    submit = SubmitField("认同完成愿望")
+
+
+@app.route('/wishpool', methods=['GET', 'POST'])
+@fresh_login_required
+def wishpool():
+    sex = current_user.userSex
+    wishes = wishDatabase.query.filter(wishDatabase.userStatus == 1, wishDatabase.wishstatus != 3).order_by(func.random()).limit(5)
+    thumbUpWishform=thumbUpform()
+    if thumbUpWishform.validate_on_submit() and thumbUpWishform.submit1.data:
+        thumbupWishid=thumbUpWishform.wishid.data
+        thumbUpRecord =thumbWish.query.filter_by(wishUserEmail=wishes[thumbupWishid-1].userEmail,
+                                     thumbUpEmail=current_user.userEmail).first()
+        if thumbUpRecord is None:
+            thumbID=thumbWish.count()+1
+            thumbUpRecords=thumbWish(thumbId=thumbID,wishUserEmail=wishes[thumbupWishid-1].userEmail,
+                                     thumbUpEmail=current_user.userEmail)
+            ChooseWish=wishDatabase.query.filter_by(userEmail=thumbUpRecords.wishUserEmail).first()
+            ChooseWish.thumbUpNum=ChooseWish.thumbUpNum+1
+            db.session.add(ChooseWish)
+            db.session.add(thumbUpRecords)
+            db.session.commit()
+            flash("点赞成功")
+        else:
+            flash("无法点赞，可能您已经为该愿望点赞了，或者存在其他系统故障")
+
+    if wishes.count() == 0:
+        flash("还没有可以选择的愿望。")
+        return render_template('wishpool.html', sex=sex, wishes=wishes)
+    return render_template('wishpool.html', sex=sex, wishes=wishes)
 
 @app.route('/wish', methods=['GET', 'POST'])
 @fresh_login_required
 def wish():
-    sex = current_user.userSex
     if timelimit:
         sign = checkTimeLimit()
         if not sign:
@@ -321,11 +375,7 @@ def wish():
             return redirect(url_for('index'))
     if current_user.userEmail is None:
         return redirect(url_for('append'))
-    wishes = wishDatabase.query.filter(wishDatabase.userStatus == 1, wishDatabase.wishstatus != 3).order_by(func.random()).limit(5)
-    if wishes.count() == 0:
-        flash("还没有可以选择的愿望。")
-        return render_template('wish.html', sex=sex, wishes=wishes)
-    return render_template('wish.html', sex=sex, wishes=wishes)
+    return render_template('wish.html')
 
 
 @app.route('/girl', methods=['GET', 'POST'])
@@ -338,6 +388,7 @@ def girl():
         flash(NOT_START_STRING)
         return redirect(url_for('index'))
     form = wishform()
+    achieveforms=achieveform()
     if current_user.userEmail is None:
         return redirect(url_for('append'))
     if form.validate_on_submit():
@@ -347,7 +398,8 @@ def girl():
         if record is None:
             mywish = wishDatabase(userEmail=current_user.userEmail, wishcontent=wishtext, wishstatus=0,
                                   girlQQnum=current_user.userQQnum, userStatus=current_user.userStatus,
-                                  userSchoolNum=current_user.userSchoolNum)
+                                  userSchoolNum=current_user.userSchoolNum,wishNickName=current_user.userNickName,
+                                girlTelnum=current_user.userTelnum,thumbUpNum=0)
             db.session.add(mywish)
             db.session.commit()
             flash("收到你的愿望了!")
@@ -373,7 +425,22 @@ def girl():
                                               userSchoolNum=current_user.userSchoolNum).first()
         if mywish.boySchoolNum is not None:
             mywish.boySchoolNum = mywish.boySchoolNum[:-4] + "****"
-    return render_template('girl.html', form=form, mywish=mywish, userStatus=current_user.userStatus)
+    if achieveforms.validate_on_submit():
+        mywish = wishDatabase.query.filter_by(userEmail=current_user.userEmail,
+                                              userSchoolNum=current_user.userSchoolNum).first()
+        boylog=selectwishes.query.filter_by(girlEmail=current_user.userEmail,
+                                                girlSchoolNum=current_user.userSchoolNum).first()
+        if mywish is not None and boylog is not None:
+            boylog.achievestatus=1
+            mywish.wishstatus=3
+            db.session.add(boylog)
+            db.session.add(mywish)
+            db.session.commit()
+            flash("你已确认")
+            return redirect(url_for('girl'))
+        return redirect(url_for('girl'))
+    return render_template('girl.html', form=form, mywish=mywish, userStatus=current_user.userStatus,achieveform=achieveforms)
+
 
 
 @app.route('/boy', methods=['GET', 'POST'])
@@ -392,6 +459,7 @@ def boy():
     selectwishform = selectform()
     finishwishform = finishform()
     updatewishform = updateform()
+    refreshwishform=refreshform()
 
     # 选择愿望
     if selectwishform.validate_on_submit() and selectwishform.submit1.data:
@@ -401,7 +469,7 @@ def boy():
         if current_user.userStatus == 0:
             flash(NOT_ACTIVATE_STRING)
             return redirect(url_for('boy'))
-        if myrecord.girlEmail is not None:
+        if myrecord.wishstatus!=0:
             flash("对不起，你已经选取了愿望。")
             return redirect(url_for('boy'))
         mycash = myrecord.cashid.split(";")
@@ -418,15 +486,20 @@ def boy():
         if girllog is None:
             flash("对不起,不能选择该愿望")
             return redirect(url_for('wish'))
-        myrecord.wishstatus = 0
+        myrecord.wishstatus = 1
         myrecord.girlEmail = myselectemail
         myrecord.girlQQnum = girllog.girlQQnum
         myrecord.girlSchoolNum = girllog.userSchoolNum
+        myrecord.girlTelnum=girllog.girlTelnum
+        myrecord.girlNickName=girllog.wishNickName
+        myrecord.achievestatus=0
         myrecord.selecttime = datetime.now()
         girllog.wishstatus = 1
         girllog.boyQQnum = current_user.userQQnum
         girllog.boyEmail = current_user.userEmail
         girllog.boySchoolNum = current_user.userSchoolNum
+        girllog.boyTelNum=current_user.userTelnum
+        girllog.boyNickName=current_user.userNickName
         db.session.add(myrecord)
         db.session.add(girllog)
         db.session.commit()
@@ -488,6 +561,25 @@ def boy():
             return redirect(url_for('boy'))
         flash("每 6 小时只允许刷新一次。")
         return redirect(url_for('boy'))
+
+    #女生确认完成愿望后可以刷新
+    if refreshwishform.validate_on_submit() and refreshwishform.submit4.data:
+        if current_user.userStatus == 0:
+            flash(NOT_ACTIVATE_STRING)
+            return redirect(url_for('boy'))
+        myrecord = selectwishes.query.filter_by(userEmail=current_user.userEmail,
+                                                userSchoolNum=current_user.userSchoolNum).first()
+        if (myrecord is not None) :
+            if myrecord.achievestatus==1:
+                myrecord.wishstatus=0
+                db.session.add(myrecord)
+                db.session.commit()
+                flash("刷新成功")
+                return redirect(url_for('boy'))
+            else:
+                flash("请确认女生同意你完成")
+        return redirect(url_for('boy'))
+
     if myrecord is None:
         myrecord = selectwishes(userEmail=current_user.userEmail, userStatus=current_user.userStatus,
                                 userSchoolNum=current_user.userSchoolNum)
@@ -512,28 +604,31 @@ def boy():
         db.session.commit()
         return redirect(url_for('boy'))
     if myrecord.lastupdatetime is None:
-        myrecord.lastupdatetime = "2019-01-01 00:00:00.000000"
+        myrecord.lastupdatetime = "2020-01-01 00:00:00.000000"
         db.session.add(myrecord)
         db.session.commit()
         return redirect(url_for('boy'))
     if current_user.userStatus == 0:
         flash(NOT_ACTIVATE_STRING)
-    if myrecord.wishstatus == 0:
+    achievewish = wishDatabase.query.filter_by(wishstatus=3, userStatus=1, boyEmail=current_user.userEmail)
+    achieveNum = achievewish.count()
+    if myrecord.wishstatus == 1:
         myselectwish = wishDatabase.query.filter_by(userEmail=myrecord.girlEmail).first()
         wishes = []
         magiccode = 0
-
         return render_template("boy.html", selectwishform=selectwishform, updatewishform=updatewishform,
                                finishwishform=finishwishform, myselectwish=myselectwish, wishes=wishes,
-                               magiccode=magiccode, userStatus=current_user.userStatus)
-    if myrecord.wishstatus == 1:
+                               magiccode=magiccode, userStatus=current_user.userStatus,
+                                achieveWishes=achievewish,achieveNum=achieveNum)
+    if myrecord.wishstatus == 2:
         myselectwish = wishDatabase.query.filter_by(userEmail=myrecord.girlEmail).first()
         wishes = []
         magiccode = 0
         myselectwish.userSchoolNum = myselectwish.userSchoolNum[:-4] + "****"
         return render_template("boy.html", selectwishform=selectwishform, updatewishform=updatewishform,
                                finishwishform=finishwishform, myselectwish=myselectwish, wishes=wishes,
-                               magiccode=magiccode, userStatus=current_user.userStatus)
+                               magiccode=magiccode, userStatus=current_user.userStatus,
+                               achieveWishes=achievewish,achieveNum=achieveNum)
     lasttime = datetime.strptime(str(myrecord.lastviewtime), "%Y-%m-%d %H:%M:%S.%f")
     nowtime = datetime.now()
     if (nowtime - lasttime).total_seconds() >= 4 * 3600:  # 4 hours
@@ -559,12 +654,13 @@ def boy():
             continue
         onewish = wishDatabase.query.filter_by(userEmail=peremail).first()
         wishes.append(onewish)
-    setattr(selectform, 'wishid', 
+    setattr(selectform, 'wishid',
             RadioField("愿望序号", choices=[(i, "%d 号愿望" % i) for i in range(1, 1 + len(wishes))],
                        validators=[], coerce=int))
+
     return render_template("boy.html", selectwishform=selectwishform, updatewishform=updatewishform,
                            finishwishform=finishwishform, myselectwish=myselectwish, wishes=wishes, magiccode=magiccode,
-                           userStatus=current_user.userStatus)
+                           userStatus=current_user.userStatus,achieveWishes=achievewish,achieveNum=achieveNum)
 
 
 ############################################################
@@ -579,13 +675,19 @@ class LoginForm(FlaskForm):
 
 
 class RegisterForm(FlaskForm):
+    nickname=StringField("昵称（前台可见）",validators=[DataRequired()])
     email = StringField("电子邮箱（中科大校内邮箱，以 @mail.ustc.edu.cn、@ustc.edu.cn 结尾）",
                         validators=[DataRequired(), Length(1, 64), Email()])
     schoolnum = StringField("学号", validators=[DataRequired()])
-    realname = StringField("姓名(请输入你的真实姓名，不然你凭实力单身，我们也帮不了你)", validators=[DataRequired()])
+    realname = StringField("姓名(请输入你的真实姓名，在告白之前你的真实姓名不会显示给平台上其他用户可见)", validators=[DataRequired()])
     password = PasswordField('请设置密码', validators=[DataRequired(), Length(6, 64)])
-    QQnum = StringField(" QQ 号码", validators=[DataRequired()])
+    QQnum = StringField(" QQ 号码（手机号和QQ号二选一即可）", validators=[DataRequired()])
+    Telnum= StringField(" 手机号码(手机号和QQ号二选一即可)", validators=[DataRequired()])
     sex = RadioField("性别", choices=[(1, "男"), (0, "女")], validators=[], coerce=int)
+    accept_terms = BooleanField('“是否同意如下授权？\n'
+                                '（1）昵称所有平台用户可见\n'
+                                '（2）填写的联系方式将会呈现给领取你愿望的人/你领取愿望的人，实现你愿望的人/你实现愿望的人，以及匹配中的同学”'
+                                , default='checked', validators=[DataRequired()])
     submit = SubmitField('注册')
 
     def validate_email(self, field):
@@ -676,17 +778,22 @@ def register():
         newuserQQnum = form.QQnum.data
         newuserschoolnum = form.schoolnum.data
         newuserrealname = form.realname.data
+        newuserTelnum=form.Telnum.data
+        newuserNickName=form.nickname.data
+        if not form.accept_terms.data:
+            flash("请同意用户协议")
+            return redirect(url_for("register"))
         if not newuseremail.endswith("@mail.ustc.edu.cn") and newuseremail.endswith("@ustc.edu.cn"):
             flash("用户邮箱请使用 USTC 校内邮箱地址")
             return redirect(url_for("register"))
         user = User.query.filter_by(userEmail=form.email.data).first()
         if user is None:
             user = User(userEmail=newuseremail, userSchoolNum=newuserschoolnum, userQQnum=newuserQQnum,
-                        userSex=newusersex, userRealName=newuserrealname)
+                        userSex=newusersex, userRealName=newuserrealname,userTelnum=newuserTelnum,userNickName=newuserNickName)
         else:
             User.query.filter_by(userEmail=form.email.data).delete()
             user = User(userEmail=newuseremail, userSchoolNum=newuserschoolnum, userQQnum=newuserQQnum,
-                        userSex=newusersex, userRealName=newuserrealname)
+                        userSex=newusersex, userRealName=newuserrealname,userTelnum=newuserTelnum,userNickName=newuserNickName)
         user.setPassword(newuserpassword)
         user.userStatus = 0
         db.session.add(user)

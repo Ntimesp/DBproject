@@ -1,32 +1,23 @@
-{% extends "base.html" %}
+
 {% from 'bootstrap/form.html' import render_form, render_field %}
 
 
 {% block content %}
 <div class="center-block">
-	<br>
-	<div class="alert alert-primary" role="alert"> 本次活动中的愿望！！每次刷新可观看 </div>
-	<br>
-	{% for wish in wishes %}
-		<br>
-		<div class="card border-primary mb-3" style="max-width: 48rem;">
-			<div class="card-header"> 愿望展示卡 </div>
-			<div class="card-body text-primary">
-				{% for line in wish.wishcontent.split("\n") %}
-					<p class="card-text">{{ line }}</p>
-				{% endfor %}
-			</div>
-		</div>
-	{% endfor %}
-	<br>
-
+    <p>“我要把天上的星星摘下送给你，照亮你的眼睛——愿望实现”</p>
 	{% if sex %}
 		<br>
-		<a type="button" class="btn btn-outline-primary" href="{{ url_for('boy') }}">挑选属于自己的愿望</a>
+		<a type="button" class="btn btn-outline-primary" href="{{ url_for('boy') }}">领取愿望</a>
+        <a type="button" class="btn btn-outline-primary" href="{{ url_for('wishpool') }}">愿望池</a>
+        <a type="button" class="btn btn-outline-primary" href="{{ url_for('wishboyfaq') }}">查看规则</a>
+        <a type="button" class="btn btn-outline-primary" href="{{ url_for('index') }}">返回主页</a>
 		<br>
 	{% else %}
 		<br>
-		<a type="button" class="btn btn-outline-primary" href="{{ url_for('girl') }}">许下自己的愿望</a>
+		<a type="button" class="btn btn-outline-primary" href="{{ url_for('girl') }}">许下愿望</a>
+        <a type="button" class="btn btn-outline-primary" href="{{ url_for('wishpool') }}">愿望池</a>
+        <a type="button" class="btn btn-outline-primary" href="{{ url_for('wishgirlfaq') }}">查看规则</a>
+        <a type="button" class="btn btn-outline-primary" href="{{ url_for('index') }}">返回主页</a>
 		<br>
 	{% endif %}
 	<br>

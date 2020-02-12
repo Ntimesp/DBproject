@@ -30,6 +30,8 @@
 					{% for line in wish.wishcontent.split("\n") %}
 					<p class="card-text">{{ line }}</p>
 					{% endfor %}
+                    <br>
+                    {{ mywish.wishNickName }}
 				</div>
 			</div>
 		{% endfor %}
@@ -49,6 +51,8 @@
 			<div class="card-body text-warning">
 				<h5 class="card-title"> 愿望内容 </h5>
 				<p class="card-text">{{ myselectwish.wishcontent }}</p>
+                <br>
+                {{ mywish.wishNickName }}
 			</div>
 		</div>
 		<br>
@@ -56,10 +60,13 @@
 			<div class="card-header"> 资料卡 </div>
 			<div class="card-body">
 				<h5 class="card-title"> 对方联系方式 </h5>
-				<p class="card-text">对方校内邮箱：<a href="mailto:{{ myselectwish.userEmail }}">{{ myselectwish.userEmail }}</a> 在许愿过程中和对方及时沟通吧 </p>
+				<p class="card-text">对方校内邮箱：<a href="mailto:{{ myselectwish.girlEmail }}">
+                    {{ myselectwish.girlEmail }}</a> 在许愿过程中和对方及时沟通吧 </p>
+                对方电话号码：{{ myselectwish.girlTelnum }}
+                对方QQ号码：{{ myselectwish.girlQQnum }}
 			</div>
 		</div>
-		<br>
+        <br>
 		{{ render_form(finishwishform) }}
 	{% endif %}
 
@@ -78,10 +85,48 @@
 		<div class="card text-white bg-info mb-3" style="max-width: 48rem;">
 			<div class="card-header"> 资料卡 </div>
 			<div class="card-body">
-				<h5 class="card-title"> 对方联系方式 </h5>
-				<p class="card-text">对方校内邮箱：<a href="{{ myselectwish.userEmail }}">{{ myselectwish.userEmail }}</a><br>对方QQ:{{ myselectwish.girlQQnum }}<br>{{ myselectwish.userSchoolNum }}</p>
+                <p class="card-text">对方校内邮箱：<a href="mailto:{{ myselectwish.girlEmail }}">
+                    {{ myselectwish.girlEmail }}</a> 在许愿过程中和对方及时沟通吧 </p>
+                对方电话号码：{{ myselectwish.girlTelnum }}
+                对方QQ号码：{{ myselectwish.girlQQnum }}
 			</div>
 		</div>
+        您已经成功完成任务，女生对你的任务认同情况为
+        {% if myselectwish.achievestatus %}
+            同意你已经完成，可以点击下面按钮再刷新领取任务
+            {{ render_form(refreshwishform) }}
+        {% endif %}
+        {% else %}
+            未认同你已经完成，请联系女生确认完成
+        {% endif %}
 	{% endif %}
+    <br>
+    {% if achieveNum>0 %}
+    <p>您已经完成的愿望如下</p>
+        {% for wish in achieveWishes %}
+            <br>
+            <div class="card border-primary mb-3" style="max-width: 48rem;">
+                <div class="card-header"> 愿望展示卡 </div>
+                <div class="card-body text-primary">
+                    {% for line in wish.wishcontent.split("\n") %}
+                        <p class="card-text">{{ line }}</p>
+                    {% endfor %}
+                    <br>
+                    <p class="card-text"> 昵称{{ wish.wishNickName }} </p>
+                    <br>
+                    <p class="card-text"> 电话号码{{ wish.girlTelnum }} </p>
+                    <br>
+                    <p class="card-text"> QQ号码{{ wish.girlQQnum }} </p>
+                    <br>
+                    <p class="card-text"> 校内邮箱{{ wish.userEmail }} </p>
+                </div>
+            </div>
+	    {% endfor %}
+    {% endif %}
+
 	<br>
+    <a type="button" class="btn btn-outline-primary" href="{{ url_for('wish') }}">返回愿望大厅</a>
+    <a type="button" class="btn btn-outline-primary" href="{{ url_for('wishpool') }}">愿望池</a>
+    <a type="button" class="btn btn-outline-primary" href="{{ url_for('wishboyfaq') }}">查看规则</a>
+    <a type="button" class="btn btn-outline-primary" href="{{ url_for('index') }}">返回主页</a>
 {% endblock %}
