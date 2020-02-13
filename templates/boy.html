@@ -31,7 +31,7 @@
 					<p class="card-text">{{ line }}</p>
 					{% endfor %}
                     <br>
-                    {{ mywish.wishNickName }}
+                    {{ wish.wishNickName }}
 				</div>
 			</div>
 		{% endfor %}
@@ -52,7 +52,7 @@
 				<h5 class="card-title"> 愿望内容 </h5>
 				<p class="card-text">{{ myselectwish.wishcontent }}</p>
                 <br>
-                {{ mywish.wishNickName }}
+                {{ myselectwish.wishNickName }}
 			</div>
 		</div>
 		<br>
@@ -99,7 +99,7 @@
         {% else %}
             未认同你已经完成，请联系女生确认完成
         {% endif %}
-	{% endif %}
+
     <br>
     {% if achieveNum>0 %}
     <p>您已经完成的愿望如下</p>
@@ -127,6 +127,6 @@
 	<br>
     <a type="button" class="btn btn-outline-primary" href="{{ url_for('wish') }}">返回愿望大厅</a>
     <a type="button" class="btn btn-outline-primary" href="{{ url_for('wishpool') }}">愿望池</a>
-    <a type="button" class="btn btn-outline-primary" href="{{ url_for('wishboyfaq') }}">查看规则</a>
+    <a type="button" class="btn btn-outline-primary" href="{{ url_for('faq') }}">查看规则</a>
     <a type="button" class="btn btn-outline-primary" href="{{ url_for('index') }}">返回主页</a>
 {% endblock %}

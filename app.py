@@ -1,6 +1,12 @@
+# -*- coding : utf-8 -*-
+# coding: utf-8
+
 import os
 from threading import Thread
 from datetime import datetime
+import io
+from io import BytesIO
+import base64
 ##from sh import git
 
 from flask import *
@@ -20,6 +26,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from cas_client import *
 
 import urllib3
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 basedir = os.path.dirname(os.path.abspath(__file__))
@@ -34,15 +41,15 @@ Talisman(app, content_security_policy={
 app.config['SECRET_KEY'] = 'cbYSt76Vck*7^%4d'
 app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root: @localhost/test?charset=utf8"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-#app.config['SERVER_NAME'] = 'stunion.ustc.edu.cn'
-#app.config['SERVER_NAME'] = 'localhost.localdomain'
+# app.config['SERVER_NAME'] = 'stunion.ustc.edu.cn'
+# app.config['SERVER_NAME'] = 'localhost.localdomain'
 
 
-app.config['MAIL_SERVER'] = 'smtp.163.com'   # 邮箱服务器
-app.config['MAIL_PORT'] = 25               # 端口
-#app.config['MAIL_USE_TLS'] = False 
-app.config['MAIL_USERNAME'] = "ustcstuniongirl@163.com" 
-app.config['MAIL_PASSWORD'] = "STUNION2020" 
+app.config['MAIL_SERVER'] = 'smtp.163.com'  # 邮箱服务器
+app.config['MAIL_PORT'] = 25  # 端口
+# app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USERNAME'] = "ustcstuniongirl@163.com"
+app.config['MAIL_PASSWORD'] = "STUNION2020"
 
 mail = Mail(app)
 login_manager = LoginManager(app)
@@ -57,7 +64,8 @@ NOT_ACTIVATE_STRING = "对不起，你的账户还未激活！"
 FEMALE = 0
 MALE = 1
 
-#GIT_DATA = git.log('-1', '--pretty=%H%n%an%n%s').strip().split("\n")
+
+# GIT_DATA = git.log('-1', '--pretty=%H%n%an%n%s').strip().split("\n")
 
 
 def checkTimeLimit():
@@ -88,8 +96,8 @@ def simpleSendMail(app, msg):
     return thr
 
 
-#@app.context_processor
-#def git_revision():
+# @app.context_processor
+# def git_revision():
 #    return {'git_revision': "Revision {}".format(GIT_DATA[0][:7])}
 
 
@@ -105,7 +113,7 @@ class User(UserMixin, db.Model):
     userRealName = db.Column(db.String(128), nullable=True)
     userSchoolNum = db.Column(db.String(64), unique=True, nullable=True)
     userQQnum = db.Column(db.String(64), unique=True, nullable=True)
-    userTelnum=db.Column(db.String(64), unique=True, nullable=True)
+    userTelnum = db.Column(db.String(64), unique=True, nullable=True)
     userSex = db.Column(db.Integer, nullable=True)
     userWeChatNum = db.Column(db.String(64), nullable=True)
     userCellPhoneNum = db.Column(db.String(64), nullable=True)
@@ -264,9 +272,9 @@ def sayLoveU():
 # 愿望实现
 
 class thumbWish(db.Model):
-    thumbId=db.Column(db.Integer, primary_key=True, unique=True, index=True)
-    wishUserEmail=db.Column(db.String(64))
-    thumbUpEmail=db.Column(db.String(64))
+    thumbId = db.Column(db.Integer, primary_key=True, unique=True, index=True)
+    wishUserEmail = db.Column(db.String(64))
+    thumbUpEmail = db.Column(db.String(64))
 
 
 class wishform(FlaskForm):
@@ -279,10 +287,12 @@ class selectform(FlaskForm):
                         validators=[], coerce=int)
     submit1 = SubmitField("选择愿望")
 
+
 class thumbUpform(FlaskForm):
     wishid = RadioField("点赞愿望", choices=[(i, "%d 号愿望" % i) for i in range(1, 6)],
                         validators=[], coerce=int)
     submit4 = SubmitField("点赞愿望")
+
 
 class finishform(FlaskForm):
     submit2 = SubmitField("完成愿望")
@@ -291,27 +301,30 @@ class finishform(FlaskForm):
 class updateform(FlaskForm):
     submit3 = SubmitField("刷新愿望")
 
+
 class refreshform(FlaskForm):
-    submit4=SubmitField("重新领取愿望")
+    submit4 = SubmitField("重新领取愿望")
+
 
 class selectwishes(db.Model):
     userEmail = db.Column(db.String(64), primary_key=True, unique=True, index=True)
     userSchoolNum = db.Column(db.String(64), nullable=True)
     userStatus = db.Column(db.Integer, nullable=True)
 
-    girlNickName=db.Column(db.String(64),nullable=True)
+    girlNickName = db.Column(db.String(64), nullable=True)
     girlEmail = db.Column(db.String(64), nullable=True)
     girlQQnum = db.Column(db.String(64), nullable=True)
-    girlTelnum=db.Column(db.String(64),nullable=True)
+    girlTelnum = db.Column(db.String(64), nullable=True)
     girlSchoolNum = db.Column(db.String(64), nullable=True)
-    cashid= db.Column(db.String(1000), nullable=True)
-    wishstatus = db.Column(db.Integer, nullable=True)
+    cashid = db.Column(db.String(1000), nullable=True)
+    wishstatus = db.Column(db.Integer, nullable=True, default=0)
     # 0 选取未完成 1选取完成
     selecttime = db.Column(db.String(64), nullable=True)
-    lastviewtime= db.Column(db.String(64), nullable=True)
+    lastviewtime = db.Column(db.String(64), nullable=True)
     lastupdatetime = db.Column(db.String(64), nullable=True)
-    achievestatus= db.Column(db.Integer, nullable=True)
-    #0 为女生确认完成 ，1 为女生未确认完成
+    achievestatus = db.Column(db.Integer, nullable=True, default=0)
+    # 0 为女生未确认完成 ，1 为女生确认完成
+
 
 class wishDatabase(db.Model):
     __tablename__ = "wishes"
@@ -320,19 +333,21 @@ class wishDatabase(db.Model):
     userSchoolNum = db.Column(db.String(64), nullable=True)
     wishNickName = db.Column(db.String(64), nullable=True)
     girlQQnum = db.Column(db.String(64), nullable=True)
-    girlTelnum=db.Column(db.Integer,nullable=True)
+    girlTelnum = db.Column(db.String(64), nullable=True)
     wishcontent = db.Column(db.String(1000), nullable=True)
-    wishstatus = db.Column(db.Integer, nullable=True)
+    wishstatus = db.Column(db.Integer, nullable=True, default=0)
     # 0 未选取 1 男生已选取 2 男生已完成 3女生已经确认
     wishid = db.Column(db.Integer, nullable=True)
 
-    boyNickName=db.Column(db.String(64),nullable=True)
+    boyNickName = db.Column(db.String(64), nullable=True)
     boyQQnum = db.Column(db.String(64), nullable=True)
     boyEmail = db.Column(db.String(64), nullable=True)
     boySchoolNum = db.Column(db.String(64), nullable=True)
-    boyTelnum=db.Column(db.Integer,nullable=True)
+    boyTelnum = db.Column(db.String(64), nullable=True)
 
-    thumbUpNum=db.Column(db.Integer,nullable=True,default=0)
+    thumbUpNum = db.Column(db.Integer, nullable=True, default=0)
+
+
 class achieveform(FlaskForm):
     submit = SubmitField("认同完成愿望")
 
@@ -340,19 +355,24 @@ class achieveform(FlaskForm):
 @app.route('/wishpool', methods=['GET', 'POST'])
 @fresh_login_required
 def wishpool():
+    # img_path = '/home/dean/USTCstunion_girl_days/static/img/before.png'
+    # figfile = io.BytesIO(open(img_path, 'rb').read())
+    # img_stream = base64.b64encode(figfile.getvalue()).decode('ascii')
+
     sex = current_user.userSex
-    wishes = wishDatabase.query.filter(wishDatabase.userStatus == 1, wishDatabase.wishstatus != 3).order_by(func.random()).limit(5)
-    thumbUpWishform=thumbUpform()
-    if thumbUpWishform.validate_on_submit() and thumbUpWishform.submit1.data:
-        thumbupWishid=thumbUpWishform.wishid.data
-        thumbUpRecord =thumbWish.query.filter_by(wishUserEmail=wishes[thumbupWishid-1].userEmail,
-                                     thumbUpEmail=current_user.userEmail).first()
+    wishes = wishDatabase.query.filter(wishDatabase.userStatus == 1, wishDatabase.wishstatus != 3).order_by(
+        func.random()).limit(5)
+    thumbUpWishform = thumbUpform()
+    if thumbUpWishform.validate_on_submit() and thumbUpWishform.submit4.data:
+        thumbupWishid = thumbUpWishform.wishid.data
+        thumbUpRecord = thumbWish.query.filter_by(wishUserEmail=wishes[thumbupWishid - 1].userEmail,
+                                                  thumbUpEmail=current_user.userEmail).first()
         if thumbUpRecord is None:
-            thumbID=thumbWish.count()+1
-            thumbUpRecords=thumbWish(thumbId=thumbID,wishUserEmail=wishes[thumbupWishid-1].userEmail,
-                                     thumbUpEmail=current_user.userEmail)
-            ChooseWish=wishDatabase.query.filter_by(userEmail=thumbUpRecords.wishUserEmail).first()
-            ChooseWish.thumbUpNum=ChooseWish.thumbUpNum+1
+            thumbID = thumbWish.query.count() + 1
+            thumbUpRecords = thumbWish(thumbId=thumbID, wishUserEmail=wishes[thumbupWishid - 1].userEmail,
+                                       thumbUpEmail=current_user.userEmail)
+            ChooseWish = wishDatabase.query.filter_by(userEmail=thumbUpRecords.wishUserEmail).first()
+            ChooseWish.thumbUpNum = ChooseWish.thumbUpNum + 1
             db.session.add(ChooseWish)
             db.session.add(thumbUpRecords)
             db.session.commit()
@@ -362,8 +382,17 @@ def wishpool():
 
     if wishes.count() == 0:
         flash("还没有可以选择的愿望。")
-        return render_template('wishpool.html', sex=sex, wishes=wishes)
-    return render_template('wishpool.html', sex=sex, wishes=wishes)
+        return render_template('wishpool.html', sex=sex, wishes=wishes, thumbUpWishform=thumbUpWishform)
+    return render_template('wishpool.html', sex=sex, wishes=wishes, thumbUpWishform=thumbUpWishform)
+
+
+@app.route('/thumbup')
+@fresh_login_required
+def thumbup():
+    with open("test.txt", "w") as f:
+        f.write("这是个测试！")
+    print("hello")
+
 
 @app.route('/wish', methods=['GET', 'POST'])
 @fresh_login_required
@@ -375,7 +404,90 @@ def wish():
             return redirect(url_for('index'))
     if current_user.userEmail is None:
         return redirect(url_for('append'))
-    return render_template('wish.html')
+    return render_template('wish.html', sex=current_user.userSex)
+
+
+@app.route('/holiday', methods=['GET', 'POST'])
+@fresh_login_required
+def holiday():
+    if timelimit:
+        sign = checkTimeLimit()
+        if not sign:
+            flash(NOT_START_STRING)
+            return redirect(url_for('index'))
+    if current_user.userEmail is None:
+        return redirect(url_for('append'))
+    return render_template('holiday.html')
+
+
+@app.route('/show', methods=['GET', 'POST'])
+@fresh_login_required
+def show():
+    if timelimit:
+        sign = checkTimeLimit()
+        if not sign:
+            flash(NOT_START_STRING)
+            return redirect(url_for('index'))
+    if current_user.userEmail is None:
+        return redirect(url_for('append'))
+    return render_template('show.html')
+
+
+@app.route('/sing', methods=['GET', 'POST'])
+@fresh_login_required
+def sing():
+    if timelimit:
+        sign = checkTimeLimit()
+        if not sign:
+            flash(NOT_START_STRING)
+            return redirect(url_for('index'))
+    if current_user.userEmail is None:
+        return redirect(url_for('append'))
+    return render_template('sing.html')
+
+
+@app.route('/luck', methods=['GET', 'POST'])
+@fresh_login_required
+def luck():
+    nowtime = datetime.now()
+    timepoint1 = datetime(2020, 2, 29, 21, 37, 0, 0)
+    timepoint2 = datetime(2020, 3, 7, 21, 37, 0, 0)
+    flag1 = nowtime <= timepoint1
+
+    if timelimit:
+        sign = checkTimeLimit()
+        if not sign:
+            flash(NOT_START_STRING)
+            return redirect(url_for('index'))
+    if current_user.userEmail is None:
+        return redirect(url_for('append'))
+    return render_template('luck.html', nowtime=nowtime, flag1=flag1)
+
+
+@app.route('/myticket', methods=['GET', 'POST'])
+@fresh_login_required
+def myticket():
+    if timelimit:
+        sign = checkTimeLimit()
+        if not sign:
+            flash(NOT_START_STRING)
+            return redirect(url_for('index'))
+    if current_user.userEmail is None:
+        return redirect(url_for('append'))
+    return render_template('myticket.html')
+
+
+@app.route('/faq_ticket', methods=['GET', 'POST'])
+@fresh_login_required
+def faq_ticket():
+    if timelimit:
+        sign = checkTimeLimit()
+        if not sign:
+            flash(NOT_START_STRING)
+            return redirect(url_for('index'))
+    if current_user.userEmail is None:
+        return redirect(url_for('append'))
+    return render_template('faq_ticket.html')
 
 
 @app.route('/girl', methods=['GET', 'POST'])
@@ -388,7 +500,7 @@ def girl():
         flash(NOT_START_STRING)
         return redirect(url_for('index'))
     form = wishform()
-    achieveforms=achieveform()
+    achieveforms = achieveform()
     if current_user.userEmail is None:
         return redirect(url_for('append'))
     if form.validate_on_submit():
@@ -398,8 +510,8 @@ def girl():
         if record is None:
             mywish = wishDatabase(userEmail=current_user.userEmail, wishcontent=wishtext, wishstatus=0,
                                   girlQQnum=current_user.userQQnum, userStatus=current_user.userStatus,
-                                  userSchoolNum=current_user.userSchoolNum,wishNickName=current_user.userNickName,
-                                girlTelnum=current_user.userTelnum,thumbUpNum=0)
+                                  userSchoolNum=current_user.userSchoolNum, wishNickName=current_user.userNickName,
+                                  girlTelnum=current_user.userTelnum, thumbUpNum=0)
             db.session.add(mywish)
             db.session.commit()
             flash("收到你的愿望了!")
@@ -428,19 +540,19 @@ def girl():
     if achieveforms.validate_on_submit():
         mywish = wishDatabase.query.filter_by(userEmail=current_user.userEmail,
                                               userSchoolNum=current_user.userSchoolNum).first()
-        boylog=selectwishes.query.filter_by(girlEmail=current_user.userEmail,
-                                                girlSchoolNum=current_user.userSchoolNum).first()
+        boylog = selectwishes.query.filter_by(girlEmail=current_user.userEmail,
+                                              girlSchoolNum=current_user.userSchoolNum).first()
         if mywish is not None and boylog is not None:
-            boylog.achievestatus=1
-            mywish.wishstatus=3
+            boylog.achievestatus = 1
+            mywish.wishstatus = 3
             db.session.add(boylog)
             db.session.add(mywish)
             db.session.commit()
             flash("你已确认")
             return redirect(url_for('girl'))
         return redirect(url_for('girl'))
-    return render_template('girl.html', form=form, mywish=mywish, userStatus=current_user.userStatus,achieveform=achieveforms)
-
+    return render_template('girl.html', form=form, mywish=mywish, userStatus=current_user.userStatus,
+                           achieveform=achieveforms)
 
 
 @app.route('/boy', methods=['GET', 'POST'])
@@ -459,7 +571,7 @@ def boy():
     selectwishform = selectform()
     finishwishform = finishform()
     updatewishform = updateform()
-    refreshwishform=refreshform()
+    refreshwishform = refreshform()
 
     # 选择愿望
     if selectwishform.validate_on_submit() and selectwishform.submit1.data:
@@ -469,7 +581,7 @@ def boy():
         if current_user.userStatus == 0:
             flash(NOT_ACTIVATE_STRING)
             return redirect(url_for('boy'))
-        if myrecord.wishstatus!=0:
+        if myrecord.wishstatus != 0:
             flash("对不起，你已经选取了愿望。")
             return redirect(url_for('boy'))
         mycash = myrecord.cashid.split(";")
@@ -490,16 +602,16 @@ def boy():
         myrecord.girlEmail = myselectemail
         myrecord.girlQQnum = girllog.girlQQnum
         myrecord.girlSchoolNum = girllog.userSchoolNum
-        myrecord.girlTelnum=girllog.girlTelnum
-        myrecord.girlNickName=girllog.wishNickName
-        myrecord.achievestatus=0
+        myrecord.girlTelnum = girllog.girlTelnum
+        myrecord.girlNickName = girllog.wishNickName
+        myrecord.achievestatus = 0
         myrecord.selecttime = datetime.now()
         girllog.wishstatus = 1
         girllog.boyQQnum = current_user.userQQnum
         girllog.boyEmail = current_user.userEmail
         girllog.boySchoolNum = current_user.userSchoolNum
-        girllog.boyTelNum=current_user.userTelnum
-        girllog.boyNickName=current_user.userNickName
+        girllog.boyTelNum = current_user.userTelnum
+        girllog.boyNickName = current_user.userNickName
         db.session.add(myrecord)
         db.session.add(girllog)
         db.session.commit()
@@ -562,16 +674,16 @@ def boy():
         flash("每 6 小时只允许刷新一次。")
         return redirect(url_for('boy'))
 
-    #女生确认完成愿望后可以刷新
+    # 女生确认完成愿望后可以刷新
     if refreshwishform.validate_on_submit() and refreshwishform.submit4.data:
         if current_user.userStatus == 0:
             flash(NOT_ACTIVATE_STRING)
             return redirect(url_for('boy'))
         myrecord = selectwishes.query.filter_by(userEmail=current_user.userEmail,
                                                 userSchoolNum=current_user.userSchoolNum).first()
-        if (myrecord is not None) :
-            if myrecord.achievestatus==1:
-                myrecord.wishstatus=0
+        if (myrecord is not None):
+            if myrecord.achievestatus == 1:
+                myrecord.wishstatus = 0
                 db.session.add(myrecord)
                 db.session.commit()
                 flash("刷新成功")
@@ -582,7 +694,7 @@ def boy():
 
     if myrecord is None:
         myrecord = selectwishes(userEmail=current_user.userEmail, userStatus=current_user.userStatus,
-                                userSchoolNum=current_user.userSchoolNum)
+                                userSchoolNum=current_user.userSchoolNum, achievestatus=0, wishstatus=0)
         db.session.add(myrecord)
         db.session.commit()
         return redirect(url_for('boy'))
@@ -619,7 +731,7 @@ def boy():
         return render_template("boy.html", selectwishform=selectwishform, updatewishform=updatewishform,
                                finishwishform=finishwishform, myselectwish=myselectwish, wishes=wishes,
                                magiccode=magiccode, userStatus=current_user.userStatus,
-                                achieveWishes=achievewish,achieveNum=achieveNum)
+                               achieveWishes=achievewish, achieveNum=achieveNum)
     if myrecord.wishstatus == 2:
         myselectwish = wishDatabase.query.filter_by(userEmail=myrecord.girlEmail).first()
         wishes = []
@@ -628,7 +740,7 @@ def boy():
         return render_template("boy.html", selectwishform=selectwishform, updatewishform=updatewishform,
                                finishwishform=finishwishform, myselectwish=myselectwish, wishes=wishes,
                                magiccode=magiccode, userStatus=current_user.userStatus,
-                               achieveWishes=achievewish,achieveNum=achieveNum)
+                               achieveWishes=achievewish, achieveNum=achieveNum)
     lasttime = datetime.strptime(str(myrecord.lastviewtime), "%Y-%m-%d %H:%M:%S.%f")
     nowtime = datetime.now()
     if (nowtime - lasttime).total_seconds() >= 4 * 3600:  # 4 hours
@@ -660,7 +772,7 @@ def boy():
 
     return render_template("boy.html", selectwishform=selectwishform, updatewishform=updatewishform,
                            finishwishform=finishwishform, myselectwish=myselectwish, wishes=wishes, magiccode=magiccode,
-                           userStatus=current_user.userStatus,achieveWishes=achievewish,achieveNum=achieveNum)
+                           userStatus=current_user.userStatus, achieveWishes=achievewish, achieveNum=achieveNum)
 
 
 ############################################################
@@ -675,14 +787,14 @@ class LoginForm(FlaskForm):
 
 
 class RegisterForm(FlaskForm):
-    nickname=StringField("昵称（前台可见）",validators=[DataRequired()])
+    nickname = StringField("昵称（前台可见）", validators=[DataRequired()])
     email = StringField("电子邮箱（中科大校内邮箱，以 @mail.ustc.edu.cn、@ustc.edu.cn 结尾）",
                         validators=[DataRequired(), Length(1, 64), Email()])
     schoolnum = StringField("学号", validators=[DataRequired()])
     realname = StringField("姓名(请输入你的真实姓名，在告白之前你的真实姓名不会显示给平台上其他用户可见)", validators=[DataRequired()])
     password = PasswordField('请设置密码', validators=[DataRequired(), Length(6, 64)])
     QQnum = StringField(" QQ 号码（手机号和QQ号二选一即可）", validators=[DataRequired()])
-    Telnum= StringField(" 手机号码(手机号和QQ号二选一即可)", validators=[DataRequired()])
+    Telnum = StringField(" 手机号码(手机号和QQ号二选一即可)", validators=[DataRequired()])
     sex = RadioField("性别", choices=[(1, "男"), (0, "女")], validators=[], coerce=int)
     accept_terms = BooleanField('“是否同意如下授权？\n'
                                 '（1）昵称所有平台用户可见\n'
@@ -778,8 +890,8 @@ def register():
         newuserQQnum = form.QQnum.data
         newuserschoolnum = form.schoolnum.data
         newuserrealname = form.realname.data
-        newuserTelnum=form.Telnum.data
-        newuserNickName=form.nickname.data
+        newuserTelnum = form.Telnum.data
+        newuserNickName = form.nickname.data
         if not form.accept_terms.data:
             flash("请同意用户协议")
             return redirect(url_for("register"))
@@ -789,17 +901,20 @@ def register():
         user = User.query.filter_by(userEmail=form.email.data).first()
         if user is None:
             user = User(userEmail=newuseremail, userSchoolNum=newuserschoolnum, userQQnum=newuserQQnum,
-                        userSex=newusersex, userRealName=newuserrealname,userTelnum=newuserTelnum,userNickName=newuserNickName)
+                        userSex=newusersex, userRealName=newuserrealname, userTelnum=newuserTelnum,
+                        userNickName=newuserNickName)
         else:
             User.query.filter_by(userEmail=form.email.data).delete()
             user = User(userEmail=newuseremail, userSchoolNum=newuserschoolnum, userQQnum=newuserQQnum,
-                        userSex=newusersex, userRealName=newuserrealname,userTelnum=newuserTelnum,userNickName=newuserNickName)
+                        userSex=newusersex, userRealName=newuserrealname, userTelnum=newuserTelnum,
+                        userNickName=newuserNickName)
         user.setPassword(newuserpassword)
         user.userStatus = 0
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()
-        mymsg = mySendMailFormat("Student Union 邀请您激活账户", "ustcstuniongirl@163.com", user.userEmail, "", "auth/email/confirm",
+        mymsg = mySendMailFormat("Student Union 邀请您激活账户", "ustcstuniongirl@163.com", user.userEmail, "",
+                                 "auth/email/confirm",
                                  token=token, user=user)
         simpleSendMail(app, mymsg)
         flash("注册成功 , 激活账户的邮件已发往您的 USTC 校内邮箱 ！")
@@ -1002,6 +1117,7 @@ def caslogin():
 
 db.drop_all()
 db.create_all()
+
 
 @app.route('/faq', methods=['GET', 'POST'])
 def faq():
