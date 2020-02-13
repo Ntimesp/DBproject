@@ -92,13 +92,14 @@
 			</div>
 		</div>
         您已经成功完成任务，女生对你的任务认同情况为
-        {% if myselectwish.achievestatus %}
+        {% if myselectwish.achievestatus==1 %}
             同意你已经完成，可以点击下面按钮再刷新领取任务
             {{ render_form(refreshwishform) }}
         {% endif %}
-        {% else %}
+        {% if myselectwish.achievestatus==0 %}
             未认同你已经完成，请联系女生确认完成
         {% endif %}
+    {% endif %}
 
     <br>
     {% if achieveNum>0 %}

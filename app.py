@@ -843,7 +843,7 @@ def boy():
                                                 userSchoolNum=current_user.userSchoolNum).first()
         girllog = wishDatabase.query.filter_by(userEmail=myrecord.girlEmail).first()
         if (myrecord is not None) and (girllog is not None):
-            myrecord.wishstatus = 1
+            myrecord.wishstatus = 2
             girllog.wishstatus = 2
             db.session.add(myrecord)
             db.session.add(girllog)
@@ -1331,10 +1331,6 @@ def caslogin():
             return redirect(url_for('append'))
     cas_login_url = cas_client.get_login_url(service_url=app_login_url)
     return redirect(cas_login_url)
-
-
-db.drop_all()
-db.create_all()
 
 
 @app.route('/faq', methods=['GET', 'POST'])
