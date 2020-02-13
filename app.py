@@ -3,7 +3,7 @@
 
 import os
 from threading import Thread
-from datetime import datetime
+from datetime import datetime,timedelta
 import io
 from io import BytesIO
 import base64
@@ -24,6 +24,7 @@ from flask_login import login_required, fresh_login_required, login_user, login_
     UserMixin, logout_user, current_user
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from cas_client import *
+from sqlalchemy import not_
 
 import urllib3
 
@@ -266,7 +267,278 @@ def sayLoveU():
         return render_template('sayLoveU.html', form=form, status=status, pairedStatus=pairedStatus,
                                fromPerson=fromPerson, toPerson=toPerson, fromPersonLoveinfo=fromPersonLoveinfo,
                                toPersonLoveinfo=toPersonLoveinfo, userStatus=current_user.userStatus)
+#######################################################
+#假日与你
+class bottleDatabase(db.Model):
+    __tablename__ = "bottle"
+    userEmail = db.Column(db.String(64), primary_key=True, unique=True, index=True)
+    userStatus = db.Column(db.Integer, nullable=True)
+    userSchoolNum = db.Column(db.String(64), nullable=True)
+    userNickName = db.Column(db.String(64), nullable=True)
+    userQQnum = db.Column(db.String(64), nullable=True)
+    userTelnum = db.Column(db.String(64), nullable=True)
+    userSex = db.Column(db.Integer, nullable=True)
 
+    eventId=db.Column(db.Integer,nullable=True)
+    eventName=db.Column(db.Integer,nullable=True)
+    userBottleStatus=db.Column(db.Integer,nullable=True)
+    #0未投放 1已投放未匹配 2已投放已匹配
+    userSalvageStatus=db.Column(db.Integer,nullable=True)
+    #0无权打捞 1有权打捞
+    userBySalvageStatus=db.Column(db.Integer,nullable=True)
+    #0没有被选择 1被选择
+
+    partnerEmail = db.Column(db.String(64), nullable=True)
+    partnerSchoolNum = db.Column(db.String(64), nullable=True)
+    partnerNickName = db.Column(db.String(64), nullable=True)
+    partnerQQnum = db.Column(db.String(64), nullable=True)
+    partnerTelnum = db.Column(db.String(64), nullable=True)
+
+    # 0 选取未完成 1选取完成
+    bottleLastTime = db.Column(db.String(64), nullable=True)
+    checkPartnerTime = db.Column(db.String(64), nullable=True)
+    BePartenerTime=db.Column(db.String(64), nullable=True)
+
+class EventDatabase(db.Model):
+    eventId=db.Column(db.Integer,primary_key=True, unique=True, index=True)
+    eventName=db.Column(db.String(64),nullable=False)
+
+class riverStatus():
+    riverStatusNum=0
+    riverTime="2020-02-22 00:00:00.000000"
+
+River=riverStatus()
+
+class selectBottleform(FlaskForm):
+    ChooseEventId = RadioField("请选择接下来的一周里，我每天要做的一件事", choices=[(i, "%d 号事件" % i) for i in range(1, 10)],
+                        validators=[])
+    submit1 = SubmitField("选择事件投放")
+    submit2=  SubmitField("换一批")
+
+class ThrowBottleCheckform(FlaskForm):
+    check=SubmitField("是")
+    cancel=SubmitField("取消")
+
+def chooseEvent():
+    EventChoose=EventDatabase.order_by(func.random()).limit(10)
+    setattr(selectBottleform, 'ChooseEventId',
+            RadioField("请选择接下来的一周里，我每天要做的一件事", choices=[(event.eventId, event.eventName) for event in EventChoose],
+                       validators=[]))
+    return EventChoose
+
+def checkRiverStatus():
+    lasttime = datetime.strptime(str(River.riverTime), "%Y-%m-%d %H:%M:%S.%f")
+    nowtime = datetime.now()
+    bottleboyNum=bottleDatabase.query.filter_by(userBottleStatus=1,userSex=1).count()
+    bottlegirlNum=bottleDatabase.query.filter_by(userBottleStatus=1,userSex=0).count()
+    if bottleboyNum<15 or bottlegirlNum<15 or (bottlegirlNum+bottleboyNum)<40:
+        #进入节水期
+        River.riverTime=str(nowtime+timedelta(days=1).strftime("%Y-%m-%d %H:%M:%S.%f"))
+        River.riverStatusNum=0
+    lasttime = datetime.strptime(str(River.riverTime), "%Y-%m-%d %H:%M:%S.%f")
+    if (nowtime - lasttime).total_seconds() >= 0:
+        River.riverStatusNum=1
+        return 1,0
+    return 0,(lasttime-nowtime).total_seconds()/3600
+
+def chooseCompareForm(FlaskForm):
+    chooseCompare=RadioField("我要选择和同伴一起完成的事件：", choices=[(i, "%d 号漂流瓶" % i) for i in range(1, 6)],
+                        validators=[], coerce=int)
+    submit1 = SubmitField("选择漂流瓶")
+
+@app.route('/ThrowBottle', methods=['GET', 'POST'])
+@fresh_login_required
+def ThrowBottle():
+    if timelimit == 1 and not checkTimeLimit():
+        flash(NOT_START_STRING)
+        return redirect(url_for('index'))
+    myBottle=bottleDatabase.query.filter_by(userEmail=current_user.userEmail,
+                                            userSchoolNum=current_user.userSchoolNum).first()
+    if myBottle is None:
+        myBottle=bottleDatabase(userEmail=current_user.userEmail, userStatus=current_user.userStatus,
+                                userSchoolNum=current_user.userSchoolNum,userNickName=current_user.userNickName,
+                                userQQnum=current_user.userQQnum,userTelnum=current_user.userTelnum,userSex=current_user.userSex,
+                                userBottleStatus=0,userSalvageStatus=0,bottleLastTime="2020-01-01 00:00:00.000000",
+                                checkPartnerTime="2020-01-01 00:00:00.000000",
+                                BePartenerTime = "2020-01-01 00:00:00.000000")
+        db.session.add(myBottle)
+        db.session.commit()
+        return redirect(url_for('ThrowBottle'))
+    selectBottleForms=selectBottleform()
+    chooseEvent()
+    nowTime = datetime.now()
+    if myBottle.userBottleStatus==2:
+        if(nowTime-myBottle.BePartenerTime).total_seconds()>=7*24*3600:
+            myBottle.userBottleStatus=0
+            db.session.add(myBottle)
+            db.session.commit()
+            return redirect(url_for('ThrowBottle'))
+
+    #提交选择
+    if selectBottleForms.submit1.data() and selectBottleForms.validate_on_submit():
+        if myBottle.userSalvageStatus==1:
+            myBottle.userSalvageStatus=0
+            db.session.commit()
+
+        if (nowTime-myBottle.bottleLastTime).total_seconds()<=20:
+            flash('您的提交太频繁了，至少请经过20s再重新投放瓶子')
+            return redirect(url_for('ThrowBottle'))
+
+        if myBottle.userBottleStatus == 0:
+            myBottle.userBottleStatus=1
+            myBottle.eventId=selectBottleForms.ChooseEventId.data
+            myBottle.eventName=EventDatabase.query.filter_by(eventId=myBottle.eventId).first().eventName()
+            myBottle.bottleLastTime=datetime.now()
+            db.session.add(myBottle)
+            db.session.commit()
+            flash("事件瓶已成功投放到事件河流中，"
+                  "漂流事件开始计时！待ta拾取后，系统将发送确认匹配消息至“我的消息”页面中，"
+                  "请记得查收噢~该确认匹配消息有效期仅有一天，超过一天则默认同意匹配，"
+                  "双方进入匹配状态中~事件瓶在河流中漂流至24h即可获得捞瓶资格，可前往事件河流拾取事件瓶~")
+            return redirect(url_for('ThrowBottle'))
+
+        if myBottle.userBottleStatus == 1:
+            checkEvent=selectBottleForms.ChooseEventId.data
+            return redirect(url_for('ThrowBottleCheck',checkEvent=checkEvent))
+        if myBottle.userBottleStatus ==2:
+            flash('你已经处于匹配中，不可以再投放事件瓶咯')
+            return redirect(url_for('ThrowBottle'))
+
+    #换一批
+    if selectBottleForms.submit2.data() and selectBottleForms.validate_on_submit():
+        chooseEvent()
+        flash("换一批成功")
+        return redirect(url_for('ThrowBottle'))
+
+    return render_template('holiday/ThrowBottle.html',selectBottleform=selectBottleForms,myBottle=myBottle)
+
+@app.route('/ThrowBottleCheck/?<int:checkEvent>')
+@fresh_login_required
+def ThrowBottleCheck(checkEvent):
+    checkform=ThrowBottleCheckform()
+    myBottle = bottleDatabase.query.filter_by(userEmail=current_user.userEmail,
+                                              userSchoolNum=current_user.userSchoolNum).first()
+    if checkform.check.data() and checkform.validate_on_submit():
+        myBottle.userBottleStatus = 1
+        myBottle.eventId = checkEvent
+        myBottle.eventName = EventDatabase.query.filter_by(eventId=myBottle.eventId).first().eventName()
+        myBottle.bottleLastTime = datetime.now()
+        db.session.add(myBottle)
+        db.session.commit()
+        flash("事件瓶已成功投放到事件河流中，"
+              "漂流事件开始计时！待ta拾取后，系统将发送确认匹配消息至“我的消息”页面中，"
+              "请记得查收噢~该确认匹配消息有效期仅有一天，超过一天则默认同意匹配，"
+              "双方进入匹配状态中~事件瓶在河流中漂流至24h即可获得捞瓶资格，可前往事件河流拾取事件瓶~”")
+        return redirect(url_for('ThrowBottle'))
+    if checkform.cancel.data() and checkform.validate_on_submit():
+        flash('您已经取消事件瓶的投放')
+        return redirect(url_for('ThrowBottle'))
+    return render_template('holiday/ThrowBottleCheck.html', checkform=checkform)
+
+@app.route('/BottleRiverPick', methods=['GET', 'POST'])
+@fresh_login_required
+def BottleRiverPick():
+    timenow=datetime.now()
+    myBottle = bottleDatabase.query.filter_by(userEmail=current_user.userEmail,
+                                              userSchoolNum=current_user.userSchoolNum).first()
+    if myBottle is None:
+        myBottle=bottleDatabase(userEmail=current_user.userEmail, userStatus=current_user.userStatus,
+                                userSchoolNum=current_user.userSchoolNum,userNickName=current_user.userNickName,
+                                userQQnum=current_user.userQQnum,userTelnum=current_user.userTelnum,userSex=current_user.userSex,
+                                userBottleStatus=0,userSalvageStatus=0,bottleLastTime="2020-01-01 00:00:00.000000",
+                                checkPartnerTime="2020-01-01 00:00:00.000000",
+                                BePartenerTime = "2020-01-01 00:00:00.000000")
+        db.session.add(myBottle)
+        db.session.commit()
+        return redirect(url_for('ThrowBottle'))
+    lasttime = datetime.strptime(str(myBottle.bottleLastTime), "%Y-%m-%d %H:%M:%S.%f")
+    if (timenow - lasttime).total_seconds() >= 24*3600 and myBottle.userBottleStatus!=2:
+        myBottle.userSalvageStatus=1
+        db.session.add(myBottle)
+        db.session.commit()
+        return redirect(url_for('BottleRiverPick'))
+    riverStatus, LeftTime = checkRiverStatus()
+    chooseCompare=chooseCompareForm()
+    chooseBottles=bottleDatabase.query.filter_by(not_(userSex =myBottle.userSex)).order_by(func.random()).limit(5)
+    if chooseCompare.validate_on_submit() and chooseCompare.submit1.data():
+        if myBottle.userSalvageStatus!=1:
+            flash('你暂时还没有打捞资格')
+            return redirect(url_for('BottleRiverPick'))
+        else:
+            if myBottle.userSalvageStatus==2:
+                myBottle.userSalvageStatus=0
+                myBottle.userBySalvageStatus=0
+                db.session.commit()
+                flash('你有同伴一同打卡，或者原来同伴关系没解除，如果原有同伴已经过期，建议到我的消息里面解除同伴再来打卡')
+                return redirect(url_for('BottleRiverPick'))
+            bottleNum=chooseCompare.chooseCompare.data()
+            partnerBottle=chooseBottles[bottleNum-1]
+            if partnerBottle.userBottleStatus==2:
+                flash('非常抱歉，你选取的漂流瓶的主人已经和别人达成了同伴关系，你可以重新刷新页面选取漂流瓶')
+                return redirect(url_for('BottleRiverPick'))
+
+
+
+    return render_template('holiday/BottleRiver.html',myBottle=myBottle,riverStatus=riverStatus,
+                           LeftTime=LeftTime,Bottles=chooseBottles,chooseCompare=chooseCompare)
+
+
+@app.route('/holiday', methods=['GET', 'POST'])
+@fresh_login_required
+def holiday():
+    if timelimit:
+        sign = checkTimeLimit()
+        if not sign:
+            flash(NOT_START_STRING)
+            return redirect(url_for('index'))
+    if current_user.userEmail is None:
+        return redirect(url_for('append'))
+    riverStatus,LeftTime=checkRiverStatus()
+    return render_template('holiday/holiday.html',riverStatus=riverStatus,LeftTime=LeftTime)
+############################################
+#幸运抽奖
+@app.route('/luck', methods=['GET', 'POST'])
+@fresh_login_required
+def luck():
+    nowtime = datetime.now()
+    timepoint1 = datetime(2020, 2, 29, 21, 37, 0, 0)
+    timepoint2 = datetime(2020, 3, 7, 21, 37, 0, 0)
+    flag1 = nowtime <= timepoint1
+
+    if timelimit:
+        sign = checkTimeLimit()
+        if not sign:
+            flash(NOT_START_STRING)
+            return redirect(url_for('index'))
+    if current_user.userEmail is None:
+        return redirect(url_for('append'))
+    return render_template('luck.html', nowtime=nowtime, flag1=flag1)
+
+
+@app.route('/myticket', methods=['GET', 'POST'])
+@fresh_login_required
+def myticket():
+    if timelimit:
+        sign = checkTimeLimit()
+        if not sign:
+            flash(NOT_START_STRING)
+            return redirect(url_for('index'))
+    if current_user.userEmail is None:
+        return redirect(url_for('append'))
+    return render_template('myticket.html')
+
+
+@app.route('/faq_ticket', methods=['GET', 'POST'])
+@fresh_login_required
+def faq_ticket():
+    if timelimit:
+        sign = checkTimeLimit()
+        if not sign:
+            flash(NOT_START_STRING)
+            return redirect(url_for('index'))
+    if current_user.userEmail is None:
+        return redirect(url_for('append'))
+    return render_template('faq_ticket.html')
 
 #####################################################################################
 # 愿望实现
@@ -407,19 +679,6 @@ def wish():
     return render_template('wish.html', sex=current_user.userSex)
 
 
-@app.route('/holiday', methods=['GET', 'POST'])
-@fresh_login_required
-def holiday():
-    if timelimit:
-        sign = checkTimeLimit()
-        if not sign:
-            flash(NOT_START_STRING)
-            return redirect(url_for('index'))
-    if current_user.userEmail is None:
-        return redirect(url_for('append'))
-    return render_template('holiday.html')
-
-
 @app.route('/show', methods=['GET', 'POST'])
 @fresh_login_required
 def show():
@@ -445,49 +704,6 @@ def sing():
         return redirect(url_for('append'))
     return render_template('sing.html')
 
-
-@app.route('/luck', methods=['GET', 'POST'])
-@fresh_login_required
-def luck():
-    nowtime = datetime.now()
-    timepoint1 = datetime(2020, 2, 29, 21, 37, 0, 0)
-    timepoint2 = datetime(2020, 3, 7, 21, 37, 0, 0)
-    flag1 = nowtime <= timepoint1
-
-    if timelimit:
-        sign = checkTimeLimit()
-        if not sign:
-            flash(NOT_START_STRING)
-            return redirect(url_for('index'))
-    if current_user.userEmail is None:
-        return redirect(url_for('append'))
-    return render_template('luck.html', nowtime=nowtime, flag1=flag1)
-
-
-@app.route('/myticket', methods=['GET', 'POST'])
-@fresh_login_required
-def myticket():
-    if timelimit:
-        sign = checkTimeLimit()
-        if not sign:
-            flash(NOT_START_STRING)
-            return redirect(url_for('index'))
-    if current_user.userEmail is None:
-        return redirect(url_for('append'))
-    return render_template('myticket.html')
-
-
-@app.route('/faq_ticket', methods=['GET', 'POST'])
-@fresh_login_required
-def faq_ticket():
-    if timelimit:
-        sign = checkTimeLimit()
-        if not sign:
-            flash(NOT_START_STRING)
-            return redirect(url_for('index'))
-    if current_user.userEmail is None:
-        return redirect(url_for('append'))
-    return render_template('faq_ticket.html')
 
 
 @app.route('/girl', methods=['GET', 'POST'])
@@ -1069,6 +1285,8 @@ def append():
         myrecord.userRealName = infoform.realname.data
         myrecord.userQQnum = infoform.QQnum.data
         myrecord.userSex = infoform.sex.data
+        myrecord.Telnum=infoform.Telnum.data
+        myrecord.NickName=infoform.nickname.data
         myrecord.setPassword(infoform.password.data)
         db.session.add(myrecord)
         db.session.commit()

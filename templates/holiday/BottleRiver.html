@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_form, render_field %}
+
+{% block content %}
+    <p>我来点亮你的漫漫寒假，陪你走过接下来的七个日子</p>
+	{% if riverStatus %}
+        <div class="alert alert-primary" role="alert"> 河流处在丰水期，快去拾取事件瓶吧 </div>
+        {% if myBottle.userSalvageStatus %}
+            <p>恭喜你，你已经获得了打捞漂流瓶的资格</p>
+            {% for bottle in Bottles %}
+            <br>
+            <div class="card border-primary mb-3" style="max-width: 48rem;">
+                <div class="card-header"> 事件漂流瓶 </div>
+                <div class="card-body text-primary">
+                    <p class="card-text">{{ bottle.eventName }}</p>
+                    <p class="card-text"> {{ bottle.userNickName }} </p>
+                </div>
+            </div>
+            {% endfor %}
+            {{ render_form(chooseCompare) }}
+        {% endif %}
+        {% else %}
+            <p>非常遗憾，你暂时还未获得打捞漂流瓶的资格，可能是你上一个漂流瓶投放时间不足24小时，或者你还有同伴没有解除关系，建议到我的消息去查看一下原因</p>
+        {% endif %}
+    {%endif%}
+    {% else %}
+        <div class="alert alert-primary" role="alert"> 距离河流从蓄水期结束倒计时：{{ LeftTime }}小时 </div>
+    {% endif %}
+
+        <a type="button" class="btn btn-outline-primary" href="{{ url_for('ThrowBottle') }}">投放事件瓶</a>
+        <a type="button" class="btn btn-outline-primary" href="{{ url_for('shareUp') }}">分享打卡</a>
+        <a type="button" class="btn btn-outline-primary" href="{{ url_for('bottleMessage') }}">我的消息</a>
+        <a type="button" class="btn btn-outline-primary" href="{{ url_for('attendance') }}">我的打卡足迹</a>
+        <a type="button" class="btn btn-outline-primary" href="{{ url_for('BottleFaq') }}">查看规则</a>
+        <a type="button" class="btn btn-outline-primary" href="{{ url_for('index') }}">返回主页</a>
+{% endblock %}
