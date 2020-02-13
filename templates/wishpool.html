@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='thumbup.js') }}">
+
+{% extends "base.html" %}
+
+{% from 'bootstrap/form.html' import render_form, render_field %}
+
+{% block content %}
+<div class="center-block">
+
+	<br>
+	<div class="alert alert-primary" role="alert"> 本次活动中的愿望！！每次刷新可观看 </div>
+	<br>
+
+	{% for wish in wishes %}
+		<br>
+		<div class="card border-primary mb-3" style="max-width: 48rem;">
+			<div class="card-header"> 愿望展示卡 </div>
+			<div class="card-body text-primary">
+				{% for line in wish.wishcontent.split("\n") %}
+					<p class="card-text">{{ line }}</p>
+				{% endfor %}
+                <p class="card-text"> {{ wish.wishNickName }} </p>
+                <p class="card-text">{{ wish.thumbUpNum }} <button type="button" id="thumbup"  class="btn btn-sm" ><img id="img1" src="{{ url_for('static', filename='img/before.png') }}"  alt="" /></button> </p>
+			</div>
+		</div>
+	    <a type="button" class="btn btn-outline-primary" href="{{ url_for('wishpool') }}">换一批</a>
+	{% endfor %}
+    {{ render_form(thumbUpWishform) }}
+	<br>
+    <p>本次活动对于愿望池提供点赞功能，对于点赞高的愿望，在男生愿望池中会有更高概率出现，如果最终男生没有成功完成，那么会由项目组为其完成</p>
+</div>
+{% endblock %}

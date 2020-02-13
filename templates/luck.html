@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_form, render_field %}
+
+{% block content %}
+<div class="center-block">
+    <p>“今夜，你的幸运之神降临......蜗壳女生节，你能获得的不止口红。”</p>
+	{% if flag1 %}
+		<br>
+		<p>“开奖时间:2月29日晚9：37分”</p>
+		<br>
+	{% else %}
+		<br>
+		<p>“开奖时间:3月7日晚9：37分”</p>
+		<br>
+	{% endif %}
+	<br>
+	
+	<br>
+	<a type="button" class="btn btn-outline-primary" href="{{ url_for('myticket') }}">我的号码券</a>
+        <a type="button" class="btn btn-outline-primary" href="{{ url_for('faq_ticket') }}">查看规则</a>
+        <a type="button" class="btn btn-outline-primary" href="{{ url_for('index') }}">返回主页</a>
+	<br>
+</div>
+
+ 
+
+{% endblock %}
+
+
