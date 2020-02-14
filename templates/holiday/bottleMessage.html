@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_form, render_field %}
+
+{% block content %}
+    <p>我来点亮你的漫漫寒假，陪你走过接下来的七个日子</p>
+	{% if riverStatus %}
+        <div class="alert alert-primary" role="alert"> 河流处在丰水期，快去拾取事件瓶吧 </div>
+    {%endif%}
+    {% else %}
+        <div class="alert alert-primary" role="alert"> 距离河流从蓄水期结束倒计时：{{ LeftTime }}小时 </div>
+    {% endif %}
+    {% if myBottle.userBottleStatus==2 %}
+			<br>
+			<span class="badge badge-warning">你处于匹配中</span>
+			<div class="card border-warning mb-3" style="max-width: 36rem;">
+				<div class="card-header">你所希望打卡的事件</div>
+				<div class="card-body text-warning">
+					<p class="card-text">{{ myBottle.eventName }}</p>
+				</div>
+			</div>
+			<br>
+			<div class="card text-white bg-info mb-3" style="max-width: 36rem;">
+				<div class="card-header">你的匹配对象的联系方式</div>
+				<div class="card-body">
+					<h5 class="card-title">
+                        对方的昵称：{{ myBottle.partnerNickName }}
+                        <br>
+					    对方的邮箱: <a href="mailto:{{ myBottle.partnerEmail }}">{{ myBottle.partnerEmail }}</a>
+					    <br>
+					    对方的 QQ 号：{{ myBottle.partnerQQnum }}
+                        <br>
+                        对方的手机号：{{ myBottle.partnerTelnum }}
+					    <br>
+                        对方希望每天打卡的事件为：{{ myBottle.partenerEventName }}
+                    </h5>
+					<p class="card-text"> 请和ta一起每天打卡完成彼此的约定吧</p>
+				</div>
+			</div>
+			<br>
+            <p>你们最新一次成为同伴关系的时间为{{ myBottle.BePartenerTime }},如果这个时间超过一周没有更新，你们将会彼此解除同伴打卡关系。
+                请点击下面更新同伴关系按钮更新关系（需要双方都确认继续成为同伴才可以哦！！）
+            <p>你的请求更新状态为，如果成功续约时间离当前时间没有超过5天可以不用反复点击续约按钮</p>
+            {% if myBottle.userBySalvageStatus==1 %}
+                <p>你希望继续续约</p>
+            {% endif %}
+            {% if myBottle.userBySalvageStatus==0 %}
+                <p>暂未确认是否续约</p>
+            {% endif %}
+            {{ render_form(checkpartnerform) }}
+    {% endif %}
+
+    {% if myBottle.userBottleStatus==0 %}
+        <br>
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">你没有任何事件瓶在漂流也没有任何匹配对象或者你刚刚结束了一次匹配关系</h4>
+            <p>为了你能参加活动，我们建议你可以前往投放事件瓶处投放一个事件瓶，与别人一同打卡哦</p>
+            <hr>
+			</div>
+        <br>
+    {% endif %}
+    {% if myBottle.userBottleStatus==1 %}
+        {% if myBottle.userSalvageStatus==0 %}
+            <p>你暂时还没有捞瓶资格，你上次投放瓶子的时间为{{ myBottle.bottleLastTime }},至少要经过24小时才可以拥有下一次捞瓶资格</p>
+        {% endif %}
+        {% if myBottle.userSalvageStatus==1 %}
+            <p>你拥有了捞瓶资格，可以前往事件河流捞瓶</p>
+        {% endif %}
+    {% endif %}
+   {% if myReceiveInviteNum >0  %}
+        {% for invite in myReceiveInvite %}
+	        <div class="card text-white bg-info mb-3" style="max-width: 36rem;">
+				<div class="card-header">邀请你一同打卡信息</div>
+				<div class="card-body">
+					<p class="card-text">
+                        对方的昵称：{{ invite.userNickName}}
+                        <br>
+					    对方的邮箱: <a href="mailto:{{ invite.userEmail }}">{{ invite.userEmail }}</a>
+					    <br>
+					    对方的打卡事件：{{ invite.eventName }}
+                    </p>
+				</div>
+			</div>
+        {% endfor %}
+       {{ receiveInviteform }}
+   {% endif %}
+		<a type="button" class="btn btn-outline-primary" href="{{ url_for('ThrowBottle') }}">投放事件瓶</a>
+        <a type="button" class="btn btn-outline-primary" href="{{ url_for('BottleRiver') }}">事件河流</a>
+        <a type="button" class="btn btn-outline-primary" href="{{ url_for('shareUp') }}">分享打卡</a>
+        <a type="button" class="btn btn-outline-primary" href="{{ url_for('attendance') }}">我的打卡足迹</a>
+        <a type="button" class="btn btn-outline-primary" href="{{ url_for('BottleFaq') }}">查看规则</a>
+        <a type="button" class="btn btn-outline-primary" href="{{ url_for('index') }}">返回主页</a>
+	<br>
+{% endblock %}
