@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_form, render_field %}
+
+
+{% block content %}
+    <p>我的打卡记录</p>
+    {% if myRecordCheck==0 %}
+    <p>你还没有成功的打卡记录，请先去打卡吧</p>
+    {% else %}
+	{% for record in myRecord %}
+		<br>
+		<div class="card border-primary mb-3" style="max-width: 48rem;">
+			<div class="card-header"> 打卡记录 </div>
+			<div class="card-body text-primary">
+				{% for line in record.eventContent.split("\n") %}
+					<p class="card-text">{{ line }}</p>
+				{% endfor %}
+                <p class="card-text"> 打卡事件{{ record.dailyEventName }} </p>
+                <p class="card-text"> 打卡时间{{ record.dailyTime }} </p>
+                <p class="card-text"> 打卡同伴{{ record.dailyPartnerName }} </p>
+                <p class="card-text">点赞数量{{ record.thumbUpNum }} </p>
+			</div>
+		</div>
+	{% endfor %}
+    {% endif %}
+    <p>我同伴的打卡记录</p>
+    {% if mypartnerRecordCheck==0 %}
+    <p>你还没有成功的打卡记录，请先去打卡吧</p>
+    {% else %}
+	{% for record in mypartnerRecord %}
+		<br>
+		<div class="card border-primary mb-3" style="max-width: 48rem;">
+			<div class="card-header"> 打卡记录 </div>
+			<div class="card-body text-primary">
+				{% for line in record.eventContent.split("\n") %}
+					<p class="card-text">{{ line }}</p>
+				{% endfor %}
+                <p class="card-text"> 打卡事件{{ record.dailyEventName }} </p>
+                <p class="card-text"> 打卡时间{{ record.dailyTime }} </p>
+                <p class="card-text"> 打卡同伴{{ record.dailyPartnerName }} </p>
+                <p class="card-text">点赞数量{{ record.thumbUpNum }} </p>
+			</div>
+		</div>
+	{% endfor %}
+    {% endif %}
+
+{% endblock %}
