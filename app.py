@@ -898,6 +898,8 @@ def wish():
         return redirect(url_for('append'))
     return render_template('wish.html', sex=current_user.userSex,userStatus=current_user.userStatus)
 
+######################################################################################################################
+#镜像show模块
 
 @app.route('/show', methods=['GET', 'POST'])
 @fresh_login_required
@@ -911,7 +913,30 @@ def show():
         return redirect(url_for('append'))
     return render_template('show.html')
 
+@app.route('/wonderland', methods=['GET', 'POST'])
+def wonderland():
+    return render_template('wonderland.html',magiccode=1)
 
+@app.route('/party', methods=['GET', 'POST'])
+def party():
+    return render_template('party.html',magiccode=1)
+
+@app.route('/kitchen', methods=['GET', 'POST'])
+def kitchen():
+    return render_template('kitchen.html',userStatus=1)
+
+@app.route('/battle', methods=['GET', 'POST'])
+def battle():
+    return render_template('battle.html',userStatus=1)
+
+@app.route('/hole', methods=['GET', 'POST'])
+def hole():
+    return render_template('hole.html',userStatus=1)
+
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    return render_template('hole.html',userStatus=1)
+###############################################################################################################################
 @app.route('/sing', methods=['GET', 'POST'])
 @fresh_login_required
 def sing():
@@ -1345,7 +1370,7 @@ def register():
                         userSex=newusersex, userRealName=newuserrealname, userTelnum=newuserTelnum,
                         userNickName=newuserNickName)
         user.setPassword(newuserpassword)
-        user.userStatus = 0
+        user.userStatus = 1
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()

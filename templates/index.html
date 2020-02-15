@@ -1,49 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 	<br>
-	<div class="alert alert-danger alert-dismissible fade show" role="alert">
-		<strong>电脑浏览器和手机浏览器中体验效果更佳！</strong> 如果你在 QQ 或者微信中打开此链接，可以复制本站链接 <a href="/">https://stunion.ustc.edu.cn</a> 在电脑浏览器和手机浏览器中进行访问。
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-	</div>
+	<a href="{{ url_for('wish') }}" class="btn btn-primary btn-lg btn-block"> 愿望大厅 </a>
+    <p align="center"> 我要把天上的星星摘下送给你，照亮你的眼睛~</p>
 	<br>
-	<div class="jumbotron">
-		<h1 class="display-4">欢迎来到中国科学技术大学学生会网站</h1>
-		<p class="lead">中国科学技术大学学生会力争办好每一个学生活动</p>
-		<hr class="my-4">
-		<p>在此方框下方则会呈现近期的线上活动，点击按钮即可了解详细内容</p>
-		<p class="lead">
-		<a class="btn btn-primary btn-lg" href="https://young.ustc.edu.cn/" role="button">欢迎访问青春科大首页</a>
-		</p>
-	</div>
+
+    <br>
+	<a href="{{ url_for('holiday') }}" class="btn btn-primary btn-lg btn-block"> 假日与你 </a>
+    <p align="center">我来点亮你的漫漫长假~</p>
 	<br>
+
+    <br>
+	<a href="{{ url_for('show') }}" class="btn btn-primary btn-lg btn-block"> 镜像show </a>
+    <p align="center">境像show，遇见多姿多彩的你~</p>
 	<br>
-	{% if userStatus == 0 %}
-		<div class="alert alert-danger alert-dismissible fade show" role="alert">
-			<strong>您的账户尚未激活！</strong>您的账户尚未激活，你的所有活动将被服务器后台挂起。<a href="{{ url_for('unconfirmed') }}" class="alert-link">点击我激活账户</a>
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		</div>
-	{% endif %}
+
+    <br>
+	<a href="{{ url_for('sing') }}" class="btn btn-primary btn-lg btn-block"> 情歌专场 </a>
+    <p align="center">你存在，我的歌声里~</p>
 	<br>
-	<p>
-    <button class="btn btn-primary btn-lg btn-block" type="button" data-toggle="collapse" data-target="#collapsewish" aria-expanded="false" aria-controls="collapseExample">愿望实现</button>
-	</p>
-	<div class="collapse" id="collapsewish">
-		<div class="card card-body"><div class="shadow-lg p-3 mb-5 bg-white rounded">在这里留下你的愿望，等待有缘人为你实现。<a href="{{ url_for('wish') }}" class="alert-link">快点击这里许下你的愿望吧！</a></div></div>
-	</div>
-	<p>
-	<button class="btn btn-primary btn-lg btn-block" type="button" data-toggle="collapse" data-target="#collapsesayloveu" aria-expanded="false" aria-controls="collapseExample">表白匹配</button>
-	</p>
-	<div class="collapse" id="collapsesayloveu">
-		<div class="card card-body"><div class="shadow-lg p-3 mb-5 bg-white rounded">在这里向你的心上人表达你的情愫吧！<a href="{{ url_for('sayLoveU') }}" class="alert-link">点击这里向 TA 表白</a></div></div>
-	</div>
-    <a href="{{ url_for('faq') }}"><span class="badge badge-pill badge-primary" style="font-size: 1em;">点我查看使用指南</span></a>
-    <span class="badge badge-pill badge-info">2019 女生节之愿望实现活动交流群: 287252379</span>
-	{% if current_user.userSecretText %}
-		<span class="badge badge-pill badge-success">{{ current_user.userSecretText }}</span>
-	{% endif %}
+
+    <br>
+	<a href="{{ url_for('luck') }}" class="btn btn-primary btn-lg btn-block"> 幸运开奖 </a>
+    <p align="center">今夜，你的幸运之神降临~</p>
+	<br>
+
+
+
+
+
+    <span class="badge badge-pill badge-info">2020 女生节之愿望实现活动交流群:</span>
+
 {% endblock %}

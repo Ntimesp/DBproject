@@ -8,6 +8,9 @@
 	<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
 	{{ bootstrap.load_css() }}
 </head>
+<script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='popper.min.js') }}"></script>
+<link rel="{{ url_for('static', filename='bootstrap.min.css') }}" type="text/stylesheet" />
 <body>
 	<nav class="navbar navbar-dark bg-primary">
 		<a class="navbar-brand" href="https://stunion.ustc.edu.cn">中国科学技术大学学生会</a>
