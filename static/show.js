@@ -1,0 +1,72 @@
+$("body").css("background-image","url()")
+
+$("#buttonRegauler").hover(
+    function(){
+        $("#collapseRegauler").toggle()
+    },
+    function(){
+        $("#collapseRegauler").toggle()
+    }
+);
+$("#buttonWonderland").hover(
+    function(){
+        $("#collapseWonderland").toggle()
+        $("body").css("background-image","url()")
+    },
+    function(){
+        $("#collapseWonderland").toggle()
+        $("body").css("background-image","url()")
+    }
+);
+
+$("#buttonParty").hover(
+    function(){
+        $("#collapseParty").toggle()
+        $("body").css("background-image","url()")
+    },
+    function(){
+        $("#collapseParty").toggle()
+        $("body").css("background-image","url()")
+    }
+);
+
+$("#buttonKitchen").hover(
+    function(){
+        $("#collapseKitchen").toggle()
+        $("body").css("background-image","url()")
+    },
+    function(){
+        $("#collapseKitchen").toggle()
+        $("body").css("background-image","url()")
+    }
+);
+
+$("#buttonBattle").hover(
+    function(){
+        $("#collapseBattle").toggle()
+        $("body").css("background-image","url()")
+    },
+    function(){
+        $("#collapseBattle").toggle()
+        $("body").css("background-image","url()")
+    }
+);
+
+$("#buttonHole").hover(
+    function(){
+        $("#collapseHole").toggle()
+        $("body").css("background-image","url()")
+    },
+    function(){
+        $("#collapseHole").toggle()
+        $("body").css("background-image","url()")
+    }
+);
+
+$("#search").click(function(){
+    $.post("search",
+    {
+        test:"test",
+    },)
+    "需要在后端跳转页面"
+});
