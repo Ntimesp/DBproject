@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% from 'bootstrap/form.html' import render_form, render_field %}
 
+{% block headInsert %}
+<style>
+body{background:url({{ url_for('static', filename='img/river_index.jpg') }}) top left;background-size:cover;}
+</style>
+{% endblock %}
+
 {% block content %}
 
 <div class="center-block">
@@ -21,13 +27,13 @@
         <div class="alert alert-primary" role="alert"> 距离河流从蓄水期结束倒计时：{{ LeftTime }}小时 </div>
     {% endif %}
         <br>
-		<a type="button" class="btn btn-outline-primary" href="{{ url_for('ThrowBottle') }}">投放事件瓶</a>
-        <a type="button" class="btn btn-outline-primary" href="{{ url_for('BottleRiver') }}">事件河流</a>
-        <a type="button" class="btn btn-outline-primary" href="{{ url_for('shareUp') }}">分享打卡</a>
-        <a type="button" class="btn btn-outline-primary" href="{{ url_for('bottleMessage') }}">我的消息</a>
-        <a type="button" class="btn btn-outline-primary" href="{{ url_for('attendance') }}">我的打卡足迹</a>
-        <a type="button" class="btn btn-outline-primary" href="{{ url_for('BottleFaq') }}">查看规则</a>
-        <a type="button" class="btn btn-outline-primary" href="{{ url_for('index') }}">返回主页</a>
+	<a type="button" class="btn btn-primary" href="{{ url_for('ThrowBottle') }}">投放事件瓶</a>
+        <a type="button" class="btn btn-primary" href="{{ url_for('BottleRiverPick') }}">事件河流</a>
+        <a type="button" class="btn btn-primary" href="{{ url_for('shareUp') }}">分享打卡</a>
+        <a type="button" class="btn btn-primary" href="{{ url_for('bottleMessage') }}">我的消息</a>
+        <a type="button" class="btn btn-primary" href="{{ url_for('attendance') }}">我的打卡足迹</a>
+        <a type="button" class="btn btn-primary" href="{{ url_for('BottleFaq') }}">查看规则</a>
+        <a type="button" class="btn btn-primary" href="{{ url_for('index') }}">返回主页</a>
 	<br>
 </div>
 {% endblock %}

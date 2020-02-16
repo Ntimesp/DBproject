@@ -8,8 +8,17 @@
 <div class="center-block">
 	
 	<br>
+        {% for ticket in ticketes %}
+		<br>
+		<div class="card border-primary mb-3" style="max-width: 48rem;">
+			<div class="card-header"> 获奖奖券 </div>
+			<div class="card-body text-primary">
 
-        <a type="button" class="btn btn-outline-primary" href="{{ url_for('luck') }}">返回幸运开奖</a>
+                <p class="card-text" id="ads"> 幸运号码{{ ticket.ticketLuckNum }} </p>
+			</div>
+		</div>
+         {% endfor %}
+        <a type="button" class="btn btn-primary" href="{{ url_for('luck') }}">返回幸运开奖</a>
 	<br>
 </div>
 
