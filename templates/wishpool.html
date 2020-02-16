@@ -1,6 +1,13 @@
+
 {% extends "base.html" %}
 
 {% from 'bootstrap/form.html' import render_form, render_field %}
+
+{% block headInsert %}
+<style>
+body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg') }}) top left;background-size:cover;}
+</style>
+{% endblock %}
 
 {% block content %}
 <div class="center-block">
@@ -12,19 +19,26 @@
 	{% for wish in wishes %}
 		<br>
 		<div class="card border-primary mb-3" style="max-width: 48rem;">
-			<div class="card-header"> 愿望展示卡 </div>
-			<div class="card-body text-primary">
-				{% for line in wish.wishcontent.split("\n") %}
-					<p class="card-text">{{ line }}</p>
-				{% endfor %}
-                <p class="card-text" id="ads"> {{ wish.wishNickName }} </p>
-                <p class="card-text" >{{ wish.thumbUpNum }} <button type="button" id="{{wish.userEmail}}" class="btn btn-sm" ><img src="{{ url_for('static', filename='img/before.png') }}"  alt="" /></button> </p>
-			</div>
-		</div>
-	    <a type="button" class="btn btn-outline-primary" href="{{ url_for('wishpool') }}">换一批</a>
+            <div class="card">
+			<img class="card-img" src="{{ url_for('static', filename='img/wish_letter.jpg') }}" alt="" style="width: 100%;height: 210px;"/>
+            <div class="card-img-overlay">
+			    <div class="card-header"> 愿望展示卡 </div>
+			    <div class="card-body text-primary">
+				    {% for line in wish.wishcontent.split("\n") %}
+					    <p class="card-text">{{ line }}</p>
+				    {% endfor %}
+                    <p class="card-text"> {{ wish.wishNickName }} </p>
+                    <p class="card-text"><img id="img1" src="{{ url_for('static', filename='img/before.png') }}"  alt="" /> {{ wish.thumbUpNum }}</p>
+			    </div>
+			    </div>
+            </div>
+            </div>
+	    <a type="button" class="btn btn-primary " href="{{ url_for('wishpool') }}">换一批</a>
 	{% endfor %}
+    {{ render_form(thumbUpWishform) }}
+	<a type="button" class="btn btn-primary" href="{{ url_for('wish') }}">返回愿望大厅</a>
+    <a type="button" class="btn btn-primary" href="{{ url_for('index') }}">返回主页</a>
 	<br>
-    <p>本次活动对于愿望池提供点赞功能，对于点赞高的愿望，在男生愿望池中会有更高概率出现，如果最终男生没有成功完成，那么会由项目组为其完成</p>
+    <p style="color:white;">本次活动对于愿望池提供点赞功能，对于点赞高的愿望，在男生愿望池中会有更高概率出现，如果最终男生没有成功完成，那么会由项目组为其完成</p>
 </div>
-<script src="{{ url_for('static', filename='wishpool.js') }}"></script>
 {% endblock %}

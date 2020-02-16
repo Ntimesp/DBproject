@@ -245,7 +245,7 @@ def myticket():
     ticketes=TicketDatabase.query.filter_by(ticketUserEmail=current_user.userEmail,ticketUserSchoolNum=current_user.userSchoolNum,
                                             ticketCheck=timeweek).all()
 
-    return render_template('myticket.html')
+    return render_template('myticket.html',ticketes=ticketes)
 
 @app.route('/faq_ticket', methods=['GET', 'POST'])
 @fresh_login_required
