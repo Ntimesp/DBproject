@@ -72,11 +72,7 @@ MALE = 1
 def checkTimeLimit():
     # 返回1则正在活动
     nowtime = datetime.now()
-<<<<<<< HEAD
-    starttime = datetime(2020, 2, 10, 0, 0, 0, 0)
-=======
     starttime = datetime(2020, 2, 6, 20, 0, 0, 0)
->>>>>>> c819a6076415694e08291660ca3878ff2b93cbc0
     endtime = datetime(2020, 3, 14, 0, 0, 0, 0)
     return starttime <= nowtime < endtime
 
@@ -985,18 +981,6 @@ def wish():
 
 ######################################################################################################################
 #镜像show模块
-
-@app.route('/show', methods=['GET', 'POST'])
-@fresh_login_required
-def show():
-    if timelimit:
-        sign = checkTimeLimit()
-        if not sign:
-            flash(NOT_START_STRING)
-            return redirect(url_for('index'))
-    if current_user.userEmail is None:
-        return redirect(url_for('append'))
-    return render_template('show.html')
 
 class workDatabase(db.Model):
     __tablename__ = "work"
