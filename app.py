@@ -8,6 +8,7 @@ from datetime import *
 import io
 from io import BytesIO
 import base64
+import random 
 ##from sh import git
 
 from flask import *
@@ -26,7 +27,6 @@ from flask_login import login_required, fresh_login_required, login_user, login_
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from cas_client import *
 from sqlalchemy import *
-from random import *
 
 import urllib3
 
@@ -72,7 +72,11 @@ MALE = 1
 def checkTimeLimit():
     # 返回1则正在活动
     nowtime = datetime.now()
+<<<<<<< HEAD
     starttime = datetime(2020, 2, 10, 0, 0, 0, 0)
+=======
+    starttime = datetime(2020, 2, 6, 20, 0, 0, 0)
+>>>>>>> c819a6076415694e08291660ca3878ff2b93cbc0
     endtime = datetime(2020, 3, 14, 0, 0, 0, 0)
     return starttime <= nowtime < endtime
 
@@ -176,7 +180,7 @@ def loadUser(user_id):
 class TicketDatabase(db.Model):
     __tablename__ = 'ticketdatabase'
     ticketId=db.Column(db.Integer, primary_key=True, unique=True, index=True)
-    ticketUserEmail=db.Column(db.Integer,nullable=True)
+    ticketUserEmail=db.Column(db.String(64),nullable=True)
     ticketUserSchoolNum=db.Column(db.String(64), nullable=True)
     ticketLuckNum=db.Column(db.Integer,nullable=True)
     ticketCheck=db.Column(db.Integer,nullable=True)
@@ -209,6 +213,7 @@ def InserTicket(userEmail,userSchoolNum):
                                            ticketUserSchoolNum=userSchoolNum,ticketLuckNum=random.randint(0,21))
             db.session.add(newticketRecord)
             db.session.commit()
+            flash('获得一张奖券，请到我的奖券领取奖券~')
             return True
     return  False
 
@@ -299,12 +304,13 @@ class EventDatabase(db.Model):
 class dailyEventDatabase(db.Model):
     __tablename__ = "dailyEvent"
     dailyEventId= db.Column(db.Integer, primary_key=True, unique=True, index=True)
-    dailyEventUserEmail=db.Column(db.String(64), primary_key=True, unique=True, index=True)
+    dailyEventUserEmail=db.Column(db.String(64),nullable=True)
     dailyEventUserSchoolNum = db.Column(db.String(64), nullable=True)
     dailyEventUserNickName = db.Column(db.String(64), nullable=True)
     dailyEventName=db.Column(db.String(64),nullable=True)
     dailyTime=db.Column(db.String(64),nullable=True)
     dailyPartnerName=db.Column(db.String(64),nullable=True)
+
     eventContent=db.Column(db.String(64),nullable=True)
     thumbUpNum=db.Column(db.Integer,nullable=True)
 
@@ -334,7 +340,6 @@ def AdddailyCheckDatabase(userEmail,UserSchoolNum):
         db.session.commit()
         return True
     return False
-
 class thumbUpDailyCount(db.Model):
     thumbupDailyId=db.Column(db.Integer,primary_key=True, unique=True, index=True)
     dailyId=db.Column(db.Integer,nullable=True)
@@ -342,10 +347,10 @@ class thumbUpDailyCount(db.Model):
 
 class riverStatus():
     riverStatusNum=0
-    riverTime="2020-02-22 00:00:00.000000"
+    riverTime="2020-02-1 00:00:00.000000"
 
 River=riverStatus()
-River.riverTime="2020-02-22 00:00:00.000000"
+River.riverTime="2020-02-1 00:00:00.000000"
 LastTimeAtLeast=10
 ## set the LastTimeAtLeast=1 for test
 ## for reality it is 24*3600( 1 day )
@@ -392,7 +397,6 @@ class chooseCompareForm(FlaskForm):
     chooseCompare=RadioField("我要选择和同伴一起完成的事件：", choices=[(i, "%d 号漂流瓶" % i) for i in range(1, 6)],
                         validators=[], coerce=int)
     chooseBottle = SubmitField("选择漂流瓶")
-
 class chooseRefreshForm(FlaskForm):
     refresh2= SubmitField( "换一批")
 
@@ -428,22 +432,22 @@ def shareUp():
         db.session.commit()
         return redirect(url_for('ThrowBottle'))
     check=myBottle.userBottleStatus
-    dailyUpForm=DailyUpForm()
-    dailyEvents=dailyEventDatabase.query.order_by(func.random()).limit(5)
-
+    dailyEvents=dailyEventDatabase.query.order_by(func.random()).limit(1)
+    checkdailyEvents=dailyEvents.first()
     dailyCheck=1
-    if dailyEvents is None:
+    if checkdailyEvents is None:
         dailyCheck=0
-    thumbUpWishId = request.args.get('thu', '')
-    if thumbUpWishId:
+    thumbUpformDaily=ThumbUpFormDaily()
+    dailyUpForm=DailyUpForm()
+    if thumbUpformDaily.validate_on_submit() and thumbUpformDaily.thumbup.data:
         myBottle = bottleDatabase.query.filter_by(userEmail=current_user.userEmail,
                                                   userSchoolNum=current_user.userSchoolNum).first()
-        thumbUpRecord = thumbUpDailyCount.query.filter_by(dailyId=int(thumbUpWishId),
+        thumbUpRecord = thumbUpDailyCount.query.filter_by(dailyId=checkdailyEvents.dailyEventId,
                                                   userEmail=myBottle.userEmail).first()
         if thumbUpRecord is None:
             thumbID = thumbUpDailyCount.query.count() + 1
-            thumbUpRecords = thumbUpDailyCount(thumbupDailyId=thumbID, dailyId=int(thumbUpWishId),userEmail=myBottle.userEmail)
-            ChooseWish = dailyEventDatabase.query.filter_by(dailyEventId=int(thumbUpWishId)).first()
+            thumbUpRecords = thumbUpDailyCount(thumbupDailyId=thumbID, dailyId=checkdailyEvents.dailyEventId,userEmail=myBottle.userEmail)
+            ChooseWish = dailyEventDatabase.query.filter_by(dailyEventId=checkdailyEvents.dailyEventId).first()
             ChooseWish.thumbUpNum = ChooseWish.thumbUpNum + 1
             db.session.add(ChooseWish)
             db.session.add(thumbUpRecords)
@@ -466,11 +470,13 @@ def shareUp():
         if AdddailyCheckDatabase(myBottle.userEmail,myBottle.userSchoolNum) and \
             querydailyCheckDatabase(myBottle.partnerEmail,myBottle.partnerSchoolNum):
             InserTicket(myBottle.userEmail,myBottle.userSchoolNum)
-            InserTicket(myBottle.partnerEmail,myBottle.partnerSchoolNum)
+            InserTicket(myBottle.userEmail,myBottle.userSchoolNum)
+            flash('您和您的同伴获得了一张奖券')
         redirect(url_for('shareUp'))
 
-    return render_template('holiday/shareUp.html',check=check,dailyEvents=dailyEvents
+    return render_template('holiday/shareUp.html',check=check,dailyEvents=dailyEvents,thumbUpform=thumbUpformDaily
                            ,dailyUpForm=dailyUpForm,dailyCheck=dailyCheck)
+
 
 @app.route('/attendance', methods=['GET', 'POST'])
 @fresh_login_required
@@ -539,7 +545,7 @@ def ThrowBottle():
     if selectForms.validate_on_submit() and selectForms.throw.data:
         myBottle = bottleDatabase.query.filter_by(userEmail=current_user.userEmail,
                                                   userSchoolNum=current_user.userSchoolNum).first()
-        flash('这是测试信息！！')
+        
         lastTime=datetime.strptime(str(myBottle.bottleLastTime), "%Y-%m-%d %H:%M:%S.%f")
         if (nowTime-lastTime).total_seconds()<=20:
             flash('您的提交太频繁了，至少请经过20s再重新投放瓶子')
@@ -563,6 +569,7 @@ def ThrowBottle():
         if myBottle.userBottleStatus ==2:
             flash('你已经处于匹配中,如果已经解除关系建议刷新页面后重试，不可以再投放事件瓶咯')
             return redirect(url_for('ThrowBottle'))
+
     #换一批
     if refreshBottleform.refresh.data and refreshBottleform.validate_on_submit():
         chooseEvent()
@@ -853,28 +860,35 @@ class thumbWish(db.Model):
     wishUserEmail = db.Column(db.String(64))
     thumbUpEmail = db.Column(db.String(64))
 
+
 class wishform(FlaskForm):
     wishText = TextAreaField(" 许愿内容 ", validators=[DataRequired()])
     submit = SubmitField("许愿")
+
 
 class selectform(FlaskForm):
     wishid = RadioField("愿望序号", choices=[(i, "%d 号愿望" % i) for i in range(1, 6)],
                         validators=[], coerce=int)
     submit1 = SubmitField("选择愿望")
 
+
 class thumbUpform(FlaskForm):
     wishid = RadioField("点赞愿望", choices=[(i, "%d 号愿望" % i) for i in range(1, 6)],
                         validators=[], coerce=int)
     submit4 = SubmitField("点赞愿望")
 
+
 class finishform(FlaskForm):
     submit2 = SubmitField("完成愿望")
+
 
 class updateform(FlaskForm):
     submit3 = SubmitField("刷新愿望")
 
+
 class refreshform(FlaskForm):
     submit4 = SubmitField("重新领取愿望")
+
 
 class selectwishes(db.Model):
     userEmail = db.Column(db.String(64), primary_key=True, unique=True, index=True)
@@ -895,9 +909,9 @@ class selectwishes(db.Model):
     achievestatus = db.Column(db.Integer, nullable=True, default=0)
     # 0 为女生未确认完成 ，1 为女生确认完成
 
+
 class wishDatabase(db.Model):
     __tablename__ = "wishes"
-
     userEmail = db.Column(db.String(64), primary_key=True, unique=True, index=True)
     userStatus = db.Column(db.Integer, nullable=True)
     userSchoolNum = db.Column(db.String(64), nullable=True)
@@ -917,8 +931,10 @@ class wishDatabase(db.Model):
 
     thumbUpNum = db.Column(db.Integer, nullable=True, default=0)
 
+
 class achieveform(FlaskForm):
     submit = SubmitField("认同完成愿望")
+
 
 @app.route('/wishpool', methods=['GET', 'POST'])
 @fresh_login_required
@@ -953,12 +969,6 @@ def wishpool():
         return render_template('wishpool.html', sex=sex, wishes=wishes)
     return render_template('wishpool.html', sex=sex, wishes=wishes)
 
-@app.route('/thumbup')
-@fresh_login_required
-def thumbup():
-    with open("test.txt", "w") as f:
-        f.write("这是个测试！")
-    print("hello")
 
 
 @app.route('/wish', methods=['GET', 'POST'])
@@ -1004,6 +1014,18 @@ class workDatabase(db.Model):
     thumbNum = db.Column(db.Integer, nullable=True, default=0)
     thumbNumDaily = db.Column(db.Integer, nullable=True, default=0)
     thumbNumWeekly = db.Column(db.Integer, nullable=True, default=0)
+@app.route('/show', methods=['GET', 'POST'])
+@fresh_login_required
+def show():
+    if timelimit:
+        sign = checkTimeLimit()
+        if not sign:
+            flash(NOT_START_STRING)
+            return redirect(url_for('index'))
+    if current_user.userEmail is None:
+        return redirect(url_for('append'))
+    return render_template('show.html')
+
 
 class thumbWork(db.Model):
     __tablename__ = "thumbWork"
@@ -1190,7 +1212,9 @@ def girl():
         if mywish is not None and boylog is not None and mywish.wishstatus!=3:
             boylog.achievestatus = 1
             mywish.wishstatus = 3
-
+            InserTicket(mywish.userEmail,mywish.userSchoolNum)
+            InserTicket(boylog.userEmail,boylog.userSchoolNum)
+            flash('获得一张奖券，请到我的奖券领取奖券~')
             db.session.add(boylog)
             db.session.add(mywish)
             db.session.commit()

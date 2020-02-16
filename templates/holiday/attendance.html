@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% from 'bootstrap/form.html' import render_form, render_field %}
 
+{% block headInsert %}
+<style>
+body{background:url({{ url_for('static', filename='img/river_index.jpg') }}) top left;background-size:cover;}
+</style>
+{% endblock %}
+
 
 {% block content %}
     <p>我的打卡记录</p>
@@ -18,7 +24,7 @@
                 <p class="card-text"> 打卡事件{{ record.dailyEventName }} </p>
                 <p class="card-text"> 打卡时间{{ record.dailyTime }} </p>
                 <p class="card-text"> 打卡同伴{{ record.dailyPartnerName }} </p>
-                <p class="card-text">点赞数量{{ record.thumbUpNum }} </p>
+                <p class="card-text"><img id="img1" src="{{ url_for('static', filename='img/before.png') }}"  alt="" />{{ record.thumbUpNum }} </p>
 			</div>
 		</div>
 	{% endfor %}
@@ -38,7 +44,7 @@
                 <p class="card-text"> 打卡事件{{ record.dailyEventName }} </p>
                 <p class="card-text"> 打卡时间{{ record.dailyTime }} </p>
                 <p class="card-text"> 打卡同伴{{ record.dailyPartnerName }} </p>
-                <p class="card-text">点赞数量{{ record.thumbUpNum }} </p>
+                <p class="card-text"><img id="img1" src="{{ url_for('static', filename='img/before.png') }}"  alt="" />{{ record.thumbUpNum }} </p>
 			</div>
 		</div>
 	{% endfor %}

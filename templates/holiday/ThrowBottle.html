@@ -1,24 +1,30 @@
 {% extends "base.html" %}
 {% from 'bootstrap/form.html' import render_form, render_field %}
 
+{% block headInsert %}
+<style>
+body{background:url({{ url_for('static', filename='img/river_index.jpg') }}) top left;background-size:cover;}
+</style>
+{% endblock %}
+
 {% block content %}
     <h3>我来点亮你的漫漫寒假，陪你走过接下来的七个日子</h3>
     <br>
     {% if myBottle.userBottleStatus==2%}
         你正在处于匹配中哦,请和现在的匹配对象一起完成任务。匹配关系自动结束后再来投放哦~
     {% endif %}
-    {% if mybottle.userBottleStatus==1 %}
+    {% if myBottle.userBottleStatus==1 %}
     <p>您已经投放过事件瓶了，如果需要再次提交将会覆盖原来的事件瓶，请慎重考虑</p>
         {{ render_form(refreshBottleform) }}
-        {{ render_form(selectBottleForm) }}
+        {{ render_form(selectBottleform) }}
     {% endif %}
-    {% if mybottle.userBottleStatus==0 %}
-        {{ render_form(selectBottleForm) }}
+    {% if myBottle.userBottleStatus==0 %}
+        {{ render_form(selectBottleform) }}
     {% endif %}
-        <a type="button" class="btn btn-outline-primary" href="{{ url_for('BottleRiver') }}">事件河流</a>
-        <a type="button" class="btn btn-outline-primary" href="{{ url_for('shareUp') }}">分享打卡</a>
-        <a type="button" class="btn btn-outline-primary" href="{{ url_for('bottleMessage') }}">我的消息</a>
-        <a type="button" class="btn btn-outline-primary" href="{{ url_for('attendance') }}">我的打卡足迹</a>
-        <a type="button" class="btn btn-outline-primary" href="{{ url_for('BottleFaq') }}">查看规则</a>
-        <a type="button" class="btn btn-outline-primary" href="{{ url_for('index') }}">返回主页</a>
+        <a type="button" class="btn btn-primary" href="{{ url_for('BottleRiverPick') }}">事件河流</a>
+        <a type="button" class="btn btn-primary" href="{{ url_for('shareUp') }}">分享打卡</a>
+        <a type="button" class="btn btn-primary" href="{{ url_for('bottleMessage') }}">我的消息</a>
+        <a type="button" class="btn btn-primary" href="{{ url_for('attendance') }}">我的打卡足迹</a>
+        <a type="button" class="btn btn-primary" href="{{ url_for('BottleFaq') }}">查看规则</a>
+        <a type="button" class="btn btn-primary" href="{{ url_for('index') }}">返回主页</a>
 {% endblock %}

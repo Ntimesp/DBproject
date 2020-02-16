@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% from 'bootstrap/form.html' import render_form, render_field %}
 
+{% block headInsert %}
+<style>
+body{background:url({{ url_for('static', filename='img/show_index.jpg') }}) top left;background-size:cover;}
+</style>
+{% endblock %}
+
 {% block content %}
 <!--玩转“境像show”-->
 <p>
