@@ -66,7 +66,7 @@ $("#buttonHole").hover(
 $("#search").click(function(){
     $.post("search",
     {
-        test:"test",
-    },)
+        val:$("#test").val(),
+    },
     "需要在后端跳转页面"
 });

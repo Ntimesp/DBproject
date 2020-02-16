@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% from 'bootstrap/form.html' import render_form, render_field %}
+
+{% block content %}
+<br>
+<div class="btn-group">
+    <button type="button" class="btn btn-primary btn-lg" id="1">最热作品</button>
+    <button type="button" class="btn btn-primary btn-lg" id="2">每日新秀</button>
+	<button type="button" class="btn btn-primary btn-lg" id="3">随机推送</button>
+	<button type="button" class="btn btn-primary btn-lg" id="4">每周榜单</button>
+</div>
+<div class="center-block">
+	<br>
+	<div class="alert alert-primary" role="alert"> {{ which }}！！每次刷新可观看 </div>
+	<br>
+	{% if which=="随机推送" %}
+		<button type="button" class="btn btn-primary btn-lg" id="5">换一批</button>
+	{% endif %}
+	{% for work in works %}
+		<br>
+		<div class="card border-primary mb-3" style="max-width: 48rem;">
+			<div class="card-header"> 作品展示 </div>
+			<div class="card-body text-primary">
+				{% for line in wish.wishcontent.split("\n") %}
+					<p class="card-text">{{ line }}</p>
+				{% endfor %}
+                <p class="card-text"> {{ wish.wishNickName }} </p>
+                <p class="card-text">{{ wish.thumbUpNum }} <button type="button" id="thumbup"  class="btn btn-sm" ><img id="img1" src="{{ url_for('static', filename='img/before.png') }}"  alt="" /></button> </p>
+			</div>
+		</div>
+	    <a type="button" class="btn btn-outline-primary" href="{{ url_for('wishpool') }}">换一批</a>
+	{% endfor %}
+</div>
+{% endblock %}
