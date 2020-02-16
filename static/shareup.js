@@ -1,5 +1,5 @@
 $(".btn.btn-sm").click(function(){
-    $.get("wishpool",
+    $.get("shareUp",
     {
         thu:$(this).attr("id"),
     },function(data,status){
