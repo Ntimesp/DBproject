@@ -18,7 +18,7 @@
 					<p class="card-text">{{ line }}</p>
 				{% endfor %}
                 <p class="card-text" id="ads"> {{ wish.wishNickName }} </p>
-                <p class="card-text" >{{ wish.thumbUpNum }} <button type="button" id="{{loop.index}}" class="btn btn-sm" ><img src="{{ url_for('static', filename='img/before.png') }}"  alt="" /></button> </p>
+                <p class="card-text" >{{ wish.thumbUpNum }} <button type="button" id="{{wish.userEmail}}" class="btn btn-sm" ><img src="{{ url_for('static', filename='img/before.png') }}"  alt="" /></button> </p>
 			</div>
 		</div>
 	    <a type="button" class="btn btn-outline-primary" href="{{ url_for('wishpool') }}">换一批</a>

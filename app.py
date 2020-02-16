@@ -854,13 +854,13 @@ def wishpool():
     sex = current_user.userSex
     wishes = wishDatabase.query.filter(wishDatabase.userStatus == 1, wishDatabase.wishstatus != 3).order_by(
         func.random()).limit(5)
-    thumbUpWishid = request.args.get('thu', '')
-    if thumbUpWishid:
-        thumbUpRecord = thumbWish.query.filter_by(wishUserEmail=wishes[int(thumbUpWishid) - 1].userEmail,
+    thumbUpWishEmail = request.args.get('thu', '')
+    if thumbUpWishEmail:
+        thumbUpRecord = thumbWish.query.filter_by(wishUserEmail=thumbUpWishEmail,
                                                   thumbUpEmail=current_user.userEmail).first()
         if thumbUpRecord is None:
             thumbID = thumbWish.query.count() + 1
-            thumbUpRecords = thumbWish(thumbId=thumbID, wishUserEmail=wishes[thumbupWishid - 1].userEmail,
+            thumbUpRecords = thumbWish(thumbId=thumbID, wishUserEmail=thumbUpWishEmail,
                                        thumbUpEmail=current_user.userEmail)
             ChooseWish = wishDatabase.query.filter_by(userEmail=thumbUpRecords.wishUserEmail).first()
             ChooseWish.thumbUpNum = ChooseWish.thumbUpNum + 1
