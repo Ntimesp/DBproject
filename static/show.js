@@ -62,11 +62,3 @@ $("#buttonHole").hover(
         $("body").css("background-image","url(static/img/show.png)")
     }
 );
-
-$("#search").click(function(){
-    $.post("search",
-    {
-        val:$("#test").val(),
-    },
-    "需要在后端跳转页面"
-});

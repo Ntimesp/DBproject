@@ -913,30 +913,114 @@ def show():
         return redirect(url_for('append'))
     return render_template('show.html')
 
+class workDatabase(db.Model):
+    __tablename__ = "work"
+    workid = db.Column(db.Integer, primary_key=True, nullable=True)
+    workgroup = db.Column(db.String(64), nullable=True)
+
+    userEmail = db.Column(db.String(64), nullable=True)
+    userStatus = db.Column(db.Integer, nullable=True)
+    userNickName = db.Column(db.String(64), nullable=True)
+    
+    worktitle = db.Column(db.String(64), nullable=True)
+    workContent = db.Column(db.String(1000), nullable=True)
+    workImg = db.Column(db.LargeBinary(length=8192), nullable=True)
+
+    thumbNum = db.Column(db.Integer, nullable=True, default=0)
+    thumbNumDaily = db.Column(db.Integer, nullable=True, default=0)
+    thumbNumWeekly = db.Column(db.Integer, nullable=True, default=0)
+
+class thumbWork(db.Model):
+    thumbId = db.Column(db.Integer, primary_key=True, unique=True, index=True)
+    workid= db.Column(db.String(64))
+    thumbUpEmail = db.Column(db.String(64))
+    thumbTime = db.Column(db.String(64))
+
 @app.route('/wonderland', methods=['GET', 'POST'])
 def wonderland():
-    return render_template('wonderland.html',magiccode=1)
+    choice=request.args.get('choice', '')
+    workgroup='wonderland'
+    if not choice:
+        choice='最热作品'
+    
+    if choice=='每日新秀':
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            workDatabase.thumbNumDaily).limit(10)
+    elif choice =='每周榜单':
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            workDatabase.thumbNumWeekly).limit(10)
+    elif choice == '随机推送':
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            func.random()).limit(10)
+    else:       #'最热作品'
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            workDatabase.thumbNum).limit(10)
+
+    #响应点赞
+    thumbUpWorkId = request.args.get('workid', '')
+    if thumbUpWorkId:
+        thumbUpRecord = thumbwork.query.filter_by(workid=thumbUpWorkId,
+                                                  thumbUpEmail=current_user.userEmail).first()
+        if thumbUpRecord is None:
+            thumbID = thumbwork.query.count() + 1
+            thumbUpRecords = thumbWish(thumbId=thumbID, workid=thumbUpWorkId,
+                                       thumbUpEmail=current_user.userEmail,
+                                       thumbTime=str(datetime.now()))
+            ChooseWork = workDatabase.query.filter_by(workid=thumbUpWorkId).first()
+
+            ChooseWork.thumbNum = thumbwork.query.filter_by(workid=thumbUpWorkId).count()+1
+            def istoday(t):
+                #当天
+                time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
+                now=datetime.now()
+                return (now-time).days==0
+
+            def isThisWeek(t):
+                #本周
+                time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
+                now=datetime.now()
+                return (now-time).days<=5
+
+            ChooseWork.thumbNumDaily = thumbwork.query.filter(workid == thumbUpWorkId, istoday(thumbTime)).count()+1
+            ChooseWork.thumbNumWeekly = thumbWork.query.filter(workid == thumbUpWorkId, isThisWeek(thumbTime)).count()+1
+
+            db.session.add(ChooseWork)
+            db.session.add(thumbUpRecords)
+            db.session.commit()
+            return "点赞成功"
+        else:
+            return "无法点赞，可能您已经为该愿望点赞了，或者存在其他系统故障"
+
+    if works.count() == 0:
+        flash("还没有作品")
+
+    return render_template('wonderland.html',choice=choice,works=works)
 
 @app.route('/party', methods=['GET', 'POST'])
 def party():
-    return render_template('party.html',magiccode=1)
+    return render_template('party.html')
 
 @app.route('/kitchen', methods=['GET', 'POST'])
 def kitchen():
-    return render_template('kitchen.html',userStatus=1)
+    return render_template('kitchen.html')
 
 @app.route('/battle', methods=['GET', 'POST'])
 def battle():
-    return render_template('battle.html',userStatus=1)
+    return render_template('battle.html')
 
 @app.route('/hole', methods=['GET', 'POST'])
 def hole():
-    return render_template('hole.html',userStatus=1)
+    return render_template('hole.html')
 
-@app.route('/search', methods=['GET', 'POST'])
-def search():
-    if request.method=='POST':
-        return request.form['val']
+class uploadform(FlaskForm):
+    name = StringField('作品名称')
+    img =  FileField('作品内容')
+    text = TextAreaField(" 作品内容 ", validators=[DataRequired()])
+    submit = SubmitField("上传作品")
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    return render_template('upload.html')
 ###############################################################################################################################
 @app.route('/sing', methods=['GET', 'POST'])
 @fresh_login_required
@@ -1582,7 +1666,6 @@ def caslogin():
 @app.route('/faq', methods=['GET', 'POST'])
 def faq():
     return render_template("faq.html")
-
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
