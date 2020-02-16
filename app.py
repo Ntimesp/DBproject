@@ -854,10 +854,9 @@ def wishpool():
     sex = current_user.userSex
     wishes = wishDatabase.query.filter(wishDatabase.userStatus == 1, wishDatabase.wishstatus != 3).order_by(
         func.random()).limit(5)
-    thumbUpWishform = thumbUpform()
-    if thumbUpWishform.validate_on_submit() and thumbUpWishform.submit4.data:
-        thumbupWishid = thumbUpWishform.wishid.data
-        thumbUpRecord = thumbWish.query.filter_by(wishUserEmail=wishes[thumbupWishid - 1].userEmail,
+    thumbUpWishid = request.args.get('thu', '')
+    if thumbUpWishid:
+        thumbUpRecord = thumbWish.query.filter_by(wishUserEmail=wishes[int(thumbUpWishid) - 1].userEmail,
                                                   thumbUpEmail=current_user.userEmail).first()
         if thumbUpRecord is None:
             thumbID = thumbWish.query.count() + 1
@@ -868,14 +867,15 @@ def wishpool():
             db.session.add(ChooseWish)
             db.session.add(thumbUpRecords)
             db.session.commit()
-            flash("点赞成功")
+            return "点赞成功"
+            
         else:
-            flash("无法点赞，可能您已经为该愿望点赞了，或者存在其他系统故障")
+            return "无法点赞，可能您已经为该愿望点赞了，或者存在其他系统故障"
 
     if wishes.count() == 0:
         flash("还没有可以选择的愿望。")
-        return render_template('wishpool.html', sex=sex, wishes=wishes, thumbUpWishform=thumbUpWishform)
-    return render_template('wishpool.html', sex=sex, wishes=wishes, thumbUpWishform=thumbUpWishform)
+        return render_template('wishpool.html', sex=sex, wishes=wishes)
+    return render_template('wishpool.html', sex=sex, wishes=wishes)
 
 
 @app.route('/thumbup')
@@ -935,7 +935,8 @@ def hole():
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    return render_template('hole.html',userStatus=1)
+    if request.method=='POST':
+        return request.form['val']
 ###############################################################################################################################
 @app.route('/sing', methods=['GET', 'POST'])
 @fresh_login_required
