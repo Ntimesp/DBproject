@@ -1745,11 +1745,8 @@ def caslogin():
 def faq():
     return render_template("faq.html")
 
-<<<<<<< HEAD
-=======
 
 
 
->>>>>>> b4ecc7c8ee8c352a57eda17ff741ae27939a8f81
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
