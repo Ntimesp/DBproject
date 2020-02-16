@@ -1,3 +1,4 @@
+$("body").css("background-image","url(static/img/wonderland.png)")
 $(".btn.btn-primary.btn-lg").click(function(){
     $.get("wonderland",
     {

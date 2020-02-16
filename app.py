@@ -69,12 +69,10 @@ MALE = 1
 
 
 # GIT_DATA = git.log('-1', '--pretty=%H%n%an%n%s').strip().split("\n")
-
-
 def checkTimeLimit():
     # 返回1则正在活动
     nowtime = datetime.now()
-    starttime = datetime(2020, 2, 20, 0, 0, 0, 0)
+    starttime = datetime(2020, 2, 10, 0, 0, 0, 0)
     endtime = datetime(2020, 3, 14, 0, 0, 0, 0)
     return starttime <= nowtime < endtime
 
@@ -1001,13 +999,14 @@ class workDatabase(db.Model):
     
     worktitle = db.Column(db.String(64), nullable=True)
     workContent = db.Column(db.String(1000), nullable=True)
-    workImg = db.Column(db.LargeBinary(length=8192), nullable=True)
+    workImg = db.Column(db.LargeBinary(length=100000), nullable=True)
 
     thumbNum = db.Column(db.Integer, nullable=True, default=0)
     thumbNumDaily = db.Column(db.Integer, nullable=True, default=0)
     thumbNumWeekly = db.Column(db.Integer, nullable=True, default=0)
 
 class thumbWork(db.Model):
+    __tablename__ = "thumbWork"
     thumbId = db.Column(db.Integer, primary_key=True, unique=True, index=True)
     workid= db.Column(db.String(64))
     thumbUpEmail = db.Column(db.String(64))
@@ -1071,7 +1070,7 @@ def wonderland():
     if works.count() == 0:
         flash("还没有作品")
 
-    return render_template('wonderland.html',choice=choice,works=works)
+    return render_template('wonderland.html',choice=choice,works=works,base64=base64)
 
 @app.route('/party', methods=['GET', 'POST'])
 def party():
@@ -1083,11 +1082,19 @@ def kitchen():
 
 @app.route('/battle', methods=['GET', 'POST'])
 def battle():
-    return render_template('battle.html')
+    img = open("static/img/battle.jpg", "rb")
+    img = base64.b64encode(img.read())
+    return render_template('test.html',img=img)
 
 @app.route('/hole', methods=['GET', 'POST'])
 def hole():
-    return render_template('hole.html')
+    if current_user.userSex:
+        sex="男"
+    else:
+        sex="女"
+
+    works=workDatabase.query.filter_by(userEmail=current_user.userEmail)
+    return render_template('hole.html',name=current_user.userNickName,sex=sex,works=works,base64=base64)
 
 class uploadform(FlaskForm):
     name = StringField('作品名称')
@@ -1097,7 +1104,22 @@ class uploadform(FlaskForm):
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
-    return render_template('upload.html')
+    form=uploadform()
+    if form.validate_on_submit():
+        name = form.name.data
+        img = base64.b64encode(request.files['img'].read()) 
+        text = form.text.data
+        workid = workDatabase.query.filter().count()+1
+        mywork=workDatabase(workid=workid,workgroup='wonderland',
+                            userEmail=current_user.userEmail,userStatus=current_user.userStatus,
+                            userNickName=current_user.userNickName,
+                            worktitle=name,workContent=text,workImg=img)
+        db.session.add(mywork)
+        db.session.commit()
+        #InserTicket(current_user.userEmail,current_user.userSchoolNum)
+
+        flash("作品以上传成功！请等待审核！一张号码券已放入‘我的号码券’！")
+    return render_template('upload.html',form=form)
 ###############################################################################################################################
 @app.route('/sing', methods=['GET', 'POST'])
 @fresh_login_required
@@ -1745,8 +1767,8 @@ def caslogin():
 def faq():
     return render_template("faq.html")
 
-
-
+db.drop_all()
+db.create_all()
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)

@@ -25,7 +25,9 @@
 	{% for work in works %}
 		<br>
 		<div class="card border-primary mb-3" style="max-width: 48rem;">
-			<div class="card-header"> 作品展示 </div>
+			<div class="card-header"> {{work.worktitle}} </div>
+            <!--显示图片，还不知道能不能用-->
+            <p><img src="data:image/png;base64,{{ base64.b64encode(work.workImg) }}"/></p>
 			<div class="card-body text-primary">
 				{% for line in work.workContent.split("\n") %}
 					<p class="card-text">{{ line }}</p>
