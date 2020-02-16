@@ -16,6 +16,7 @@
                 <p class="card-text">打卡事件:{{ daily.dailyEventName }}</p>
                 <p class="card-text">打卡伙伴昵称:{{ daily.dailyPartnerName }}</p>
                 <p class="card-text">点赞数{{ daily.thumbUpNum }}  <button type="button" id="{{daily.dailyEventId}}" class="btn btn-sm" ><img src="{{ url_for('static', filename='img/before.png') }}"  alt="" /></button> </p>
+
 			</div>
 		</div>
     {% endfor %}

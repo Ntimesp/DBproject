@@ -19,23 +19,19 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
 	{% for wish in wishes %}
 		<br>
 		<div class="card border-primary mb-3" style="max-width: 48rem;">
-            <div class="card">
-			<img class="card-img" src="{{ url_for('static', filename='img/wish_letter.jpg') }}" alt="" style="width: 100%;height: 210px;"/>
-            <div class="card-img-overlay">
-			    <div class="card-header"> 愿望展示卡 </div>
-			    <div class="card-body text-primary">
-				    {% for line in wish.wishcontent.split("\n") %}
-					    <p class="card-text">{{ line }}</p>
-				    {% endfor %}
-                    <p class="card-text"> {{ wish.wishNickName }} </p>
-                    <p class="card-text"><img id="img1" src="{{ url_for('static', filename='img/before.png') }}"  alt="" /> {{ wish.thumbUpNum }}</p>
-			    </div>
-			    </div>
-            </div>
-            </div>
-	    <a type="button" class="btn btn-primary " href="{{ url_for('wishpool') }}">换一批</a>
+			<div class="card-header"> 愿望展示卡 </div>
+			<div class="card-body text-primary">
+				{% for line in wish.wishcontent.split("\n") %}
+					<p class="card-text">{{ line }}</p>
+				{% endfor %}
+                <p class="card-text" id="ads"> {{ wish.wishNickName }} </p>
+                <p class="card-text" >{{ wish.thumbUpNum }} <button type="button" id="{{loop.index}}" class="btn btn-sm" ><img src="{{ url_for('static', filename='img/before.png') }}"  alt="" /></button> </p>
+			</div>
+		</div>
+
 	{% endfor %}
-    {{ render_form(thumbUpWishform) }}
+	    <a type="button" class="btn btn-outline-primary" href="{{ url_for('wishpool') }}">换一批</a>
+    <a type="button" class="btn btn-primary " href="{{ url_for('wishpool') }}">换一批</a>
 	<a type="button" class="btn btn-primary" href="{{ url_for('wish') }}">返回愿望大厅</a>
     <a type="button" class="btn btn-primary" href="{{ url_for('index') }}">返回主页</a>
 	<br>
