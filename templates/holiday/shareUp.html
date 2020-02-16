@@ -15,13 +15,12 @@
                 <p class="card-text"> 打卡人昵称:{{ daily.dailyEventUserNickName }} </p>
                 <p class="card-text">打卡事件:{{ daily.dailyEventName }}</p>
                 <p class="card-text">打卡伙伴昵称:{{ daily.dailyPartnerName }}</p>
-                <p class="card-text">点赞数{{ daily.thumbUpNum }} <button type="button" onclick="thumbup"  class="btn btn-sm" ><img src="data:;base64,{{ img_stream }}"  alt="" /></button> </p>
+                <p class="card-text">点赞数{{ daily.thumbUpNum }}  <button type="button" id="{{daily.dailyEventId}}" class="btn btn-sm" ><img src="{{ url_for('static', filename='img/before.png') }}"  alt="" /></button> </p>
 			</div>
 		</div>
     {% endfor %}
     {% if dailyCheck %}
-	    <a type="button" class="btn btn-outline-primary" href="{{ url_for('shareUp') }}">换一个</a>
-        {{ render_form(thumbUpform) }}
+	    <a type="button" class="btn btn-outline-primary" href="{{ url_for('shareUp') }}">换一批</a>
     {% endif %}
     {% if check!=2 %}
     <p>你暂时还没有匹配对象，暂时不能打卡，可以前往事件河流捞取打卡对象或者前往投放自己的事件瓶</p>
