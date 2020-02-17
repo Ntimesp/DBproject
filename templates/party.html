@@ -21,14 +21,13 @@
 <div class="center-block">
 	<br>
 	<div class="alert alert-primary" role="alert"> {{ choice }}！！每次刷新可观看 </div>
-    <p>是否有workes返回{{ returnWork }}</p>
 	<br>
-	{% for work in works %}
+	{% for work,image in workes %}
 		<br>
 		<div class="card border-primary mb-3" style="max-width: 48rem;">
 			<div class="card-header"> {{work.worktitle}} </div>
             <!--显示图片，还不知道能不能用-->
-            <p><img src={{work.workImgPath  }}></p>
+            <p><img src="data:image/png;base64,{{ image }}"/></p>
 			<div class="card-body text-primary">
 				{% for line in work.workContent.split("\n") %}
 					<p class="card-text">{{ line }}</p>
