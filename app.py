@@ -107,7 +107,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, index=True, nullable=True)
     userEmail = db.Column(db.String(64), unique=True, index=True, nullable=True)
-    userStatus = db.Column(db.Integer, default=0)
+    userStatus = db.Column(db.Integer, default=1)
     # userStatus == 0 未激活
     # userStatus == 1 已经激活
     userAccountLevel = db.Column(db.Integer, nullable=True)
@@ -863,7 +863,7 @@ class workDatabase(db.Model):
     
     worktitle = db.Column(db.String(64), nullable=True)
     workContent = db.Column(db.String(1000), nullable=True)
-    workImgPath = db.Column(db.LargeBinary(length=100000), nullable=True)
+    workImgPath = db.Column(db.String(64), nullable=True)
 
     thumbNum = db.Column(db.Integer, nullable=True, default=0)
     thumbNumDaily = db.Column(db.Integer, nullable=True, default=0)
@@ -923,6 +923,183 @@ def wonderland():
             ChooseWork = workDatabase.query.filter_by(workid=thumbUpWorkId).first()
 
             ChooseWork.thumbNum = thumbWork.query.filter_by(workid=thumbUpWorkId).count()+1
+            # def istoday(t):
+            #     当天
+            #     time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
+            #     now=datetime.now()
+            #     return (now-time).days==0
+
+            # def isThisWeek(t):
+            #     本周
+            #     time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
+            #     now=datetime.now()
+            #     return (now-time).days<=5
+
+            #ChooseWork.thumbNumDaily = thumbWork.query.filter(thumbWork.workid == thumbUpWorkId, istoday(thumbWork.thumbTime)).count()+1
+            #ChooseWork.thumbNumWeekly = thumbWork.query.filter(thumbWork.workid == thumbUpWorkId, isThisWeek(thumbWork.thumbTime)).count()+1
+
+            db.session.add(ChooseWork)
+            db.session.add(thumbUpRecords)
+            db.session.commit()
+            return "点赞成功"
+        else:
+            return "无法点赞，可能您已经为该愿望点赞了，或者存在其他系统故障"
+
+    if works.count() == 0:
+        flash("还没有作品")
+
+    return render_template('wonderland.html',choice=choice,works=works)
+
+@app.route('/party', methods=['GET', 'POST'])
+def party():
+    choice=request.args.get('choice', '')
+    workgroup='party'
+    if not choice:
+        choice='最热作品'
+    
+    if choice=='每日新秀':
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            workDatabase.thumbNumDaily.desc()).limit(10)
+    elif choice =='每周榜单':
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            workDatabase.thumbNumWeekly.desc()).limit(10)
+    elif choice == '随机推送':
+        works = workDatabase.query.limit(10)
+    else:       #'最热作品'
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            workDatabase.thumbNum.desc()).limit(10)
+
+    #响应点赞
+    thumbUpWorkId = request.args.get('workid', '')
+    if thumbUpWorkId:
+        thumbUpRecord = thumbWork.query.filter_by(workid=thumbUpWorkId,
+                                                  thumbUpEmail=current_user.userEmail).first()
+        if thumbUpRecord is None:
+            thumbID = thumbWork.query.count() + 1
+            thumbUpRecords = thumbWork(thumbId=thumbID, workid=thumbUpWorkId,
+                                       thumbUpEmail=current_user.userEmail,
+                                       thumbTime=str(datetime.now()))
+            ChooseWork = workDatabase.query.filter_by(workid=thumbUpWorkId).first()
+
+            ChooseWork.thumbNum = thumbWork.query.filter_by(workid=thumbUpWorkId).count()+1
+            def istoday(t):
+                #当天
+                time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
+                now=datetime.now()
+                return (now-time).days==0
+
+            def isThisWeek(t):
+                #本周
+                time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
+                now=datetime.now()
+                return (now-time).days<=5
+
+            ChooseWork.thumbNumDaily = thumbWork.query.filter(thumbWork.workid == thumbUpWorkId, istoday(thumbWork.thumbTime)).count()+1
+            ChooseWork.thumbNumWeekly = thumbWork.query.filter(thumbWork.workid == thumbUpWorkId, isThisWeek(thumbWork.thumbTime)).count()+1
+
+            db.session.add(ChooseWork)
+            db.session.add(thumbUpRecords)
+            db.session.commit()
+            return "点赞成功"
+        else:
+            return "无法点赞，可能您已经为该愿望点赞了，或者存在其他系统故障"
+
+    if works.count() == 0:
+        flash("还没有作品")
+
+    return render_template('wonderland.html',choice=choice,works=works)
+
+@app.route('/kitchen', methods=['GET', 'POST'])
+def kitchen():
+    choice=request.args.get('choice', '')
+    workgroup='kitchen'
+    if not choice:
+        choice='最热作品'
+    
+    if choice=='每日新秀':
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            workDatabase.thumbNumDaily.desc()).limit(10)
+    elif choice =='每周榜单':
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            workDatabase.thumbNumWeekly.desc()).limit(10)
+    elif choice == '随机推送':
+        works = workDatabase.query.limit(10)
+    else:       #'最热作品'
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            workDatabase.thumbNum.desc()).limit(10)
+
+    #响应点赞
+    thumbUpWorkId = request.args.get('workid', '')
+    if thumbUpWorkId:
+        thumbUpRecord = thumbWork.query.filter_by(workid=thumbUpWorkId,
+                                                  thumbUpEmail=current_user.userEmail).first()
+        if thumbUpRecord is None:
+            thumbID = thumbWork.query.count() + 1
+            thumbUpRecords = thumbWork(thumbId=thumbID, workid=thumbUpWorkId,
+                                       thumbUpEmail=current_user.userEmail,
+                                       thumbTime=str(datetime.now()))
+            ChooseWork = workDatabase.query.filter_by(workid=thumbUpWorkId).first()
+
+            ChooseWork.thumbNum = thumbWork.query.filter_by(workid=thumbUpWorkId).count()+1
+            def istoday(t):
+                #当天
+                time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
+                now=datetime.now()
+                return (now-time).days==0
+
+            def isThisWeek(t):
+                #本周
+                time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
+                now=datetime.now()
+                return (now-time).days<=5
+
+            ChooseWork.thumbNumDaily = thumbWork.query.filter(thumbWork.workid == thumbUpWorkId, istoday(thumbWork.thumbTime)).count()+1
+            ChooseWork.thumbNumWeekly = thumbWork.query.filter(thumbWork.workid == thumbUpWorkId, isThisWeek(thumbWork.thumbTime)).count()+1
+
+            db.session.add(ChooseWork)
+            db.session.add(thumbUpRecords)
+            db.session.commit()
+            return "点赞成功"
+        else:
+            return "无法点赞，可能您已经为该愿望点赞了，或者存在其他系统故障"
+
+    if works.count() == 0:
+        flash("还没有作品")
+
+    return render_template('wonderland.html',choice=choice,works=works)
+
+@app.route('/battle', methods=['GET', 'POST'])
+def battle():
+    choice=request.args.get('choice', '')
+    workgroup='battle'
+    if not choice:
+        choice='最热作品'
+    
+    if choice=='每日新秀':
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            workDatabase.thumbNumDaily.desc()).limit(10)
+    elif choice =='每周榜单':
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            workDatabase.thumbNumWeekly.desc()).limit(10)
+    elif choice == '随机推送':
+        works = workDatabase.query.limit(10)
+    else:       #'最热作品'
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            workDatabase.thumbNum.desc()).limit(10)
+
+    #响应点赞
+    thumbUpWorkId = request.args.get('workid', '')
+    if thumbUpWorkId:
+        thumbUpRecord = thumbWork.query.filter_by(workid=thumbUpWorkId,
+                                                  thumbUpEmail=current_user.userEmail).first()
+        if thumbUpRecord is None:
+            thumbID = thumbWork.query.count() + 1
+            thumbUpRecords = thumbWork(thumbId=thumbID, workid=thumbUpWorkId,
+                                       thumbUpEmail=current_user.userEmail,
+                                       thumbTime=str(datetime.now()))
+            ChooseWork = workDatabase.query.filter_by(workid=thumbUpWorkId).first()
+
+            ChooseWork.thumbNum = thumbWork.query.filter_by(workid=thumbUpWorkId).count()+1
             def istoday(t):
                 #当天
                 time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
@@ -948,90 +1125,8 @@ def wonderland():
     if works.count() == 0:
         flash("还没有作品")
     workes=[]
-    for work in works:
-        img=base64.b64decode(work.workImg)
-        workes.append([work,img])
-    if workes is None:
-        returnWork=0
-    else:
-        returnWork=1
-    return render_template('wonderland.html',choice=choice,works=workes,base64=base64,returnWork=returnWork)
 
-@app.route('/party', methods=['GET', 'POST'])
-def party():
-    choice = request.args.get('choice', '')
-    workgroup = 'party'
-    if not choice:
-        choice = '最热作品'
-
-    if choice == '每日新秀':
-        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
-            workDatabase.thumbNumDaily.desc()).limit(10)
-    elif choice == '每周榜单':
-        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
-            workDatabase.thumbNumWeekly.desc()).limit(10)
-    elif choice == '随机推送':
-        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
-            func.random()).limit(10)
-    else:  # '最热作品'
-        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
-            workDatabase.thumbNum.desc()).limit(10)
-
-    # 响应点赞
-    thumbUpWorkId = request.args.get('workid', '')
-    if thumbUpWorkId:
-        thumbUpRecord = thumbWork.query.filter_by(workid=thumbUpWorkId,
-                                                  thumbUpEmail=current_user.userEmail).first()
-        if thumbUpRecord is None:
-            thumbID = thumbWork.query.count() + 1
-            thumbUpRecords = thumbWork(thumbId=thumbID, workid=thumbUpWorkId,
-                                       thumbUpEmail=current_user.userEmail,
-                                       thumbTime=str(datetime.now()))
-            ChooseWork = workDatabase.query.filter_by(workid=thumbUpWorkId).first()
-
-            ChooseWork.thumbNum = thumbWork.query.filter_by(workid=thumbUpWorkId).count() + 1
-
-            def istoday(t):
-                # 当天
-                time = datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
-                now = datetime.now()
-                return (now - time).days == 0
-
-            def isThisWeek(t):
-                # 本周
-                time = datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
-                now = datetime.now()
-                return (now - time).days <= 5
-
-            ChooseWork.thumbNumDaily = thumbWork.query.filter(thumbWork.workid == thumbUpWorkId,
-                                                              istoday(thumbWork.thumbTime)).count() + 1
-            ChooseWork.thumbNumWeekly = thumbWork.query.filter(thumbWork.workid == thumbUpWorkId,
-                                                               isThisWeek(thumbWork.thumbTime)).count() + 1
-
-            db.session.add(ChooseWork)
-            db.session.add(thumbUpRecords)
-            db.session.commit()
-            return "点赞成功"
-        else:
-            return "无法点赞，可能您已经为该愿望点赞了，或者存在其他系统故障"
-
-    if works.count() == 0:
-        flash("还没有作品")
-    workes = []
-    for work in works:
-        img = base64.b64encode(work.workImg)
-        workes.append([work, img])
-    return render_template('party.html')
-
-@app.route('/kitchen', methods=['GET', 'POST'])
-def kitchen():
-    return render_template('kitchen.html')
-
-@app.route('/battle', methods=['GET', 'POST'])
-def battle():
-    img = open("static/img/battle.jpg", "rb")
-    img = base64.b64encode(img.read())
-    return render_template('test.html',img=img)
+    return render_template('wonderland.html',choice=choice,works=works)
 
 @app.route('/hole', methods=['GET', 'POST'])
 def hole():
@@ -1041,11 +1136,8 @@ def hole():
         sex="女"
 
     works=workDatabase.query.filter_by(userEmail=current_user.userEmail)
-    workes=[]
-    for work in works:
-        image=base64.b64decode(work.workImg)
-        workes.append([work,image])
-    return render_template('hole.html',name=current_user.userNickName,sex=sex,works=workes,base64=base64)
+
+    return render_template('hole.html',name=current_user.userNickName,sex=sex,works=works)
 
 class uploadform(FlaskForm):
     name = StringField('作品名称')
@@ -1065,7 +1157,9 @@ def upload():
     form=uploadform()
     if form.validate_on_submit():
         name = form.name.data
-        img = base64.b64encode(request.files['img'].read()) 
+        img = request.files['img']
+        imgname='userimg/'+str(workDatabase.query.count()+1)+img.filename
+        img.save('static/'+imgname)
         text = form.text.data
         workid = workDatabase.query.filter().count()+1
         type=form.type.data
@@ -1080,7 +1174,7 @@ def upload():
         mywork=workDatabase(workid=workid,workgroup=typename,
                             userEmail=current_user.userEmail,userStatus=current_user.userStatus,
                             userNickName=current_user.userNickName,
-                            worktitle=name,workContent=text,workImg=img)
+                            worktitle=name,workContent=text,workImgPath=imgname)
         db.session.add(mywork)
         db.session.commit()
         #InserTicket(current_user.userEmail,current_user.userSchoolNum)
@@ -1865,6 +1959,8 @@ def caslogin():
 def faq():
     return render_template("faq.html")
 
+#db.drop_all()
+#db.create_all()
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)

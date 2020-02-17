@@ -1,6 +1,7 @@
 env/
 venv/
 __pycache__/
-
+img
 .idea/
 .DS_Store
+static/userimg

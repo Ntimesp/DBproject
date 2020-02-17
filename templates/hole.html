@@ -6,13 +6,12 @@
 <p>昵称：{{name}}</p>
 <p>性别：{{sex}}</p>
 <p>我的作品：</p>
-{% for work,image in works %}
+{% for work in works %}
 		<br>
 		<div class="card border-primary mb-3" style="max-width: 48rem;">
             <div class="card-header"> {{work.worktitle}} </div>
             <!--显示图片，还不知道能不能用-->
-           <p><img src="data:image/png;base64,{{ image }}"/></p>
-
+           <p><img src="{{url_for('static', filename=work.workImgPath)}}"></p>
 			<div class="card-body text-primary">
 				{% for line in work.workContent.split("\n") %}
 					<p class="card-text">{{ line }}</p>

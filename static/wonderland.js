@@ -1,5 +1,5 @@
 $("body").css("background-image","url(static/img/wonderland.png)")
-$(".btn.btn-primary.btn-lg").click(function(){
+$(".btn.btn-sm").click(function(){
     $.get("wonderland",
     {
         workid:$(this).attr("id"),
