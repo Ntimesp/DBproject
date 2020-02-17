@@ -1,4 +1,4 @@
-$(".btn.btn-sm").click(function(){
+$(".btn btn-sm").click(function(){
     $.get("wishpool",
     {
         thu:$(this).attr("id"),

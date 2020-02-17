@@ -42,7 +42,7 @@ Talisman(app, content_security_policy={
     'img-src': "'self' http://* 'unsafe-inline' data: *",
 })
 app.config['SECRET_KEY'] = 'cbYSt76Vck*7^%4d'
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root: @localhost/test?charset=utf8"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:123456@localhost/test?charset=utf8"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SERVER_NAME'] = 'stunion.ustc.edu.cn'
 # app.config['SERVER_NAME'] = 'localhost.localdomain'
@@ -848,6 +848,174 @@ def holiday():
     riverStatus,LeftTime=checkRiverStatus()
     return render_template('holiday/holiday.html',riverStatus=riverStatus,LeftTime=LeftTime,userStatus=current_user.userStatus)
 
+
+######################################################################################################################
+#镜像show模块
+
+class workDatabase(db.Model):
+    __tablename__ = "work"
+    workid = db.Column(db.Integer, primary_key=True, nullable=True)
+    workgroup = db.Column(db.String(64), nullable=True)
+
+    userEmail = db.Column(db.String(64), nullable=True)
+    userStatus = db.Column(db.Integer, nullable=True)
+    userNickName = db.Column(db.String(64), nullable=True)
+    
+    worktitle = db.Column(db.String(64), nullable=True)
+    workContent = db.Column(db.String(1000), nullable=True)
+    workImg = db.Column(db.LargeBinary(length=100000), nullable=True)
+
+    thumbNum = db.Column(db.Integer, nullable=True, default=0)
+    thumbNumDaily = db.Column(db.Integer, nullable=True, default=0)
+    thumbNumWeekly = db.Column(db.Integer, nullable=True, default=0)
+
+
+
+@app.route('/show', methods=['GET', 'POST'])
+@fresh_login_required
+def show():
+    if timelimit:
+        sign = checkTimeLimit()
+        if not sign:
+            flash(NOT_START_STRING)
+            return redirect(url_for('index'))
+    if current_user.userEmail is None:
+        return redirect(url_for('append'))
+    return render_template('show.html')
+
+
+class thumbWork(db.Model):
+    __tablename__ = "thumbWork"
+    thumbId = db.Column(db.Integer, primary_key=True, unique=True, index=True)
+    workid= db.Column(db.String(64))
+    thumbUpEmail = db.Column(db.String(64))
+    thumbTime = db.Column(db.String(64))
+
+@app.route('/wonderland', methods=['GET', 'POST'])
+def wonderland():
+    choice=request.args.get('choice', '')
+    workgroup='wonderland'
+    if not choice:
+        choice='最热作品'
+    
+    if choice=='每日新秀':
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            workDatabase.thumbNumDaily).limit(10)
+    elif choice =='每周榜单':
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            workDatabase.thumbNumWeekly).limit(10)
+    elif choice == '随机推送':
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            func.random()).limit(10)
+    else:       #'最热作品'
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            workDatabase.thumbNum).limit(10)
+
+    #响应点赞
+    thumbUpWorkId = request.args.get('workid', '')
+    if thumbUpWorkId:
+        thumbUpRecord = thumbWork.query.filter_by(workid=thumbUpWorkId,
+                                                  thumbUpEmail=current_user.userEmail).first()
+        if thumbUpRecord is None:
+            thumbID = thumbWork.query.count() + 1
+            thumbUpRecords = thumbWork(thumbId=thumbID, workid=thumbUpWorkId,
+                                       thumbUpEmail=current_user.userEmail,
+                                       thumbTime=str(datetime.now()))
+            ChooseWork = workDatabase.query.filter_by(workid=thumbUpWorkId).first()
+
+            ChooseWork.thumbNum = thumbWork.query.filter_by(workid=thumbUpWorkId).count()+1
+            def istoday(t):
+                #当天
+                time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
+                now=datetime.now()
+                return (now-time).days==0
+
+            def isThisWeek(t):
+                #本周
+                time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
+                now=datetime.now()
+                return (now-time).days<=5
+
+            ChooseWork.thumbNumDaily = thumbWork.query.filter(thumbWork.workid == thumbUpWorkId, istoday(thumbWork.thumbTime)).count()+1
+            ChooseWork.thumbNumWeekly = thumbWork.query.filter(thumbWork.workid == thumbUpWorkId, isThisWeek(thumbWork.thumbTime)).count()+1
+
+            db.session.add(ChooseWork)
+            db.session.add(thumbUpRecords)
+            db.session.commit()
+            return "点赞成功"
+        else:
+            return "无法点赞，可能您已经为该愿望点赞了，或者存在其他系统故障"
+
+    if works.count() == 0:
+        flash("还没有作品")
+    workes=[]
+    for work in works:
+        img=base64.b64encode(work.workImg)
+        workes.append([work,img])
+    return render_template('wonderland.html',choice=choice,works=workes,base64=base64)
+
+@app.route('/party', methods=['GET', 'POST'])
+def party():
+    return render_template('party.html')
+
+@app.route('/kitchen', methods=['GET', 'POST'])
+def kitchen():
+    return render_template('kitchen.html')
+
+@app.route('/battle', methods=['GET', 'POST'])
+def battle():
+    img = open("static/img/battle.jpg", "rb")
+    img = base64.b64encode(img.read())
+    return render_template('test.html',img=img)
+
+@app.route('/hole', methods=['GET', 'POST'])
+def hole():
+    if current_user.userSex:
+        sex="男"
+    else:
+        sex="女"
+
+    works=workDatabase.query.filter_by(userEmail=current_user.userEmail)
+    return render_template('hole.html',name=current_user.userNickName,sex=sex,works=works,base64=base64)
+
+class uploadform(FlaskForm):
+    name = StringField('作品名称')
+    img =  FileField('作品内容')
+    text = TextAreaField(" 作品内容 ", validators=[DataRequired()])
+    submit = SubmitField("上传作品")
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    form=uploadform()
+    if form.validate_on_submit():
+        name = form.name.data
+        img = base64.b64encode(request.files['img'].read()) 
+        text = form.text.data
+        workid = workDatabase.query.filter().count()+1
+        mywork=workDatabase(workid=workid,workgroup='wonderland',
+                            userEmail=current_user.userEmail,userStatus=current_user.userStatus,
+                            userNickName=current_user.userNickName,
+                            worktitle=name,workContent=text,workImg=img)
+        db.session.add(mywork)
+        db.session.commit()
+        #InserTicket(current_user.userEmail,current_user.userSchoolNum)
+
+        flash("作品以上传成功！请等待审核！一张号码券已放入‘我的号码券’！")
+    return render_template('upload.html',form=form)
+###############################################################################################################################
+@app.route('/sing', methods=['GET', 'POST'])
+@fresh_login_required
+def sing():
+    if timelimit:
+        sign = checkTimeLimit()
+        if not sign:
+            flash(NOT_START_STRING)
+            return redirect(url_for('index'))
+    if current_user.userEmail is None:
+        return redirect(url_for('append'))
+    return render_template('sing.html')
+
+
 #####################################################################################
 # 愿望实现
 
@@ -978,168 +1146,6 @@ def wish():
     if current_user.userEmail is None:
         return redirect(url_for('append'))
     return render_template('wish.html', sex=current_user.userSex,userStatus=current_user.userStatus)
-
-######################################################################################################################
-#镜像show模块
-
-class workDatabase(db.Model):
-    __tablename__ = "work"
-    workid = db.Column(db.Integer, primary_key=True, nullable=True)
-    workgroup = db.Column(db.String(64), nullable=True)
-
-    userEmail = db.Column(db.String(64), nullable=True)
-    userStatus = db.Column(db.Integer, nullable=True)
-    userNickName = db.Column(db.String(64), nullable=True)
-    
-    worktitle = db.Column(db.String(64), nullable=True)
-    workContent = db.Column(db.String(1000), nullable=True)
-    workImg = db.Column(db.LargeBinary(length=100000), nullable=True)
-
-    thumbNum = db.Column(db.Integer, nullable=True, default=0)
-    thumbNumDaily = db.Column(db.Integer, nullable=True, default=0)
-    thumbNumWeekly = db.Column(db.Integer, nullable=True, default=0)
-@app.route('/show', methods=['GET', 'POST'])
-@fresh_login_required
-def show():
-    if timelimit:
-        sign = checkTimeLimit()
-        if not sign:
-            flash(NOT_START_STRING)
-            return redirect(url_for('index'))
-    if current_user.userEmail is None:
-        return redirect(url_for('append'))
-    return render_template('show.html')
-
-
-class thumbWork(db.Model):
-    __tablename__ = "thumbWork"
-    thumbId = db.Column(db.Integer, primary_key=True, unique=True, index=True)
-    workid= db.Column(db.String(64))
-    thumbUpEmail = db.Column(db.String(64))
-    thumbTime = db.Column(db.String(64))
-
-@app.route('/wonderland', methods=['GET', 'POST'])
-def wonderland():
-    choice=request.args.get('choice', '')
-    workgroup='wonderland'
-    if not choice:
-        choice='最热作品'
-    
-    if choice=='每日新秀':
-        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
-            workDatabase.thumbNumDaily).limit(10)
-    elif choice =='每周榜单':
-        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
-            workDatabase.thumbNumWeekly).limit(10)
-    elif choice == '随机推送':
-        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
-            func.random()).limit(10)
-    else:       #'最热作品'
-        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
-            workDatabase.thumbNum).limit(10)
-
-    #响应点赞
-    thumbUpWorkId = request.args.get('workid', '')
-    if thumbUpWorkId:
-        thumbUpRecord = thumbwork.query.filter_by(workid=thumbUpWorkId,
-                                                  thumbUpEmail=current_user.userEmail).first()
-        if thumbUpRecord is None:
-            thumbID = thumbwork.query.count() + 1
-            thumbUpRecords = thumbWish(thumbId=thumbID, workid=thumbUpWorkId,
-                                       thumbUpEmail=current_user.userEmail,
-                                       thumbTime=str(datetime.now()))
-            ChooseWork = workDatabase.query.filter_by(workid=thumbUpWorkId).first()
-
-            ChooseWork.thumbNum = thumbwork.query.filter_by(workid=thumbUpWorkId).count()+1
-            def istoday(t):
-                #当天
-                time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
-                now=datetime.now()
-                return (now-time).days==0
-
-            def isThisWeek(t):
-                #本周
-                time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
-                now=datetime.now()
-                return (now-time).days<=5
-
-            ChooseWork.thumbNumDaily = thumbwork.query.filter(workid == thumbUpWorkId, istoday(thumbTime)).count()+1
-            ChooseWork.thumbNumWeekly = thumbWork.query.filter(workid == thumbUpWorkId, isThisWeek(thumbTime)).count()+1
-
-            db.session.add(ChooseWork)
-            db.session.add(thumbUpRecords)
-            db.session.commit()
-            return "点赞成功"
-        else:
-            return "无法点赞，可能您已经为该愿望点赞了，或者存在其他系统故障"
-
-    if works.count() == 0:
-        flash("还没有作品")
-
-    return render_template('wonderland.html',choice=choice,works=works,base64=base64)
-
-@app.route('/party', methods=['GET', 'POST'])
-def party():
-    return render_template('party.html')
-
-@app.route('/kitchen', methods=['GET', 'POST'])
-def kitchen():
-    return render_template('kitchen.html')
-
-@app.route('/battle', methods=['GET', 'POST'])
-def battle():
-    img = open("static/img/battle.jpg", "rb")
-    img = base64.b64encode(img.read())
-    return render_template('test.html',img=img)
-
-@app.route('/hole', methods=['GET', 'POST'])
-def hole():
-    if current_user.userSex:
-        sex="男"
-    else:
-        sex="女"
-
-    works=workDatabase.query.filter_by(userEmail=current_user.userEmail)
-    return render_template('hole.html',name=current_user.userNickName,sex=sex,works=works,base64=base64)
-
-class uploadform(FlaskForm):
-    name = StringField('作品名称')
-    img =  FileField('作品内容')
-    text = TextAreaField(" 作品内容 ", validators=[DataRequired()])
-    submit = SubmitField("上传作品")
-
-@app.route('/upload', methods=['GET', 'POST'])
-def upload():
-    form=uploadform()
-    if form.validate_on_submit():
-        name = form.name.data
-        img = base64.b64encode(request.files['img'].read()) 
-        text = form.text.data
-        workid = workDatabase.query.filter().count()+1
-        mywork=workDatabase(workid=workid,workgroup='wonderland',
-                            userEmail=current_user.userEmail,userStatus=current_user.userStatus,
-                            userNickName=current_user.userNickName,
-                            worktitle=name,workContent=text,workImg=img)
-        db.session.add(mywork)
-        db.session.commit()
-        #InserTicket(current_user.userEmail,current_user.userSchoolNum)
-
-        flash("作品以上传成功！请等待审核！一张号码券已放入‘我的号码券’！")
-    return render_template('upload.html',form=form)
-###############################################################################################################################
-@app.route('/sing', methods=['GET', 'POST'])
-@fresh_login_required
-def sing():
-    if timelimit:
-        sign = checkTimeLimit()
-        if not sign:
-            flash(NOT_START_STRING)
-            return redirect(url_for('index'))
-    if current_user.userEmail is None:
-        return redirect(url_for('append'))
-    return render_template('sing.html')
-
-
 
 @app.route('/girl', methods=['GET', 'POST'])
 @fresh_login_required
@@ -1445,10 +1451,9 @@ class RegisterForm(FlaskForm):
     email = StringField("电子邮箱（中科大校内邮箱，以 @mail.ustc.edu.cn、@ustc.edu.cn 结尾）",
                         validators=[DataRequired(), Length(1, 64), Email()])
     schoolnum = StringField("学号", validators=[DataRequired()])
-    realname = StringField("姓名(请输入你的真实姓名，在告白之前你的真实姓名不会显示给平台上其他用户可见)", validators=[DataRequired()])
     password = PasswordField('请设置密码', validators=[DataRequired(), Length(6, 64)])
-    QQnum = StringField(" QQ 号码（手机号和QQ号二选一即可）", validators=[DataRequired()])
-    Telnum = StringField(" 手机号码(手机号和QQ号二选一即可)", validators=[DataRequired()])
+    QQnum = StringField(" QQ 号码", validators=[DataRequired()])
+    Telnum = StringField(" 手机号码", validators=[DataRequired()])
     sex = RadioField("性别", choices=[(1, "男"), (0, "女")], validators=[], coerce=int)
     accept_terms = BooleanField('“是否同意如下授权？\n'
                                 '（1）昵称所有平台用户可见\n'
@@ -1543,7 +1548,6 @@ def register():
         newusersex = form.sex.data
         newuserQQnum = form.QQnum.data
         newuserschoolnum = form.schoolnum.data
-        newuserrealname = form.realname.data
         newuserTelnum = form.Telnum.data
         newuserNickName = form.nickname.data
         if not form.accept_terms.data:
@@ -1555,12 +1559,12 @@ def register():
         user = User.query.filter_by(userEmail=form.email.data).first()
         if user is None:
             user = User(userEmail=newuseremail, userSchoolNum=newuserschoolnum, userQQnum=newuserQQnum,
-                        userSex=newusersex, userRealName=newuserrealname, userTelnum=newuserTelnum,
+                        userSex=newusersex, userTelnum=newuserTelnum,
                         userNickName=newuserNickName)
         else:
             User.query.filter_by(userEmail=form.email.data).delete()
             user = User(userEmail=newuseremail, userSchoolNum=newuserschoolnum, userQQnum=newuserQQnum,
-                        userSex=newusersex, userRealName=newuserrealname, userTelnum=newuserTelnum,
+                        userSex=newusersex, userTelnum=newuserTelnum,
                         userNickName=newuserNickName)
         user.setPassword(newuserpassword)
         user.userStatus = 0
@@ -1689,11 +1693,13 @@ def password_reset(token):
 ########################################################
 # 统一认证接口
 class appendUserDataForm(FlaskForm):
+    nickname = StringField("昵称（前台可见）", validators=[DataRequired()])
     email = StringField("电子邮箱（中科大校内邮箱，以 @mail.ustc.edu.cn、@ustc.edu.cn 结尾）",
                         validators=[DataRequired(), Length(1, 64), Email()])
-    realname = StringField("姓名（请输入你的真实姓名，不然你凭实力单身，我们也帮不了你）", validators=[DataRequired()])
+    schoolnum = StringField("学号", validators=[DataRequired()])
     password = PasswordField('请设置密码', validators=[DataRequired(), Length(6, 64)])
     QQnum = StringField(" QQ 号码", validators=[DataRequired()])
+    Telnum = StringField(" 手机号码", validators=[DataRequired()])
     sex = RadioField("性别", choices=[(1, "男"), (0, "女")], validators=[], coerce=int)
     submit = SubmitField('补全资料')
 
@@ -1720,7 +1726,6 @@ def append():
         return redirect(url_for('index'))
     if infoform.validate_on_submit():
         myrecord.userEmail = infoform.email.data
-        myrecord.userRealName = infoform.realname.data
         myrecord.userQQnum = infoform.QQnum.data
         myrecord.userSex = infoform.sex.data
         myrecord.Telnum=infoform.Telnum.data
