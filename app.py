@@ -73,7 +73,7 @@ def checkTimeLimit():
     # 返回1则正在活动
     nowtime = datetime.now()
     starttime = datetime(2020, 2, 6, 20, 0, 0, 0)
-    endtime = datetime(2020, 3, 14, 0, 0, 0, 0)
+    endtime = datetime(2020, 3, 17, 0, 0, 0, 0)
     return starttime <= nowtime < endtime
 
 
@@ -316,7 +316,7 @@ class dailyCheckDatabase(db.Model):
     dailyUserSchoolNum=db.Column(db.String(64),nullable=True)
     dailyDateTime=db.Column(db.String(64),nullable=True)
 def querydailyCheckDatabase(userEmail,UserSchoolNum):
-    today=str(datetime.strptime(str(datetime.now()),'"%Y-%m-%d'))
+    today = datetime.now().strftime("%Y-%m-%d")
     userCheckEvent=dailyCheckDatabase.query.filter_by(dailyUserEmail=userEmail,dailyUserSchoolNum=UserSchoolNum,dailyDateTime=today)
     if userCheckEvent is None:
         return False
@@ -329,7 +329,8 @@ def AdddailyCheckDatabase(userEmail,UserSchoolNum):
         return False
     else:
         newId=dailyCheckDatabase.query.count()
-        today = str(datetime.strptime(str(datetime.now()), '"%Y-%m-%d'))
+
+        today=datetime.now().strftime("%Y-%m-%d")
         newRecord=dailyCheckDatabase(dailyCheckId=newId,dailyUserEmail=userEmail,dailyUserSchoolNum=UserSchoolNum,
                                      dailyDateTime=today)
         db.session.add(newRecord)
@@ -373,7 +374,7 @@ def chooseEvent():
     return EventChoose
 
 def checkRiverStatus():
-    lasttime = datetime.strptime(str(River.riverTime), "%Y-%m-%d %H:%M:%S.%f")
+    lasttime = datetime.strptime(River.riverTime, "%Y-%m-%d %H:%M:%S.%f")
     nowtime = datetime.now()
     bottleboyNum=bottleDatabase.query.filter_by(userBottleStatus=1,userSex=1).count()
     bottlegirlNum=bottleDatabase.query.filter_by(userBottleStatus=1,userSex=0).count()
@@ -383,7 +384,7 @@ def checkRiverStatus():
         River.riverTime=str(nowtime+timedelta(days=1).strptime("%Y-%m-%d %H:%M:%S.%f"))
         River.riverStatusNum=0
     '''
-    lasttime = datetime.strptime(str(River.riverTime), "%Y-%m-%d %H:%M:%S.%f")
+    lasttime = datetime.strptime(River.riverTime, "%Y-%m-%d %H:%M:%S.%f")
     if (nowtime - lasttime).total_seconds() >= 0:
         River.riverStatusNum=1
         return 1,0
@@ -532,7 +533,7 @@ def ThrowBottle():
     refreshBottleform=refreshBottleForm()
     nowTime = datetime.now()
     if myBottle.userBottleStatus==2:
-        lastTime=datetime.strptime(str(myBottle.BePartenerTime), "%Y-%m-%d %H:%M:%S.%f")
+        lastTime=datetime.strptime(myBottle.BePartenerTime, "%Y-%m-%d %H:%M:%S.%f")
         if(nowTime-lastTime).total_seconds()>=7*LastTimeAtLeast:
             myBottle.userBottleStatus=0
             db.session.commit()
@@ -543,7 +544,7 @@ def ThrowBottle():
         myBottle = bottleDatabase.query.filter_by(userEmail=current_user.userEmail,
                                                   userSchoolNum=current_user.userSchoolNum).first()
         
-        lastTime=datetime.strptime(str(myBottle.bottleLastTime), "%Y-%m-%d %H:%M:%S.%f")
+        lastTime=datetime.strptime(myBottle.bottleLastTime, "%Y-%m-%d %H:%M:%S.%f")
         if (nowTime-lastTime).total_seconds()<=20:
             flash('您的提交太频繁了，至少请经过20s再重新投放瓶子')
             return redirect(url_for('ThrowBottle'))
@@ -620,7 +621,7 @@ def BottleRiverPick():
         db.session.add(myBottle)
         db.session.commit()
         return redirect(url_for('ThrowBottle'))
-    lasttime = datetime.strptime(str(myBottle.bottleLastTime), "%Y-%m-%d %H:%M:%S.%f")
+    lasttime = datetime.strptime(myBottle.bottleLastTime, "%Y-%m-%d %H:%M:%S.%f")
     if (timenow - lasttime).total_seconds() >= LastTimeAtLeast and myBottle.userBottleStatus==1 and myBottle.userSalvageStatus!=1 :
         myBottle.userSalvageStatus=1
         db.session.commit()
@@ -708,7 +709,7 @@ def bottleMessage():
 
     #超过7天后登陆直接解除同伴关系
     if myBottle.userBottleStatus==2:
-       lasttime = datetime.strptime(str(myBottle.BePartenerTime), "%Y-%m-%d %H:%M:%S.%f")
+       lasttime = datetime.strptime(myBottle.BePartenerTime, "%Y-%m-%d %H:%M:%S.%f")
        timenow = datetime.now()
        if (timenow-lasttime).total_seconds()>=7*LastTimeAtLeast:
            partnerBottle = bottleDatabase.query.filter_by(userEmail=myBottle.partnerEmail,
@@ -733,7 +734,7 @@ def bottleMessage():
     #发出邀请一天后直接成功同伴关系
     if myBottle.userBySalvageStatus==1 and myBottle.userBottleStatus==1:
         nowtime=datetime.now()
-        lasttime=datetime.strptime(str(myBottle.checkPartnerTime), "%Y-%m-%d %H:%M:%S.%f")
+        lasttime=datetime.strptime(myBottle.checkPartnerTime, "%Y-%m-%d %H:%M:%S.%f")
         if (nowtime-lasttime).total_seconds()>=LastTimeAtLeast:
             partnerBottle = bottleDatabase.query.filter_by(userEmail=myBottle.partnerEmail,
                                                            userSchoolNum=myBottle.partnerSchoolNum).first()

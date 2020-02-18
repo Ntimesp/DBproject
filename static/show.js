@@ -55,7 +55,7 @@ $("#buttonBattle").hover(
 $("#buttonHole").hover(
     function(){
         $("#collapseHole").toggle()
-        $("body").css("background-image","url(static/img/hole.png)")
+        $("body").css("background-image","url(static/img/show.png)")
     },
     function(){
         $("#collapseHole").toggle()
