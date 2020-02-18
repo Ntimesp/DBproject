@@ -1,4 +1,4 @@
-
+$("img").addClass("carousel-inner img-responsive img-rounded");
 $(".btn.btn-sm").click(function(){
     $.get("wonderland",
     {

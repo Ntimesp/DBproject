@@ -1,6 +1,6 @@
 
 $(".btn.btn-sm").click(function(){
-    $.get("shareup",
+    $.get("shareUp",
     {
         workid:$(this).attr("id"),
     },function(data,status){

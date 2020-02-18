@@ -439,7 +439,7 @@ def shareUp():
     thumbUpWorkId = request.args.get('workid', '')
     if thumbUpWorkId:
         thumbUpRecord =thumbUpDailyCount.query.filter_by(dailyId=int(thumbUpWorkId),
-                                                  thumbUpEmail=current_user.userEmail).first()
+                                                  userEmail=current_user.userEmail).first()
         myBottle = bottleDatabase.query.filter_by(userEmail=current_user.userEmail,
                                                   userSchoolNum=current_user.userSchoolNum).first()
         if thumbUpRecord is None:
@@ -450,11 +450,9 @@ def shareUp():
             db.session.add(ChooseWish)
             db.session.add(thumbUpRecords)
             db.session.commit()
-            flash("点赞成功")
-            redirect(url_for('shareUp'))
+            return "点赞成功"
         else:
-            flash("无法点赞，可能您已经为该愿望点赞了，或者存在其他系统故障")
-            redirect(url_for('shareUp'))
+            return "无法点赞，可能您已经为该愿望点赞了，或者存在其他系统故障"
         #checkdailyEvents.thumbUpNum=checkdailyEvents+1
     if dailyUpForm.validate_on_submit() and dailyUpForm.submit.data:
         dailyEventNum=dailyEventDatabase.query.count()+1
@@ -926,20 +924,20 @@ def wonderland():
             ChooseWork = workDatabase.query.filter_by(workid=thumbUpWorkId).first()
 
             ChooseWork.thumbNum = thumbWork.query.filter_by(workid=thumbUpWorkId).count()+1
-            def istoday(t):
-                #当天
-                time=datetime.strptime(str(t), "%Y-%m-%d %H:%M:%S.%f")
-                now=datetime.now()
-                return (now-time).days==0
+            # def istoday(t):
+            #     #当天
+            #     time=datetime.strptime(str(t), "%Y-%m-%d %H:%M:%S.%f")
+            #     now=datetime.now()
+            #     return (now-time).days==0
 
-            def isThisWeek(t):
-                #本周
-                time=datetime.strptime(str(t), "%Y-%m-%d %H:%M:%S.%f")
-                now=datetime.now()
-                return (now-time).days<=5
+            # def isThisWeek(t):
+            #     #本周
+            #     time=datetime.strptime(str(t), "%Y-%m-%d %H:%M:%S.%f")
+            #     now=datetime.now()
+            #     return (now-time).days<=5
 
-            ChooseWork.thumbNumDaily = thumbWork.query.filter(thumbWork.workid == thumbUpWorkId, istoday(thumbWork.thumbTime)).count()+1
-            #ChooseWork.thumbNumWeekly = thumbWork.query.filter(thumbWork.workid == thumbUpWorkId, isThisWeek(thumbWork.thumbTime)).count()+1
+            ChooseWork.thumbNumDaily = thumbWork.query.filter_by(workid=thumbUpWorkId).count()+1
+            ChooseWork.thumbNumWeekly = thumbWork.query.filter_by(workid=thumbUpWorkId).count()+1
 
             db.session.add(ChooseWork)
             db.session.add(thumbUpRecords)
@@ -1130,7 +1128,6 @@ def battle():
 
     if works.count() == 0:
         flash("还没有作品")
-    workes=[]
 
     return render_template('battle.html',choice=choice,works=works)
 
@@ -1986,6 +1983,7 @@ def refreshDatabase():
     db.drop_all()
     db.create_all()
     flash_event()
+
 if __name__ == "__main__":
     ##refreshDatabase()
     app.run(host='0.0.0.0', port=5000, debug=True)

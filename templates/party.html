@@ -3,7 +3,7 @@
 {% from 'bootstrap/form.html' import render_form, render_field %}
 {% block headInsert %}
 <style>
-body{background:url({{ url_for('static', filename='img/party.png') }}) top left;background-size:cover;background-repeat: no-repeat}
+body{background:url({{ url_for('static', filename='img/The_Mad_Tea_Party.jpg') }}) top left;background-size:cover;background-repeat: no-repeat}
 </style>
 {% endblock %}
 {% block content %}
@@ -26,12 +26,12 @@ body{background:url({{ url_for('static', filename='img/party.png') }}) top left;
 	<br>
 	<div class="alert alert-primary" role="alert"> {{ choice }}！！每次刷新可观看 </div>
 	<br>
-	{% for work,image in workes %}
+	{% for work in works %}
 		<br>
 		<div class="card border-primary mb-3" style="max-width: 48rem;">
 			<div class="card-header"> {{work.worktitle}} </div>
             <!--显示图片，还不知道能不能用-->
-            <p><img src="data:image/png;base64,{{ image }}"/></p>
+            <p><img src="{{url_for('static', filename=work.workImgPath)}}" ></p>
 			<div class="card-body text-primary">
 				{% for line in work.workContent.split("\n") %}
 					<p class="card-text">{{ line }}</p>
@@ -42,8 +42,11 @@ body{background:url({{ url_for('static', filename='img/party.png') }}) top left;
 		</div>
 	{% endfor %}
 	{% if choice=="随机推送" %}
-		<a type="button" class="btn btn-outline-primary" href="{{ url_for('party',choice='随机推送') }}">换一批</a>
+		<a type="button" class="btn btn-outline-primary" href="{{ url_for('wonderland',choice='随机推送') }}">换一批</a>
 	{% endif %}
+	<script src="{{ url_for('static', filename='wonderland.js') }}"></script>
+    <a type="button" class="btn btn-primary" href="{{ url_for('show') }}">返回境像show</a>
+    <a type="button" class="btn btn-primary" href="{{ url_for('index') }}">返回主页</a>
+
 </div>
-    	<script src="{{ url_for('static', filename='party.js') }}"></script>
 {% endblock %}

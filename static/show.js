@@ -22,7 +22,7 @@ $("#buttonWonderland").hover(
 $("#buttonParty").hover(
     function(){
         $("#collapseParty").toggle()
-        $("body").css("background-image","url(static/img/party.png)")
+        $("body").css("background-image","url(static/img/The_Mad_Tea_Party.jpg)")
     },
     function(){
         $("#collapseParty").toggle()
