@@ -1,6 +1,6 @@
-
+$("body").css("background-image","url(static/img/wonderland.png)")
 $(".btn.btn-sm").click(function(){
-    $.get("shareup",
+    $.get("wonderland",
     {
         workid:$(this).attr("id"),
     },function(data,status){

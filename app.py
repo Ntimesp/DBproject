@@ -3,8 +3,8 @@
 
 import os
 from threading import Thread
-from datetime import datetime,timedelta
-from datetime import *
+import time
+from datetime import datetime, timedelta, date
 import io
 from io import BytesIO
 import base64
@@ -113,8 +113,8 @@ class User(UserMixin, db.Model):
     userAccountLevel = db.Column(db.Integer, nullable=True)
     userRealName = db.Column(db.String(128), nullable=True)
     userSchoolNum = db.Column(db.String(64), unique=True, nullable=True)
-    userQQnum = db.Column(db.String(64), unique=True, nullable=True)
-    userTelnum = db.Column(db.String(64), unique=True, nullable=True)
+    userQQnum = db.Column(db.String(64), nullable=True)
+    userTelnum = db.Column(db.String(64), nullable=True)
     userSex = db.Column(db.Integer, nullable=True)
     userWeChatNum = db.Column(db.String(64), nullable=True)
     userCellPhoneNum = db.Column(db.String(64), nullable=True)
@@ -435,14 +435,15 @@ def shareUp():
         dailyCheck=0
     thumbUpformDaily=ThumbUpFormDaily()
     dailyUpForm=DailyUpForm()
-    if thumbUpformDaily.validate_on_submit() and thumbUpformDaily.thumbup.data:
+    thumbUpWorkId = request.args.get('workid', '')
+    if thumbUpWorkId:
+        thumbUpRecord =thumbUpDailyCount.query.filter_by(dailyId=int(thumbUpWorkId),
+                                                  thumbUpEmail=current_user.userEmail).first()
         myBottle = bottleDatabase.query.filter_by(userEmail=current_user.userEmail,
                                                   userSchoolNum=current_user.userSchoolNum).first()
-        thumbUpRecord = thumbUpDailyCount.query.filter_by(dailyId=checkdailyEvents.dailyEventId,
-                                                  userEmail=myBottle.userEmail).first()
         if thumbUpRecord is None:
             thumbID = thumbUpDailyCount.query.count() + 1
-            thumbUpRecords = thumbUpDailyCount(thumbupDailyId=thumbID, dailyId=checkdailyEvents.dailyEventId,userEmail=myBottle.userEmail)
+            thumbUpRecords = thumbUpDailyCount(thumbupDailyId=thumbID, dailyId=int(thumbUpWorkId),userEmail=myBottle.userEmail)
             ChooseWish = dailyEventDatabase.query.filter_by(dailyEventId=checkdailyEvents.dailyEventId).first()
             ChooseWish.thumbUpNum = ChooseWish.thumbUpNum + 1
             db.session.add(ChooseWish)
@@ -905,7 +906,8 @@ def wonderland():
         works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
             workDatabase.thumbNumWeekly.desc()).limit(10)
     elif choice == '随机推送':
-        works = workDatabase.query.limit(10)
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            workDatabase.thumbNumWeekly.desc()).limit(10)
     else:       #'最热作品'
         works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
             workDatabase.thumbNum.desc()).limit(10)
@@ -923,19 +925,19 @@ def wonderland():
             ChooseWork = workDatabase.query.filter_by(workid=thumbUpWorkId).first()
 
             ChooseWork.thumbNum = thumbWork.query.filter_by(workid=thumbUpWorkId).count()+1
-            # def istoday(t):
-            #     当天
-            #     time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
-            #     now=datetime.now()
-            #     return (now-time).days==0
+            def istoday(t):
+                #当天
+                time=datetime.strptime(str(t), "%Y-%m-%d %H:%M:%S.%f")
+                now=datetime.now()
+                return (now-time).days==0
 
-            # def isThisWeek(t):
-            #     本周
-            #     time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
-            #     now=datetime.now()
-            #     return (now-time).days<=5
+            def isThisWeek(t):
+                #本周
+                time=datetime.strptime(str(t), "%Y-%m-%d %H:%M:%S.%f")
+                now=datetime.now()
+                return (now-time).days<=5
 
-            #ChooseWork.thumbNumDaily = thumbWork.query.filter(thumbWork.workid == thumbUpWorkId, istoday(thumbWork.thumbTime)).count()+1
+            ChooseWork.thumbNumDaily = thumbWork.query.filter(thumbWork.workid == thumbUpWorkId, istoday(thumbWork.thumbTime)).count()+1
             #ChooseWork.thumbNumWeekly = thumbWork.query.filter(thumbWork.workid == thumbUpWorkId, isThisWeek(thumbWork.thumbTime)).count()+1
 
             db.session.add(ChooseWork)
@@ -964,7 +966,8 @@ def party():
         works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
             workDatabase.thumbNumWeekly.desc()).limit(10)
     elif choice == '随机推送':
-        works = workDatabase.query.limit(10)
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            workDatabase.thumbNumWeekly.desc()).limit(10)
     else:       #'最热作品'
         works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
             workDatabase.thumbNum.desc()).limit(10)
@@ -984,13 +987,13 @@ def party():
             ChooseWork.thumbNum = thumbWork.query.filter_by(workid=thumbUpWorkId).count()+1
             def istoday(t):
                 #当天
-                time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
+                time=datetime.strptime(str(t), "%Y-%m-%d %H:%M:%S.%f")
                 now=datetime.now()
                 return (now-time).days==0
 
             def isThisWeek(t):
                 #本周
-                time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
+                time=datetime.strptime(str(t), "%Y-%m-%d %H:%M:%S.%f")
                 now=datetime.now()
                 return (now-time).days<=5
 
@@ -1007,7 +1010,7 @@ def party():
     if works.count() == 0:
         flash("还没有作品")
 
-    return render_template('wonderland.html',choice=choice,works=works)
+    return render_template('party.html',choice=choice,works=works)
 
 @app.route('/kitchen', methods=['GET', 'POST'])
 def kitchen():
@@ -1023,7 +1026,8 @@ def kitchen():
         works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
             workDatabase.thumbNumWeekly.desc()).limit(10)
     elif choice == '随机推送':
-        works = workDatabase.query.limit(10)
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            workDatabase.thumbNumWeekly.desc()).limit(10)
     else:       #'最热作品'
         works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
             workDatabase.thumbNum.desc()).limit(10)
@@ -1043,13 +1047,13 @@ def kitchen():
             ChooseWork.thumbNum = thumbWork.query.filter_by(workid=thumbUpWorkId).count()+1
             def istoday(t):
                 #当天
-                time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
+                time=datetime.strptime(str(t), "%Y-%m-%d %H:%M:%S.%f")
                 now=datetime.now()
                 return (now-time).days==0
 
             def isThisWeek(t):
                 #本周
-                time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
+                time=datetime.strptime(str(t), "%Y-%m-%d %H:%M:%S.%f")
                 now=datetime.now()
                 return (now-time).days<=5
 
@@ -1066,7 +1070,7 @@ def kitchen():
     if works.count() == 0:
         flash("还没有作品")
 
-    return render_template('wonderland.html',choice=choice,works=works)
+    return render_template('kitchen.html',choice=choice,works=works)
 
 @app.route('/battle', methods=['GET', 'POST'])
 def battle():
@@ -1082,7 +1086,8 @@ def battle():
         works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
             workDatabase.thumbNumWeekly.desc()).limit(10)
     elif choice == '随机推送':
-        works = workDatabase.query.limit(10)
+        works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
+            workDatabase.thumbNumWeekly.desc()).limit(10)
     else:       #'最热作品'
         works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
             workDatabase.thumbNum.desc()).limit(10)
@@ -1102,13 +1107,13 @@ def battle():
             ChooseWork.thumbNum = thumbWork.query.filter_by(workid=thumbUpWorkId).count()+1
             def istoday(t):
                 #当天
-                time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
+                time=datetime.strptime(str(t), "%Y-%m-%d %H:%M:%S.%f")
                 now=datetime.now()
                 return (now-time).days==0
 
             def isThisWeek(t):
                 #本周
-                time=datetime.strptime(t, "%Y-%m-%d %H:%M:%S.%f")
+                time=datetime.strptime(str(t), "%Y-%m-%d %H:%M:%S.%f")
                 now=datetime.now()
                 return (now-time).days<=5
 
@@ -1126,7 +1131,7 @@ def battle():
         flash("还没有作品")
     workes=[]
 
-    return render_template('wonderland.html',choice=choice,works=works)
+    return render_template('battle.html',choice=choice,works=works)
 
 @app.route('/hole', methods=['GET', 'POST'])
 def hole():
@@ -1182,6 +1187,7 @@ def upload():
         flash("作品以上传成功！请等待审核！一张号码券已放入‘我的号码券’！")
     return render_template('upload.html',form=form)
 ###############################################################################################################################
+
 @app.route('/sing', methods=['GET', 'POST'])
 @fresh_login_required
 def sing():
@@ -1289,7 +1295,7 @@ def wishpool():
     sex = current_user.userSex
     wishes = wishDatabase.query.filter(wishDatabase.userStatus == 1, wishDatabase.wishstatus != 3).order_by(
         func.random()).limit(5)
-    thumbUpWishEmail = request.args.get('thu', '')
+    thumbUpWishEmail = request.args.get('email', '')
     if thumbUpWishEmail:
         thumbUpRecord = thumbWish.query.filter_by(wishUserEmail=thumbUpWishEmail,
                                                   thumbUpEmail=current_user.userEmail).first()
@@ -1634,9 +1640,10 @@ class RegisterForm(FlaskForm):
     QQnum = StringField(" QQ 号码", validators=[DataRequired()])
     Telnum = StringField(" 手机号码", validators=[DataRequired()])
     sex = RadioField("性别", choices=[(1, "男"), (0, "女")], validators=[], coerce=int)
-    accept_terms = BooleanField('“是否同意如下授权？\n'
+    accept_terms = BooleanField('是否同意如下授权？\n'
                                 '（1）昵称所有平台用户可见\n'
-                                '（2）填写的联系方式将会呈现给领取你愿望的人/你领取愿望的人，实现你愿望的人/你实现愿望的人，以及匹配中的同学”'
+                                '（2）填写的联系方式将会呈现给领取你愿望的人/你领取愿望的人，实现你愿望的人/你实现愿望的人，以及匹配中的同学\n'
+                                '邮箱显示给匹配同学/领取（许下）愿望同学'
                                 , default='checked', validators=[DataRequired()])
     submit = SubmitField('注册')
 
@@ -1736,6 +1743,9 @@ def register():
             flash("用户邮箱请使用 USTC 校内邮箱地址")
             return redirect(url_for("register"))
         user = User.query.filter_by(userEmail=form.email.data).first()
+        checkuser=User.query.filter_by(userSchoolNum=newuserschoolnum).first()
+        if checkuser is not None:
+            User.query.filter_by(userSchoolNum=newuserschoolnum).delete()
         if user is None:
             user = User(userEmail=newuseremail, userSchoolNum=newuserschoolnum, userQQnum=newuserQQnum,
                         userSex=newusersex, userTelnum=newuserTelnum,
@@ -1959,8 +1969,22 @@ def caslogin():
 def faq():
     return render_template("faq.html")
 
-#db.drop_all()
-#db.create_all()
+def flash_event():
+    events=['做一道菜','唱一首歌','讲一个故事','写一篇影评','读一篇文章','做一道题',
+            '读一首诗','打一局游戏','分享一段手指舞','早睡早起',
+            '和ta进行棋类游戏','室内运动','为ta推荐零食清单','为ta推荐游戏清单','和ta共同完成一幅云涂色',
+            '阅读一小时英文哈利波特','为ta推荐一本书','按时吃早餐']
+    i=0
+    for event in events:
+        i=i+1
+        newrecord=EventDatabase(eventId=i,eventName=event)
+        db.session.add(newrecord)
+        db.session.commit()
 
+def refreshDatabase():
+    db.drop_all()
+    db.create_all()
+    flash_event()
 if __name__ == "__main__":
+    ##refreshDatabase()
     app.run(host='0.0.0.0', port=5000, debug=True)

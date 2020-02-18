@@ -21,7 +21,9 @@ body{background:url({{ url_for('static', filename='img/river_index.jpg') }}) top
                 <p class="card-text"> 打卡人昵称:{{ daily.dailyEventUserNickName }} </p>
                 <p class="card-text">打卡事件:{{ daily.dailyEventName }}</p>
                 <p class="card-text">打卡伙伴昵称:{{ daily.dailyPartnerName }}</p>
-               <p class="card-text">点赞数{{ daily.thumbUpNum }}  <button type="button" id="{{daily.dailyEventId}}" class="btn btn-sm" ><img src="{{ url_for('static', filename='img/before.png') }}"  alt="" /></button> </p>
+                <p class="card-text">点赞数{{ daily.thumbUpNum }}
+                   <button type="button" class="btn btn-sm" id="{{daily.dailyEventId}}"><img src="{{ url_for('static', filename='img/before.png') }}"  alt="" /></button>
+
 			</div>
 		</div>
     {% endfor %}
@@ -37,6 +39,6 @@ body{background:url({{ url_for('static', filename='img/river_index.jpg') }}) top
         {{ render_form(dailyUpForm) }}
         <p>如果匹配双方都进行打卡，双方均可获得号码券一张哦~~</p>
     {% endif %}
-
+    <script src="{{ url_for('static', filename='shareup.js') }}"></script>
 
 {% endblock %}

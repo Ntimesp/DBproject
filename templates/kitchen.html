@@ -5,16 +5,16 @@
 {% block content %}
 <br>
 <div class="btn-group">
-	<a href="{{url_for('party',choice='最热作品')}}">
+	<a href="{{url_for('kitchen',choice='最热作品')}}">
 		<button type="button" class="btn btn-primary btn-lg">最热作品</button>
 	</a>
-	<a href="{{url_for('party',choice='每日新秀')}}">
+	<a href="{{url_for('kitchen',choice='每日新秀')}}">
 		<button type="button" class="btn btn-primary btn-lg">每日新秀</button>
 	</a>
-	<a href="{{url_for('party',choice='每周榜单')}}">
+	<a href="{{url_for('kitchen',choice='每周榜单')}}">
 		<button type="button" class="btn btn-primary btn-lg">每周榜单</button>
 	</a>
-	<a href="{{url_for('party',choice='随机推送')}}">
+	<a href="{{url_for('kitchen',choice='随机推送')}}">
 		<button type="button" class="btn btn-primary btn-lg">随机推送</button>
 	</a>
 </div>
@@ -22,12 +22,12 @@
 	<br>
 	<div class="alert alert-primary" role="alert"> {{ choice }}！！每次刷新可观看 </div>
 	<br>
-	{% for work,image in workes %}
+	{% for work in works %}
 		<br>
 		<div class="card border-primary mb-3" style="max-width: 48rem;">
 			<div class="card-header"> {{work.worktitle}} </div>
             <!--显示图片，还不知道能不能用-->
-            <p><img src="data:image/png;base64,{{ image }}"/></p>
+            <p><img src="{{url_for('static', filename=work.workImgPath)}}"></p>
 			<div class="card-body text-primary">
 				{% for line in work.workContent.split("\n") %}
 					<p class="card-text">{{ line }}</p>
@@ -38,8 +38,10 @@
 		</div>
 	{% endfor %}
 	{% if choice=="随机推送" %}
-		<a type="button" class="btn btn-outline-primary" href="{{ url_for('party',choice='随机推送') }}">换一批</a>
+		<a type="button" class="btn btn-outline-primary" href="{{ url_for('wonderland',choice='随机推送') }}">换一批</a>
 	{% endif %}
+    <a type="button" class="btn btn-primary" href="{{ url_for('show') }}">返回境像show</a>
+    <a type="button" class="btn btn-primary" href="{{ url_for('index') }}">返回主页</a>
+	<script src="{{ url_for('static', filename='kitchen.js') }}"></script>
 </div>
-    	<script src="{{ url_for('static', filename='party.js') }}"></script>
 {% endblock %}

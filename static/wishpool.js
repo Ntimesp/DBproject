@@ -1,7 +1,7 @@
-$(".btn btn-sm").click(function(){
+$(".btn.btn-sm").click(function(){
     $.get("wishpool",
     {
-        thu:$(this).attr("id"),
+        email:$(this).attr("id"),
     },function(data,status){
         alert(data);
     })
