@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% from 'bootstrap/form.html' import render_form, render_field %}
-
+{% block headInsert %}
+<style>
+body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg') }}) top left;background-size:cover;}
+</style>
+{% endblock %}
 
 {% block content %}
 	<br>
@@ -60,8 +64,8 @@
 			<div class="card-header"> 资料卡 </div>
 			<div class="card-body">
 				<h5 class="card-title"> 对方联系方式 </h5>
-				<p class="card-text">对方校内邮箱：<a href="mailto:{{ myselectwish.girlEmail }}">
-                    {{ myselectwish.girlEmail }}</a> 在许愿过程中和对方及时沟通吧 </p>
+				<p class="card-text">对方校内邮箱：
+                    {{ myselectwish.girlEmail }} 在许愿过程中和对方及时沟通吧 </p>
 			</div>
 		</div>
         <br>
@@ -83,9 +87,14 @@
 		<div class="card text-white bg-info mb-3" style="max-width: 48rem;">
 			<div class="card-header"> 资料卡 </div>
 			<div class="card-body">
-                <p class="card-text">对方校内邮箱：<a href="mailto:{{ myselectwish.girlEmail }}">
-                    {{ myselectwish.girlEmail }}</a> 在许愿过程中和对方及时沟通吧 </p>
-			</div>
+                <p class="card-text">对方校内邮箱：
+                    {{ myselectwish.girlEmail }} 在许愿过程中和对方及时沟通吧 </p>
+                    <br>
+                    <p class="card-text"> 电话号码{{ wish.girlTelnum }} </p>
+                    <br>
+                    <p class="card-text"> QQ号码{{ wish.girlQQnum }} </p>
+                <br>
+            </div>
 		</div>
         您已经成功完成任务，女生对你的任务认同情况为
         {% if myselectwish.achievestatus==1 %}

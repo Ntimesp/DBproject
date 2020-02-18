@@ -21,6 +21,7 @@ body{background:url({{ url_for('static', filename='img/river_index.jpg') }}) top
     {% if myBottle.userBottleStatus==0 %}
         {{ render_form(selectBottleform) }}
     {% endif %}
+        <a type="button" class="btn btn-primary" href="{{ url_for('ThrowBottle') }}">刷新页面</a>
         <a type="button" class="btn btn-primary" href="{{ url_for('BottleRiverPick') }}">事件河流</a>
         <a type="button" class="btn btn-primary" href="{{ url_for('shareUp') }}">分享打卡</a>
         <a type="button" class="btn btn-primary" href="{{ url_for('bottleMessage') }}">我的消息</a>

@@ -1,4 +1,4 @@
-$("body").css("background-image","url(static/img/show.png)")
+
 
 $("#buttonRegauler").hover(
     function(){

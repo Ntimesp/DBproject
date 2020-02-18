@@ -1182,7 +1182,7 @@ def upload():
                             worktitle=name,workContent=text,workImgPath=imgname)
         db.session.add(mywork)
         db.session.commit()
-        #InserTicket(current_user.userEmail,current_user.userSchoolNum)
+        InserTicket(current_user.userEmail,current_user.userSchoolNum)
 
         flash("作品以上传成功！请等待审核！一张号码券已放入‘我的号码券’！")
     return render_template('upload.html',form=form)

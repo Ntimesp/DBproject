@@ -1,4 +1,4 @@
-$("body").css("background-image","url(static/img/party.png)")
+
 $(".btn.btn-sm").click(function(){
     $.get("party",
     {

@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% from 'bootstrap/form.html' import render_form, render_field %}
 
+{% block headInsert %}
+<style>
+body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg') }}) top left;background-size:cover;}
+</style>
+{% endblock %}
 
 {% block content %}
 <h1>愿望实现活动手册 (常见问题解答)</h1>

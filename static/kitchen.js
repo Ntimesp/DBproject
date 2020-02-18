@@ -1,4 +1,4 @@
-$("body").css("background-image","url(static/img/wonderland.png)")
+
 $(".btn.btn-sm").click(function(){
     $.get("kitchen",
     {

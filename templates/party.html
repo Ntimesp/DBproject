@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
 {% from 'bootstrap/form.html' import render_form, render_field %}
-
+{% block headInsert %}
+<style>
+body{background:url({{ url_for('static', filename='img/party.png') }}) top left;background-size:cover;background-repeat: no-repeat}
+</style>
+{% endblock %}
 {% block content %}
 <br>
 <div class="btn-group">
