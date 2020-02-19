@@ -353,13 +353,13 @@ class thumbUpDailyCount(db.Model):
 
 class riverStatus():
     riverStatusNum = 0
-    riverTime = "2020-02-1 00:00:00.000000"
+    riverTime = "2020-02-22 00:00:00.000000"
 
 
 River = riverStatus()
-River.riverTime = "2020-02-1 00:00:00.000000"
+River.riverTime = "2020-02-22 00:00:00.000000"
 LastTimeAtLeast = 24*3600
-LastTimeAtLeastCheck=10
+LastTimeAtLeastCheck=24*3600
 
 
 ## set the LastTimeAtLeast=1 for test
@@ -396,12 +396,12 @@ def checkRiverStatus():
     nowtime = datetime.now()
     bottleboyNum = bottleDatabase.query.filter_by(userBottleStatus=1, userSex=1).count()
     bottlegirlNum = bottleDatabase.query.filter_by(userBottleStatus=1, userSex=0).count()
-    '''
+
     if (bottleboyNum<15 or bottlegirlNum<15 or (bottlegirlNum+bottleboyNum)<40) and (nowtime-lasttime).total_seconds()>=0:
         #进入节水期
         River.riverTime=str(nowtime+timedelta(days=1).strptime("%Y-%m-%d %H:%M:%S.%f"))
         River.riverStatusNum=0
-    '''
+
     lasttime = datetime.strptime(str(River.riverTime), "%Y-%m-%d %H:%M:%S.%f")
     if (nowtime - lasttime).total_seconds() >= 0:
         River.riverStatusNum = 1
