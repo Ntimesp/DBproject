@@ -358,7 +358,8 @@ class riverStatus():
 
 River = riverStatus()
 River.riverTime = "2020-02-1 00:00:00.000000"
-LastTimeAtLeast = 10
+LastTimeAtLeast = 24*3600
+LastTimeAtLeastCheck=10
 
 
 ## set the LastTimeAtLeast=1 for test
@@ -570,7 +571,7 @@ def ThrowBottle():
     nowTime = datetime.now()
     if myBottle.userBottleStatus == 2:
         lastTime = datetime.strptime(str(myBottle.BePartenerTime), "%Y-%m-%d %H:%M:%S.%f")
-        if (nowTime - lastTime).total_seconds() >= 7 * LastTimeAtLeast:
+        if (nowTime - lastTime).total_seconds() >= 5 * LastTimeAtLeast:
             myBottle.userBottleStatus = 0
             db.session.commit()
             return redirect(url_for('ThrowBottle'))
@@ -660,7 +661,7 @@ def BottleRiverPick():
         db.session.commit()
         return redirect(url_for('ThrowBottle'))
     lasttime = datetime.strptime(str(myBottle.bottleLastTime), "%Y-%m-%d %H:%M:%S.%f")
-    if (timenow - lasttime).total_seconds() >= LastTimeAtLeast and myBottle.userBottleStatus == 1 and myBottle.userSalvageStatus != 1:
+    if (timenow - lasttime).total_seconds() >= LastTimeAtLeastCheck and myBottle.userBottleStatus == 1 and myBottle.userSalvageStatus != 1:
         myBottle.userSalvageStatus = 1
         db.session.commit()
         return redirect(url_for('BottleRiverPick'))
