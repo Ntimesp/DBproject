@@ -348,7 +348,8 @@ class riverStatus():
 
 River=riverStatus()
 River.riverTime="2020-02-1 00:00:00.000000"
-LastTimeAtLeast=10
+LastTimeAtLeast=24*3600
+ThrowLastTimeAtLeast=10
 ## set the LastTimeAtLeast=1 for test
 ## for reality it is 24*3600( 1 day )
 
@@ -394,6 +395,8 @@ class chooseCompareForm(FlaskForm):
     chooseCompare=RadioField("我要选择和同伴一起完成的事件：", choices=[(i, "%d 号漂流瓶" % i) for i in range(1, 6)],
                         validators=[], coerce=int)
     chooseBottle = SubmitField("选择漂流瓶")
+
+
 class chooseRefreshForm(FlaskForm):
     refresh2= SubmitField( "换一批")
 
@@ -532,7 +535,7 @@ def ThrowBottle():
     nowTime = datetime.now()
     if myBottle.userBottleStatus==2:
         lastTime=datetime.strptime(myBottle.BePartenerTime, "%Y-%m-%d %H:%M:%S.%f")
-        if(nowTime-lastTime).total_seconds()>=7*LastTimeAtLeast:
+        if(nowTime-lastTime).total_seconds()>=5*LastTimeAtLeast:
             myBottle.userBottleStatus=0
             db.session.commit()
             return redirect(url_for('ThrowBottle'))
@@ -620,7 +623,7 @@ def BottleRiverPick():
         db.session.commit()
         return redirect(url_for('ThrowBottle'))
     lasttime = datetime.strptime(myBottle.bottleLastTime, "%Y-%m-%d %H:%M:%S.%f")
-    if (timenow - lasttime).total_seconds() >= LastTimeAtLeast and myBottle.userBottleStatus==1 and myBottle.userSalvageStatus!=1 :
+    if (timenow - lasttime).total_seconds() >= ThrowLastTimeAtLeast and myBottle.userBottleStatus==1 and myBottle.userSalvageStatus!=1 :
         myBottle.userSalvageStatus=1
         db.session.commit()
         return redirect(url_for('BottleRiverPick'))
@@ -632,7 +635,7 @@ def BottleRiverPick():
         flash('暂时没有足够的异性的瓶子，可能系统正在计算，河流即将节水期，请刷新页面后重试')
         return redirect(url_for('BottleRiverPick'))
     setattr(chooseCompareForm, 'chooseCompare',
-            RadioField("我要选择和同伴一起完成的事件", choices=[(event.userBottleId, event.eventName) for event in chooseBottles],validators=[], coerce=int))
+            RadioField("我要选择和同伴一起完成的事件", choices=[(event.userBottleId, event.eventName+'   '+event.userNickName) for event in chooseBottles],validators=[], coerce=int))
     if chooseCompare.validate_on_submit() and chooseCompare.chooseBottle.data:
         if myBottle.userSalvageStatus==0:
             flash('你暂时还没有打捞资格,或者你选取的对象还没有回应')
@@ -646,6 +649,9 @@ def BottleRiverPick():
                 return redirect(url_for('BottleRiverPick'))
             bottleNum=chooseCompare.chooseCompare.data
             partnerBottle=bottleDatabase.query.filter_by(userBottleId=bottleNum).first()
+            if partnerBottle is None:
+                flash('选择失败，系统可能存在问题')
+                return redirect(url_for('BottleRiverPick'))
             if partnerBottle.userBottleStatus==2:
                 flash('非常抱歉，你选取的漂流瓶的主人已经和别人达成了同伴关系，你可以重新刷新页面选取漂流瓶')
                 return redirect(url_for('BottleRiverPick'))
@@ -699,23 +705,23 @@ def bottleMessage():
         db.session.commit()
         return redirect(url_for('bottleMessage'))
     riverStatus,LeftTime=checkRiverStatus()
-    myReceiveInvite=bottleDatabase.query.filter(not_(bottleDatabase.userBottleStatus == 2),bottleDatabase.partnerEmail==current_user.userEmail,
-                                                   bottleDatabase.partnerSchoolNum==current_user.userSchoolNum,bottleDatabase.userBySalvageStatus==1)
+    myReceiveInvite=bottleDatabase.query.filter(not_(bottleDatabase.userBottleStatus == 2),bottleDatabase.partnerEmail==myBottle.userEmail,
+                                                   bottleDatabase.partnerSchoolNum==myBottle.userSchoolNum,bottleDatabase.userBySalvageStatus==1)
     myReceiveInviteNum=myReceiveInvite.count()
     checkpartnerform=CheckPartnerform()
     receiveInviteform=ReceiveInviteForm()
 
-    #超过7天后登陆直接解除同伴关系
+    #超过5天后登陆直接解除同伴关系
     if myBottle.userBottleStatus==2:
        lasttime = datetime.strptime(myBottle.BePartenerTime, "%Y-%m-%d %H:%M:%S.%f")
        timenow = datetime.now()
-       if (timenow-lasttime).total_seconds()>=7*LastTimeAtLeast:
+       if (timenow-lasttime).total_seconds()>=5*LastTimeAtLeast:
            partnerBottle = bottleDatabase.query.filter_by(userEmail=myBottle.partnerEmail,
                                                           userSchoolNum=myBottle.partnerSchoolNum).first()
            if partnerBottle is None:
                myBottle.userBottleStatus=0
                myBottle.userSalvageStatus=0
-               userBySalvageStatus=0
+               myBottle.userBySalvageStatus=0
                db.session.commit()
                flash('因为你没有及时续约，你的同伴已经取消，请返回愿望池重新投瓶，')
                return redirect(url_for('bottleMessage'))
@@ -750,6 +756,13 @@ def bottleMessage():
                 myBottle.userBottleStatus=2
                 myBottle.userSalvageStatus=0
                 myBottle.userBySalvageStatus=0
+                myBottle.partnerSchoolNum=partnerBottle.userSchoolNum
+                myBottle.partnerEmail=partnerBottle.userEmail
+                myBottle.partnerNickName=partnerBottle.userNickName
+                myBottle.partnerTelnum=partnerBottle.userTelnum
+                myBottle.partnerQQnum=partnerBottle.userQQnum
+                myBottle.partnerEventId=partnerBottle.eventId
+                myBottle.partnerEventName=partnerBottle.eventName
                 partnerBottle.userBySalvageStatus=0
                 partnerBottle.userBottleStatus=2
                 partnerBottle.userSavageStatus=0
@@ -758,6 +771,8 @@ def bottleMessage():
                 partnerBottle.partnerQQnum=myBottle.userQQnum
                 partnerBottle.partnerTelnum=myBottle.userTelnum
                 partnerBottle.partnerNickName=myBottle.userNickName
+                partnerBottle.partnerEventId=myBottle.eventId
+                partnerBottle.partnerEventName=myBottle.eventName
                 db.session.commit()
                 flash('你们已经成为了同伴，可以一起打卡咯！！')
                 return redirect(url_for('bottleMessage'))
@@ -813,6 +828,13 @@ def bottleMessage():
             myBottle.userBottleStatus=2
             myBottle.userSalvageStatus=0
             myBottle.userBySalvageStatus=0
+            myBottle.partnerSchoolNum = AcceptPartner.userSchoolNum
+            myBottle.partnerEmail = AcceptPartner.userEmail
+            myBottle.partnerNickName = AcceptPartner.userNickName
+            myBottle.partnerTelnum = AcceptPartner.userTelnum
+            myBottle.partnerQQnum = AcceptPartner.userQQnum
+            myBottle.partnerEventId = AcceptPartner.eventId
+            myBottle.partnerEventName = AcceptPartner.eventName
             AcceptPartner.BePartenerTime=str(timenow)
             AcceptPartner.userBySalvageStatus=0
             AcceptPartner.userBottleStatus=2
@@ -822,6 +844,8 @@ def bottleMessage():
             AcceptPartner.partnerQQnum=myBottle.userQQnum
             AcceptPartner.partnerTelnum=myBottle.userTelnum
             AcceptPartner.partnerNickName=myBottle.userNickName
+            AcceptPartner.partnerEventId=partnerBottle.eventId
+            AcceptPartner.partnerEventNmae=partnerBottle.eventName
             db.session.commit()
             flash('你们已经成为了同伴，可以一起打卡咯！！')
             return redirect(url_for('bottleMessage'))
@@ -924,17 +948,17 @@ def wonderland():
             ChooseWork = workDatabase.query.filter_by(workid=thumbUpWorkId).first()
 
             ChooseWork.thumbNum = thumbWork.query.filter_by(workid=thumbUpWorkId).count()+1
-            # def istoday(t):
-            #     #当天
-            #     time=datetime.strptime(str(t), "%Y-%m-%d %H:%M:%S.%f")
-            #     now=datetime.now()
-            #     return (now-time).days==0
+            def istoday(t):
+                 #当天
+                 time=datetime.strptime(str(t), "%Y-%m-%d %H:%M:%S.%f")
+                 now=datetime.now()
+                 return (now-time).days==0
 
-            # def isThisWeek(t):
-            #     #本周
-            #     time=datetime.strptime(str(t), "%Y-%m-%d %H:%M:%S.%f")
-            #     now=datetime.now()
-            #     return (now-time).days<=5
+            def isThisWeek(t):
+                 #本周
+                 time=datetime.strptime(str(t), "%Y-%m-%d %H:%M:%S.%f")
+                 now=datetime.now()
+                 return (now-time).days<=5
 
             ChooseWork.thumbNumDaily = thumbWork.query.filter_by(workid=thumbUpWorkId).count()+1
             ChooseWork.thumbNumWeekly = thumbWork.query.filter_by(workid=thumbUpWorkId).count()+1
@@ -1743,7 +1767,8 @@ def register():
         user = User.query.filter_by(userEmail=form.email.data).first()
         checkuser=User.query.filter_by(userSchoolNum=newuserschoolnum).first()
         if checkuser is not None:
-            User.query.filter_by(userSchoolNum=newuserschoolnum).delete()
+           flash('该学号已经被注册，请检查是否已经注册过了账户，到修改密码的地方更换')
+           return redirect(url_for("register"))
         if user is None:
             user = User(userEmail=newuseremail, userSchoolNum=newuserschoolnum, userQQnum=newuserQQnum,
                         userSex=newusersex, userTelnum=newuserTelnum,
@@ -1968,11 +1993,10 @@ def faq():
     return render_template("faq.html")
 
 def flash_event():
-    events=['做一道菜','唱一首歌','讲一个故事','写一篇影评','读一篇文章','做一道题',
-            '读一首诗','打一局游戏','分享一段手指舞','早睡早起',
-            '和ta进行棋类游戏','室内运动','为ta推荐零食清单','为ta推荐游戏清单','和ta共同完成一幅云涂色',
-            '阅读一小时英文哈利波特','为ta推荐一本书','按时吃早餐']
-    i=0
+    events=['背单词','看日出','和ta同步自习','打数理基础',
+            '摄影','每天早上电话叫醒对方','学习Matlab','看剧','折纸','分享恋爱经历&经验','每日睡前故事','每天写日记'
+            '每天制作手账']
+    i=19
     for event in events:
         i=i+1
         newrecord=EventDatabase(eventId=i,eventName=event)
@@ -1986,4 +2010,5 @@ def refreshDatabase():
 
 if __name__ == "__main__":
     ##refreshDatabase()
+    ##flash_event()
     app.run(host='0.0.0.0', port=5000, debug=True)
