@@ -63,9 +63,13 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
 		<div class="card text-white bg-info mb-3" style="max-width: 48rem;">
 			<div class="card-header"> 资料卡 </div>
 			<div class="card-body">
-				<h5 class="card-title"> 对方联系方式 </h5>
-				<p class="card-text">对方校内邮箱：
+                <p class="card-text">对方校内邮箱：
                     {{ myselectwish.girlEmail }} 在许愿过程中和对方及时沟通吧 </p>
+                    <br>
+                    <p class="card-text"> 电话号码{{ myselectwish.girlTelnum }} </p>
+                    <br>
+                    <p class="card-text"> QQ号码{{ myselectwish.girlQQnum }} </p>
+                <br>
 			</div>
 		</div>
         <br>

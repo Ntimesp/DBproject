@@ -482,11 +482,11 @@ def shareUp():
             db.session.add(ChooseWish)
             db.session.add(thumbUpRecords)
             db.session.commit()
-           ## flash('点赞成功')
-            redirect(url_for('shareUp'))
+            flash('点赞成功')
+            return redirect(url_for('shareUp'))
         else:
-            ##flash('无法点赞，可能您已经为该愿望点赞了，或者存在其他系统故障')
-            redirect(url_for('shareUp'))
+            flash('无法点赞，可能您已经为该愿望点赞了，或者存在其他系统故障')
+            return redirect(url_for('shareUp'))
         # checkdailyEvents.thumbUpNum=checkdailyEvents+1
 
     if  dailyUpForm.submit.data:
@@ -505,7 +505,7 @@ def shareUp():
             InserTicket(myBottle.userEmail, myBottle.userSchoolNum)
             InserTicket(myBottle.partnerEmail, myBottle.partnerSchoolNum)
             flash('您和您的同伴获得了一张奖券')
-        redirect(url_for('shareUp'))
+        return redirect(url_for('shareUp'))
 
     return render_template('holiday/shareUp.html', check=check, dailyEvents=dailyEvents
                            , dailyUpForm=dailyUpForm, dailyCheck=dailyCheck)
