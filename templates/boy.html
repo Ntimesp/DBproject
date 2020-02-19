@@ -105,7 +105,8 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
             同意你已经完成，可以点击下面按钮再刷新领取任务</p>
             {{ render_form(refreshwishform) }}
     {% endif %}
-    	{% if myselectwish.wishstatus == 2 and myselectwish.achievestatus==0 %}
+
+    {% if myselectwish.wishstatus == 2 and myselectwish.achievestatus==0 %}
 		<br>
 		<span class="badge badge-success">已完成</span>
 		<div class="card border-success mb-3" style="max-width: 48rem;">
@@ -135,7 +136,7 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
 
     <br>
     {% if achieveNum>0 %}
-    <p>您已经完成的愿望如下</p>
+    <p style='color:white'>您已经完成的愿望如下</p>
         {% for wish in achieveWishes %}
             <br>
             <div class="card border-primary mb-3" style="max-width: 48rem;">

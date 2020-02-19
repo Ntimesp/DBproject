@@ -1534,7 +1534,7 @@ def boy():
                                                 userSchoolNum=current_user.userSchoolNum).first()
         girllog = wishDatabase.query.filter_by(userEmail=myrecord.girlEmail).first()
         if (myrecord is not None) and (girllog is not None):
-            myrecord.wishstatus = 2
+            myrecord.wishstatus = 0
             girllog.wishstatus = 2
             db.session.add(myrecord)
             db.session.add(girllog)
