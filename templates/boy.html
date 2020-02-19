@@ -17,7 +17,7 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
 		</div>
 		<br>
 	{% endif %}
-	{% if magiccode %}
+	{% if myselectwish.wishstatus == 0 %}
 		<br>
 		<br>
 		<div class="alert alert-danger" role="alert">
@@ -63,7 +63,8 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
 		<div class="card text-white bg-info mb-3" style="max-width: 48rem;">
 			<div class="card-header"> 资料卡 </div>
 			<div class="card-body">
-                <p class="card-text">对方校内邮箱：
+                <p class="card-text">
+                    对方校内邮箱：
                     {{ myselectwish.girlEmail }} 在许愿过程中和对方及时沟通吧 </p>
                     <br>
                     <p class="card-text"> 电话号码{{ myselectwish.girlTelnum }} </p>
@@ -100,7 +101,7 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
                 <br>
             </div>
 		</div>
-        <p style='color:white'>您已经成功完成任务，女生对你的任务认同情况为
+        <p style='color:blue'>您已经成功完成任务，女生对你的任务认同情况为
             <br>
             同意你已经完成，可以点击下面按钮再刷新领取任务</p>
             {{ render_form(refreshwishform) }}
@@ -129,14 +130,14 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
                 <br>
             </div>
 		</div>
-        <p style='color:white'>您已经成功完成任务，女生对你的任务认同情况为
+        <p style='color:blue'>您已经成功完成任务，女生对你的任务认同情况为
             <br>
             未认同你已经完成，请联系女生确认完成</p>
     {% endif %}
 
     <br>
     {% if achieveNum>0 %}
-    <p style='color:white'>您已经完成的愿望如下</p>
+    <p style='color:blue'>您已经完成的愿望如下</p>
         {% for wish in achieveWishes %}
             <br>
             <div class="card border-primary mb-3" style="max-width: 48rem;">
