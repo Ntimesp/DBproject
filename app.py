@@ -465,17 +465,17 @@ def shareUp():
     if checkdailyEvents is None:
         dailyCheck = 0
     thumbUpformDaily = ThumbUpFormDaily()
-    dailyUpForm = DailyUpForm()
-    if   thumbUpformDaily.thumbup.data:
+    thumbUpWorkId = request.args.get('workid', '')
+    if thumbUpWorkId:
         myBottle = bottleDatabase.query.filter_by(userEmail=current_user.userEmail,
                                                   userSchoolNum=current_user.userSchoolNum).first()
-        thumbUpRecord = thumbUpDailyCount.query.filter_by(dailyId=checkdailyEvents.dailyEventId,
+        thumbUpRecord = thumbUpDailyCount.query.filter_by(dailyId=thumbUpWorkId,
                                                           userEmail=myBottle.userEmail).first()
         if thumbUpRecord is None:
             thumbID = thumbUpDailyCount.query.count() + 1
-            thumbUpRecords = thumbUpDailyCount(thumbupDailyId=thumbID, dailyId=checkdailyEvents.dailyEventId,
+            thumbUpRecords = thumbUpDailyCount(thumbupDailyId=thumbID, dailyId=thumbUpWorkId,
                                                userEmail=myBottle.userEmail)
-            ChooseWish = dailyEventDatabase.query.filter_by(dailyEventId=checkdailyEvents.dailyEventId).first()
+            ChooseWish = dailyEventDatabase.query.filter_by(dailyEventId=thumbUpWorkId).first()
             ChooseWish.thumbUpNum = ChooseWish.thumbUpNum + 1
             db.session.add(ChooseWish)
             db.session.add(thumbUpRecords)
@@ -486,6 +486,7 @@ def shareUp():
             flash("无法点赞，可能您已经为该愿望点赞了，或者存在其他系统故障")
             redirect(url_for('shareUp'))
         # checkdailyEvents.thumbUpNum=checkdailyEvents+1
+
     if dailyUpForm.validate_on_submit() and dailyUpForm.submit.data:
         dailyEventNum = dailyEventDatabase.query.count() + 1
         newRecord = dailyEventDatabase(dailyEventId=dailyEventNum, dailyEventName=myBottle.eventName,
