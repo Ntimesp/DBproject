@@ -34,9 +34,8 @@ body{background:url({{ url_for('static', filename='img/river_index.jpg') }}) top
     <p>你暂时还没有匹配对象，暂时不能打卡，可以前往事件河流捞取打卡对象或者前往投放自己的事件瓶</p>
     {%  else%}
         <h5>我要打卡！！</h5>
-        <p>我们的每日事件已成功get√，小可爱要打卡~</p>
+        <p>我们的故事，从这里开始…记录一点一滴的进步和喜悦。</p>
         {{ render_form(dailyUpForm) }}
-        <p>如果匹配双方都进行打卡，双方均可获得号码券一张哦~~</p>
     {% endif %}
     <script src="{{ url_for('static', filename='shareup.js') }}"></script>
 
