@@ -322,7 +322,7 @@ class dailyCheckDatabase(db.Model):
 def querydailyCheckDatabase(userEmail, UserSchoolNum):
     today = datetime.now().strftime("%Y-%m-%d")
     userCheckEvent = dailyCheckDatabase.query.filter_by(dailyUserEmail=userEmail, dailyUserSchoolNum=UserSchoolNum,
-                                                        dailyDateTime=today)
+                                                        dailyDateTime=today).all()
     if userCheckEvent is None:
         return False
     else:
@@ -330,8 +330,10 @@ def querydailyCheckDatabase(userEmail, UserSchoolNum):
 
 
 def AdddailyCheckDatabase(userEmail, UserSchoolNum):
-    checkinDatabase = querydailyCheckDatabase(userEmail, UserSchoolNum)
-    if checkinDatabase == True:
+    today = datetime.now().strftime("%Y-%m-%d")
+    userCheckEvent = dailyCheckDatabase.query.filter_by(dailyUserEmail=userEmail, dailyUserSchoolNum=UserSchoolNum,
+                                                        dailyDateTime=today).all()
+    if userCheckEvent is not None:
         return False
     else:
         newId = dailyCheckDatabase.query.count()+1
