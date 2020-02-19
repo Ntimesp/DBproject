@@ -1,0 +1,1896 @@
+ * Serving Flask app "app" (lazy loading)
+ * Environment: production
+   WARNING: Do not use the development server in a production environment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 122-266-494
+220.188.96.87 - - [19/Feb/2020 00:27:29] "[1m[35mGET / HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 2309, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 2295, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1741, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/lib64/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/lib64/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/jxs/pyvenv/USTCstunion_girl_days/app.py", line 1697, in index
+    if current_user.is_anonymous:
+  File "/usr/lib64/python3.6/site-packages/werkzeug/local.py", line 347, in __getattr__
+    return getattr(self._get_current_object(), name)
+  File "/usr/lib64/python3.6/site-packages/werkzeug/local.py", line 306, in _get_current_object
+    return self.__local()
+  File "/usr/lib/python3.6/site-packages/flask_login/utils.py", line 26, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+  File "/usr/lib/python3.6/site-packages/flask_login/utils.py", line 335, in _get_user
+    current_app.login_manager._load_user()
+  File "/usr/lib/python3.6/site-packages/flask_login/login_manager.py", line 359, in _load_user
+    return self.reload_user()
+  File "/usr/lib/python3.6/site-packages/flask_login/login_manager.py", line 321, in reload_user
+    user = self.user_callback(user_id)
+  File "/home/jxs/pyvenv/USTCstunion_girl_days/app.py", line 173, in loadUser
+    return User.query.filter_by(id=int(user_id)).first()
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/orm/query.py", line 2895, in first
+    ret = list(self[0:1])
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/orm/query.py", line 2687, in __getitem__
+    return list(res)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/orm/query.py", line 2995, in __iter__
+    return self._execute_and_instances(context)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/orm/query.py", line 3016, in _execute_and_instances
+    close_with_result=True)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/orm/query.py", line 3025, in _get_bind_args
+    **kw
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/orm/query.py", line 3007, in _connection_from_session
+    conn = self.session.connection(**kw)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/orm/session.py", line 1046, in connection
+    execution_options=execution_options)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/orm/session.py", line 1051, in _connection_for_bind
+    engine, execution_options)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/orm/session.py", line 409, in _connection_for_bind
+    conn = bind.contextual_connect()
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/engine/base.py", line 2123, in contextual_connect
+    self._wrap_pool_connect(self.pool.connect, None),
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/engine/base.py", line 2158, in _wrap_pool_connect
+    return fn()
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/pool.py", line 400, in connect
+    return _ConnectionFairy._checkout(self)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/pool.py", line 788, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/pool.py", line 529, in checkout
+    rec = pool._do_get()
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/pool.py", line 1193, in _do_get
+    self._dec_overflow()
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/util/langhelpers.py", line 66, in __exit__
+    compat.reraise(exc_type, exc_value, exc_tb)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/util/compat.py", line 249, in reraise
+    raise value
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/pool.py", line 1190, in _do_get
+    return self._create_connection()
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/pool.py", line 347, in _create_connection
+    return _ConnectionRecord(self)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/pool.py", line 474, in __init__
+    self.__connect(first_connect_check=True)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/pool.py", line 681, in __connect
+    exec_once(self.connection, self)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/event/attr.py", line 274, in exec_once
+    self(*args, **kw)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/event/attr.py", line 284, in __call__
+    fn(*args, **kw)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/util/langhelpers.py", line 1334, in go
+    return once_fn(*arg, **kw)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/engine/strategies.py", line 183, in first_connect
+    dialect.initialize(c)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/dialects/mysql/base.py", line 1914, in initialize
+    self._detect_sql_mode(connection)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/dialects/mysql/base.py", line 2315, in _detect_sql_mode
+    connection.execute("SHOW VARIABLES LIKE 'sql_mode'"),
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/engine/base.py", line 942, in execute
+    return self._execute_text(object, multiparams, params)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/engine/base.py", line 1104, in _execute_text
+    statement, parameters
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/engine/base.py", line 1200, in _execute_context
+    context)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/engine/base.py", line 1413, in _handle_dbapi_exception
+    exc_info
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/util/compat.py", line 265, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/util/compat.py", line 248, in reraise
+    raise value.with_traceback(tb)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/engine/base.py", line 1193, in _execute_context
+    context)
+  File "/usr/lib64/python3.6/site-packages/sqlalchemy/engine/default.py", line 509, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/lib64/python3.6/site-packages/MySQLdb/cursors.py", line 206, in execute
+    res = self._query(query)
+  File "/usr/lib64/python3.6/site-packages/MySQLdb/cursors.py", line 312, in _query
+    db.query(q)
+  File "/usr/lib64/python3.6/site-packages/MySQLdb/connections.py", line 224, in query
+    _mysql.connection.query(self, query)
+sqlalchemy.exc.ProgrammingError: (MySQLdb._exceptions.ProgrammingError) (1146, "Table 'performance_schema.session_variables' doesn't exist") [SQL: "SHOW VARIABLES LIKE 'sql_mode'"] (Background on this error at: http://sqlalche.me/e/f405)
+220.188.96.87 - - [19/Feb/2020 00:27:29] "[37mGET / HTTP/1.1[0m" 200 -
+220.188.96.87 - - [19/Feb/2020 00:27:31] "[37mGET /wish HTTP/1.1[0m" 200 -
+220.188.96.87 - - [19/Feb/2020 00:27:33] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+220.188.96.87 - - [19/Feb/2020 00:27:33] "[37mGET /static/img/wish_letter.jpg HTTP/1.1[0m" 200 -
+220.188.96.87 - - [19/Feb/2020 00:27:33] "[37mGET /static/img/before.png HTTP/1.1[0m" 200 -
+220.188.96.87 - - [19/Feb/2020 00:28:43] "[37mGET / HTTP/1.1[0m" 200 -
+220.188.96.87 - - [19/Feb/2020 00:28:44] "[37mGET / HTTP/1.1[0m" 200 -
+220.188.96.87 - - [19/Feb/2020 00:28:46] "[37mGET / HTTP/1.1[0m" 200 -
+223.104.7.134 - - [19/Feb/2020 00:34:47] "[32mGET /girl HTTP/1.1[0m" 302 -
+223.104.7.134 - - [19/Feb/2020 00:34:47] "[37mGET / HTTP/1.1[0m" 200 -
+223.104.7.134 - - [19/Feb/2020 00:34:47] "[37mGET /login HTTP/1.1[0m" 200 -
+223.104.7.134 - - [19/Feb/2020 00:34:47] "[33mGET /apple-touch-icon-120x120-precomposed.png HTTP/1.1[0m" 404 -
+223.104.7.134 - - [19/Feb/2020 00:34:48] "[33mGET /apple-touch-icon-120x120.png HTTP/1.1[0m" 404 -
+223.104.7.134 - - [19/Feb/2020 00:34:48] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+223.104.7.134 - - [19/Feb/2020 00:34:48] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+223.104.7.134 - - [19/Feb/2020 00:34:48] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.104.7.134 - - [19/Feb/2020 00:34:48] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+223.104.7.134 - - [19/Feb/2020 00:34:48] "[33mGET /apple-touch-icon-120x120-precomposed.png HTTP/1.1[0m" 404 -
+223.104.7.134 - - [19/Feb/2020 00:34:49] "[33mGET /apple-touch-icon-120x120.png HTTP/1.1[0m" 404 -
+223.104.7.134 - - [19/Feb/2020 00:34:49] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+223.104.7.134 - - [19/Feb/2020 00:34:49] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+223.104.7.134 - - [19/Feb/2020 00:34:49] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.104.7.134 - - [19/Feb/2020 00:34:49] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+180.163.220.3 - - [19/Feb/2020 03:04:58] "[37mGET / HTTP/1.1[0m" 200 -
+180.163.220.5 - - [19/Feb/2020 03:04:58] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+180.163.220.5 - - [19/Feb/2020 03:04:58] "[37mGET / HTTP/1.1[0m" 200 -
+180.163.220.4 - - [19/Feb/2020 03:04:58] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+180.163.220.66 - - [19/Feb/2020 03:04:59] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+180.163.220.67 - - [19/Feb/2020 03:04:59] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+180.163.220.3 - - [19/Feb/2020 03:05:00] "[37mGET /static/img/index.jpg HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:46:27] "[37mGET / HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:46:28] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:46:28] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:46:28] "[37mGET /static/img/index.jpg HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:46:28] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+114.230.57.92 - - [19/Feb/2020 07:46:31] "[32mGET /show HTTP/1.1[0m" 302 -
+114.230.57.92 - - [19/Feb/2020 07:46:31] "[37mGET /login HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:46:35] "[37mGET /register HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:46:48] "[32mPOST /register HTTP/1.1[0m" 302 -
+114.230.57.92 - - [19/Feb/2020 07:46:48] "[37mGET /login HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:11] "[32mGET /confirm/eyJhbGciOiJIUzI1NiIsImlhdCI6MTU4MjA2OTYwOCwiZXhwIjoxNTgyMDczMjA4fQ.eyJjb25maXJtIjo3fQ.qfd6IEdmYQnqtZBWU_Mo7oIorm3Ux9mMNP2oizf0aM0 HTTP/1.1[0m" 302 -
+114.230.57.92 - - [19/Feb/2020 07:47:11] "[37mGET /login HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:20] "[32mPOST /login HTTP/1.1[0m" 302 -
+114.230.57.92 - - [19/Feb/2020 07:47:20] "[37mGET / HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:24] "[32mGET /confirm/eyJhbGciOiJIUzI1NiIsImlhdCI6MTU4MjA2OTYwOCwiZXhwIjoxNTgyMDczMjA4fQ.eyJjb25maXJtIjo3fQ.qfd6IEdmYQnqtZBWU_Mo7oIorm3Ux9mMNP2oizf0aM0 HTTP/1.1[0m" 302 -
+114.230.57.92 - - [19/Feb/2020 07:47:24] "[37mGET / HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:30] "[37mGET /show HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:30] "[37mGET /static/show.js HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:30] "[37mGET /static/img/show_index.jpg HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:30] "[37mGET /static/img/kitchen.png HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:30] "[37mGET /static/img/show.png HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:31] "[37mGET /static/img/The_Mad_Tea_Party.jpg HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:31] "[37mGET /static/img/wonderland.png HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:33] "[37mGET /wonderland HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:33] "[37mGET /static/userimg/16.jpg HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:33] "[37mGET /static/img/before.png HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:33] "[37mGET /static/userimg/8EB442434-4AB4-439E-9B53-3D1ACD61C2D9.png HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:33] "[37mGET /static/userimg/56.jpg HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:33] "[37mGET /static/wonderland.js HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:33] "[37mGET /static/userimg/9EB442434-4AB4-439E-9B53-3D1ACD61C2D9.png HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:33] "[37mGET /static/userimg/10EB442434-4AB4-439E-9B53-3D1ACD61C2D9.png HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:33] "[37mGET /static/userimg/111709.05748.pdf HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:41] "[37mGET /wonderland?workid=8 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:52] "[37mGET /wonderland HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:52] "[37mGET /static/userimg/111709.05748.pdf HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:54] "[37mGET /wonderland HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:47:54] "[37mGET /static/userimg/111709.05748.pdf HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:10] "[37mGET /wonderland?workid=1 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:12] "[37mGET /wonderland HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:12] "[37mGET /static/userimg/111709.05748.pdf HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:14] "[37mGET /wonderland?workid=1 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:22] "[37mGET /wonderland?choice=%E6%AF%8F%E6%97%A5%E6%96%B0%E7%A7%80 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:23] "[37mGET /static/userimg/111709.05748.pdf HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:24] "[37mGET /wonderland?choice=%E9%9A%8F%E6%9C%BA%E6%8E%A8%E9%80%81 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:24] "[37mGET /static/userimg/111709.05748.pdf HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:25] "[37mGET /wonderland?choice=%E9%9A%8F%E6%9C%BA%E6%8E%A8%E9%80%81 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:25] "[37mGET /static/userimg/111709.05748.pdf HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:26] "[37mGET /wonderland?choice=%E9%9A%8F%E6%9C%BA%E6%8E%A8%E9%80%81 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:26] "[37mGET /static/userimg/111709.05748.pdf HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:28] "[37mGET /wonderland?choice=%E9%9A%8F%E6%9C%BA%E6%8E%A8%E9%80%81 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:28] "[37mGET /static/userimg/111709.05748.pdf HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:31] "[37mGET /wonderland?choice=%E9%9A%8F%E6%9C%BA%E6%8E%A8%E9%80%81 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:32] "[37mGET /static/userimg/111709.05748.pdf HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:38] "[37mGET /wonderland?choice=%E9%9A%8F%E6%9C%BA%E6%8E%A8%E9%80%81 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:38] "[37mGET /static/userimg/111709.05748.pdf HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:45] "[37mGET /wonderland?choice=%E9%9A%8F%E6%9C%BA%E6%8E%A8%E9%80%81 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:45] "[37mGET /static/userimg/111709.05748.pdf HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:52] "[37mGET /static/userimg/111709.05748.pdf HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:54] "[37mGET /static/userimg/111709.05748.pdf HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:57] "[37mGET /party HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:57] "[37mGET /static/userimg/26.jpg HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:48:57] "[37mGET /static/userimg/66.jpg HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:04] "[37mGET /static/img/battle.png HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:05] "[37mGET /hole HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:09] "[37mGET /battle HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:09] "[37mGET /static/userimg/36.jpg HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:09] "[37mGET /static/userimg/76.jpg HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:09] "[37mGET /static/userimg/12CD02905C-B7DF-47CC-9B3D-AE0BEEF2D187.jpeg HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:09] "[37mGET /static/battle.js HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:09] "[37mGET /static/img/battle.jpg HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:20] "[37mGET / HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:22] "[37mGET /holiday HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:22] "[37mGET /static/img/river_index.jpg HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:24] "[32mGET /BottleRiverPick HTTP/1.1[0m" 302 -
+114.230.57.92 - - [19/Feb/2020 07:49:24] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:27] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:29] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:31] "[37mPOST /ThrowBottle HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:33] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:34] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:37] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:38] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:40] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:42] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:43] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:43] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:44] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:46] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:46] "[37mGET /static/shareup.js HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:49:55] "[37mGET /shareUp?workid=2 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:50:01] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:50:14] "[37mGET /shareUp?workid=1 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:50:17] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:50:21] "[37mGET /shareUp?workid=3 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:50:24] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:50:28] "[37mGET /shareUp?workid=1 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:50:31] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:50:48] "[33mGET /static/popper.min.js.map HTTP/1.1[0m" 404 -
+114.230.57.92 - - [19/Feb/2020 07:51:19] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:51:19] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:51:19] "[37mGET /static/img/before.png HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:51:19] "[37mGET /static/shareup.js HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:51:19] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:51:19] "[37mGET /static/img/river_index.jpg HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:51:19] "[33mGET /static/popper.min.js.map HTTP/1.1[0m" 404 -
+114.230.57.92 - - [19/Feb/2020 07:51:24] "[37mGET /shareUp?workid=1 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:51:27] "[37mGET /shareUp?workid=2 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:51:30] "[37mGET /shareUp?workid=3 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:51:32] "[37mGET /shareUp?workid=4 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:51:34] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:51:34] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:51:34] "[37mGET /static/shareup.js HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:51:34] "[37mGET /static/img/before.png HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:51:34] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:51:35] "[33mGET /static/popper.min.js.map HTTP/1.1[0m" 404 -
+114.230.57.92 - - [19/Feb/2020 07:51:35] "[37mGET /static/img/river_index.jpg HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:51:45] "[37mGET /shareUp?workid=4 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:51:54] "[37mGET /shareUp?workid=4 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:52:30] "[37mGET /shareUp?workid=4 HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:52:39] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:52:41] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:52:42] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+114.230.57.92 - - [19/Feb/2020 07:52:44] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:32:41] "[37mGET / HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:32:42] "[37mGET / HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:32:42] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:32:42] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:32:43] "[37mGET /static/img/index.jpg HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:32:43] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.115.81.102 - - [19/Feb/2020 08:32:43] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.115.81.102 - - [19/Feb/2020 08:32:50] "[37mGET / HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:32:50] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:32:50] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:32:50] "[37mGET /static/img/index.jpg HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:32:51] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.115.81.102 - - [19/Feb/2020 08:33:05] code 400, message Bad request version ('\x9a\x9aÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:33:05] "[1m[35m ª  ¦×dÍHZ!àÉóøç ÀY¬¶,7÷  À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:33:05] "[32mGET /wish HTTP/1.1[0m" 302 -
+223.115.81.102 - - [19/Feb/2020 08:33:05] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\x0eðÍÿEüo\x82Ös)JYBÏÎØÙ}%')
+223.115.81.102 - - [19/Feb/2020 08:33:05] "[1m[35m ª  ¦ðÍÿEüoÖs)JYBÏÎØÙ}%	¸pwÒs±  [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:33:05] "[37mGET /login HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:33:06] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.115.81.102 - - [19/Feb/2020 08:33:34] "[32mPOST /login HTTP/1.1[0m" 302 -
+223.115.81.102 - - [19/Feb/2020 08:33:34] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\x92O¹')
+223.115.81.102 - - [19/Feb/2020 08:33:34] "[1m[35m ª  ¦O¹Õ¾Ë°´E%ò)tUûó>Us°Ë[0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:33:34] "[37mGET / HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:33:34] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03')
+223.115.81.102 - - [19/Feb/2020 08:33:34] "[1m[35m ª  ¦VçË[0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:33:43] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\x97#¶\x1c¥ÐÆ0\xa0\x15/\x94\x0f÷\x95Çé7p\xa0é²üÌyÔK«o.\x83ä\x00\x00\x1c\x9a\x9aÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:33:43] "[1m[35m ª  ¦#¶¥ÐÆ0 /÷Çé7p é²üÌyÔK«o.ä  À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:33:43] "[37mGET /wish HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:33:43] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\x07új')
+223.115.81.102 - - [19/Feb/2020 08:33:43] "[1m[35m ª  ¦új[0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:33:43] "[37mGET /static/img/wishpool_wishAchieve.jpg HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:33:44] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+39.105.128.250 - - [19/Feb/2020 08:34:03] "[32mGET /wish HTTP/1.1[0m" 302 -
+39.105.128.250 - - [19/Feb/2020 08:34:03] "[37mGET /login HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:34:20] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03ÏA×6³{X\x9a²4\rEñ~æ¨\x03Û\x19½,\x9bÁòº\x1f«\x82ý\x88\x0cÓ\x00\x00\x1cÊÊÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:34:20] "[1m[35m ª  ¦ÏA×6³{X²4Eñ~æ¨Û½,Áòº«ýÓ  ÊÊÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:34:20] "[32mGET /confirm/eyJhbGciOiJIUzI1NiIsImlhdCI6MTU4MjAyNjg2OSwiZXhwIjoxNTgyMDMwNDY5fQ.eyJjb25maXJtIjo2fQ.coNwzEV9v59NR9Mc_lR8YQ2SjloAslWuUxW-CG8xKes HTTP/1.1[0m" 302 -
+223.115.81.102 - - [19/Feb/2020 08:34:20] code 400, message Bad request version ('ù-§¶G')
+223.115.81.102 - - [19/Feb/2020 08:34:20] "[1m[35m ª  ¦Þ­Û` »ÊZÈù-§¶G[0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:34:20] "[37mGET / HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:34:20] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.115.81.102 - - [19/Feb/2020 08:34:25] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03ês3\x80\x92à÷¯JÓxÛ\x07ó`¢¹Þ\x1ci\x16i4 ?IuI\x9cüÔz\x00\x00\x1cêêÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:34:25] "[1m[35m ª  ¦ês3à÷¯JÓxÛó`¢¹Þii4 ?IuIüÔz  êêÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:34:25] "[37mGET /wish HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:34:25] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03)\x88vÕsfoôf$)\x1b´0v¡Kõy2\x94Y\\ÕE^¤äyßWl\x00\x00')
+223.115.81.102 - - [19/Feb/2020 08:34:25] "[1m[35m ª  ¦)vÕsfoôf$)´0v¡Kõy2Y\ÕE^¤äyßWl  **À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:34:25] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.115.81.102 - - [19/Feb/2020 08:34:28] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03§?¾\x1bn\x9b@¥UJ%D\x98ç\x8eÊ:\x8f{úqzLáP\x16Ã¨+T[ý\x00\x00')
+223.115.81.102 - - [19/Feb/2020 08:34:28] "[1m[35m ª  ¦§?¾n@¥UJ%DçÊ:{úqzLáPÃ¨+T[ý  ªªÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:34:28] "[37mGET /unconfirmed HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:34:28] code 400, message Bad request version ('êêÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:34:28] "[1m[35m ª  ¦ïf<un»9#Ý<ü]~¯ó!ÐÏäÜ  êêÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:34:28] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+116.198.15.10 - - [19/Feb/2020 08:34:30] "[32mGET /unconfirmed HTTP/1.1[0m" 302 -
+116.198.15.4 - - [19/Feb/2020 08:34:30] "[37mGET /login HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:34:34] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03Ê[Û&é\x93Sm_ir')
+223.115.81.102 - - [19/Feb/2020 08:34:34] "[1m[35m ª  ¦Ê[Û&éSm_ir TÕZÎc°¨[0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:34:34] "[32mGET /confirm HTTP/1.1[0m" 302 -
+223.115.81.102 - - [19/Feb/2020 08:34:35] code 400, message Bad request version ('jjÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:34:35] "[1m[35m ª  ¦n 7"ÝÁ»ßåÃÅ@3ãOËÝ:k%»U¥PL  jjÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:34:35] "[37mGET / HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:34:35] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.115.81.102 - - [19/Feb/2020 08:35:00] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03ÁÑB9<y¼-P\x83µK\x1dß.\x1e\x8a¼´\x03q«\x10\x1bmé\x8e»E\x06y\x8a\x00\x00\x1cÊÊÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:35:00] "[1m[35m ª  ¦ÁÑB9<y¼-PµKß.¼´q«mé»Ey  ÊÊÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:35:00] "[32mGET /confirm/eyJhbGciOiJIUzI1NiIsImlhdCI6MTU4MjA3MjQ3NCwiZXhwIjoxNTgyMDc2MDc0fQ.eyJjb25maXJtIjo2fQ.AHyritr-a4YKmeV341ZXYHnHClsJcVB9CxNnS10Cyko HTTP/1.1[0m" 302 -
+223.115.81.102 - - [19/Feb/2020 08:35:00] code 400, message Bad request version ('êêÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:35:00] "[1m[35m ª  ¦éHÚíRóöJí)íÕ¿¡ÖÖé¾.pçB@ûQP  êêÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:35:00] "[37mGET / HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:35:00] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.115.81.102 - - [19/Feb/2020 08:35:04] code 400, message Bad request version ('zzÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:35:04] "[1m[35m ª  ¦t+AïaÀi© å2úr¨ë!0;Ø4}fºìf  zzÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:35:04] "[37mGET /wish HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:35:04] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03YÏÍå»\x14ÊLõ\x9c÷µâãÂ\x9e3p\x19éipÍm7ÀÚFÁ\x17\x16¢\x00\x00')
+223.115.81.102 - - [19/Feb/2020 08:35:04] "[1m[35m ª  ¦YÏÍå»ÊLõ÷µâãÂ3péipÍm7ÀÚFÁ¢  ZZÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:35:04] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.115.81.102 - - [19/Feb/2020 08:35:07] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03o\x1côa[±Ï°7W3§\x89FÃ CÔÃ\x84P\x95á¥/\x91K\x03ahT\x90\x00\x00\x1cjjÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:35:07] "[1m[35m ª  ¦oôa[±Ï°7W3§FÃ CÔÃPá¥/KahT  jjÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:35:08] "[37mGET /faq HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:35:08] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03(ÃvÙS;\x1dSò2\x97YßäÚ\x91Õ\x05\x82²¦Äf\x1d\x18åå\x0bc+¢÷\x00\x00\x1c**À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:35:08] "[1m[35m ª  ¦(ÃvÙS;Sò2YßäÚÕ²¦Äfååc+¢÷  **À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:35:08] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+116.198.10.12 - - [19/Feb/2020 08:35:29] "[37mGET /faq HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:36:49] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03 üÊ×·\x04\x19o<w2Úw±Ã5\xa0Ä+}á\x1c$G\x814\x91ÐG]\x12½\x00\x00\x1c**À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:36:49] "[1m[35m ª  ¦ üÊ×·o<w2Úw±Ã5 Ä+}á$G4ÐG]½  **À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:36:49] "[37mGET /holiday HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:36:49] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\x88\x11\x98#Nú\x1d`\x1eL\x05í\x816"\x07\x9a¡!B\x1an\x08$<®cÒ&\x01\x8ap\x00\x00\x1c\x8a\x8aÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:36:49] "[1m[35m ª  ¦#Nú`Lí6"¡!Bn$<®cÒ&p  À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:36:49] "[37mGET /static/img/river_index.jpg HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:36:49] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.115.81.102 - - [19/Feb/2020 08:36:52] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03ÐÒ\x08Êøf\x98æù')
+223.115.81.102 - - [19/Feb/2020 08:36:52] "[1m[35m ª  ¦ÐÒÊøfæù p[0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:36:52] "[37mGET /BottleFaq HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:36:52] code 400, message Bad request version ('\x1a\x1aÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:36:52] "[1m[35m ª  ¦8gg!ü1£j{¿8à}D àIëEñ  À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:36:52] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+39.105.128.250 - - [19/Feb/2020 08:37:10] "[32mGET /holiday HTTP/1.1[0m" 302 -
+39.105.128.250 - - [19/Feb/2020 08:37:10] "[37mGET /login HTTP/1.1[0m" 200 -
+39.105.128.250 - - [19/Feb/2020 08:37:42] "[32mGET /BottleFaq HTTP/1.1[0m" 302 -
+39.105.128.250 - - [19/Feb/2020 08:37:42] "[37mGET /login HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:39:31] code 400, message Bad request version ('jjÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:39:31] "[1m[35m ª  ¦nw)º«9ë¿Ì­­¶íj'¬ÇfjçmO§%]ä  jjÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:39:31] "[37mGET /show HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:39:31] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\x05\x9d/')
+223.115.81.102 - - [19/Feb/2020 08:39:31] "[1m[35m ª  ¦/ ÇìbWûK©N=küík7¿6çjº¹×ð  [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:39:31] "[37mGET /static/img/show_index.jpg HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:39:31] "[37mGET /static/show.js HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:39:32] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.115.81.102 - - [19/Feb/2020 08:39:42] "[37mGET /static/img/show.png HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:39:42] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03ð«©\x8f¶µoæÙ+\x957KìjÝ\x04ß{]\x87ÍOµz;oÿÄÍDÛ\x00\x00')
+223.115.81.102 - - [19/Feb/2020 08:39:42] "[1m[35m ª  ¦ð«©¶µoæÙ+7KìjÝß{]ÍOµz;oÿÄÍDÛ  úúÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:39:42] "[37mGET /hole HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:39:42] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03±Â\x07Êx\x1f\x8fÂ+\x1e\x9d\x0cF§<}±\x02SÇïîØ!Ï3W´åÁÆ\x81\x00\x00\x1cººÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:39:42] "[1m[35m ª  ¦±ÂÊxÂ+F§<}±SÇïîØ!Ï3W´åÁÆ  ººÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:39:42] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.115.81.102 - - [19/Feb/2020 08:39:47] "[37mGET /static/img/kitchen.png HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:39:47] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03µ\x7f\x8ecñuÖ\x81\r\x8eµÎÑ\x19\x0b\x11\x94ÂÂ\x00\x04\x05ä!XÝ\x1b*\x1eÅ°\x03\x00\x00\x1cººÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:39:47] "[1m[35m ª  ¦µcñuÖµÎÑÂÂ ä!XÝ*Å°  ººÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:39:47] "[37mGET /kitchen HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:39:47] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\x81\x05\x00\x00a\rÈ\x12cÅ"©\x9d\x7fðÒL$;ÍºeÔN*\x80Ô¡ Izc\x00\x00\x1c\x8a\x8aÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:39:47] "[1m[35m ª  ¦  aÈcÅ"©ðÒL$;ÍºeÔN*Ô¡ Izc  À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:39:47] "[37mGET /static/userimg/46.jpg HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:39:47] "[37mGET /static/img/before.png HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:39:48] "[37mGET /static/kitchen.js HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:39:48] "[37mGET /static/img/kitchen.jpg HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:39:48] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.115.81.102 - - [19/Feb/2020 08:39:57] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\x0f\x15=Ø\x06ï3\x84p¤¢q\x7fh¡¡jk@GÓ\x12ÓÙD{\x02Qa\x12D8\x00\x00\x1c')
+223.115.81.102 - - [19/Feb/2020 08:39:57] "[37mGET /static/img/wonderland.png HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:39:57] "[1m[35m ª  ¦=Øï3p¤¢qh¡¡jk@GÓÓÙD{QaD8  [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:39:57] "[37mGET /wonderland HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:39:57] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03E"h*M\x98Ä£]\x01\x9b\x92¬\x06Ã\x99îGÙ\x04¹"*nèlÚhhð8S\x00\x00')
+223.115.81.102 - - [19/Feb/2020 08:39:57] "[1m[35m ª  ¦E"h*MÄ£]¬ÃîGÙ¹"*nèlÚhhð8S  JJÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:39:57] "[37mGET /static/userimg/16.jpg HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:39:57] "[37mGET /static/userimg/8EB442434-4AB4-439E-9B53-3D1ACD61C2D9.png HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:39:57] "[37mGET /static/userimg/56.jpg HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:39:57] "[37mGET /static/wonderland.js HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:39:58] "[37mGET /static/userimg/9EB442434-4AB4-439E-9B53-3D1ACD61C2D9.png HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:39:58] "[37mGET /static/userimg/10EB442434-4AB4-439E-9B53-3D1ACD61C2D9.png HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:39:58] "[37mGET /static/userimg/111709.05748.pdf HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:40:02] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+116.198.10.3 - - [19/Feb/2020 08:40:03] "[37mGET /kitchen HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:40:11] code 400, message Bad request version ('êêÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:40:11] "[1m[35m ª  ¦ïègËðMHz7yý}Há§UóIOÆÜêÌ¿½ç)#ô  êêÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:40:11] "[37mGET /wonderland HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:40:11] "[37mGET /static/userimg/111709.05748.pdf HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:40:11] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03á]|Éü½nKe¥0\x9aô¬ô\x93@\x933\x01n\x9ai¿\x1ci\x0bú\x1eVßÏ\x00\x00\x1cêêÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:40:11] "[1m[35m ª  ¦á]|Éü½nKe¥0ô¬ô@3ni¿iúVßÏ  êêÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:40:11] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+39.105.128.250 - - [19/Feb/2020 08:40:19] "[37mGET /kitchen?choice=%E6%AF%8F%E5%91%A8%E6%A6%9C%E5%8D%95 HTTP/1.1[0m" 200 -
+39.105.128.250 - - [19/Feb/2020 08:40:21] "[37mGET /kitchen?choice=%E9%9A%8F%E6%9C%BA%E6%8E%A8%E9%80%81 HTTP/1.1[0m" 200 -
+116.198.15.8 - - [19/Feb/2020 08:40:24] "[37mGET /kitchen?choice=%E6%AF%8F%E6%97%A5%E6%96%B0%E7%A7%80 HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:40:35] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\x84\x160®\x92¼QÁ:\x95"&\x1d\x82\x0b9Uò}ç©Mæ«¡\x1bs;Ü\x82\x06h\x00\x00\x1c\x8a\x8aÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:40:35] "[1m[35m ª  ¦0®¼QÁ:"&9Uò}ç©Mæ«¡s;Üh  À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:40:36] "[37mGET /sing HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:40:36] code 400, message Bad request version ('**À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:40:36] "[1m[35m ª  ¦"ò©"âe13é¯w½·µÓÀ¢O,=p2a  **À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:40:36] "[37mGET /static/img/sing_index.jpg HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:40:36] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+39.105.128.250 - - [19/Feb/2020 08:40:39] "[32mGET /sing HTTP/1.1[0m" 302 -
+39.105.128.250 - - [19/Feb/2020 08:40:39] "[37mGET /login HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:40:40] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03')
+223.115.81.102 - - [19/Feb/2020 08:40:40] "[1m[35m ª  ¦[0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:40:40] "[37mGET /sing HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:40:40] code 400, message Bad request version ('**À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:40:40] "[1m[35m ª  ¦)öøÚRuöGtk6æf°ßðéytþph  **À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:40:40] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.115.81.102 - - [19/Feb/2020 08:40:42] code 400, message Bad request version ('JJÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:40:42] "[1m[35m ª  ¦MD£zX¥p¾³]S6mv¸¬Å­°¬Ð)jz'  JJÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:40:43] "[37mGET /luck HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:40:43] "[37mGET /static/img/luck.jpg HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:40:43] code 400, message Bad request version ('::À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:40:43] "[1m[35m ª  ¦?´fB­k]âmTïF/Ï¾>¶ ×pÅCU³1%£  ::À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:40:43] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.115.81.102 - - [19/Feb/2020 08:40:45] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03ðÝ½\x19ñè\x8f*\x99a=l\x95\x1eÞjvÛâ\x1eÕT8÷°PI¼\x04³Ý6\x00\x00\x1cúúÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:40:45] "[1m[35m ª  ¦ðÝ½ñè*a=lÞjvÛâÕT8÷°PI¼³Ý6  úúÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:40:46] "[37mGET /myticket HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:40:46] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03}u¬èhïÁs¬b\x084\x82\x8c<\x0eèi\x8d\x9aêâ/GvIêgÞªf´\x00\x00')
+223.115.81.102 - - [19/Feb/2020 08:40:46] "[1m[35m ª  ¦}u¬èhïÁs¬b4<èiêâ/GvIêgÞªf´  zzÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:40:46] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+39.105.128.250 - - [19/Feb/2020 08:40:46] "[32mGET /luck HTTP/1.1[0m" 302 -
+39.105.128.250 - - [19/Feb/2020 08:40:46] "[37mGET /login HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:40:48] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\x19é\x87¬ÿ#A\x101\x92,ó\x9a§^Ú\x86_¢6Ç\x8b|Ð\x96û¨>J\x9b0\x15\x00\x00')
+223.115.81.102 - - [19/Feb/2020 08:40:48] "[1m[35m ª  ¦é¬ÿ#A1,ó§^Ú_¢6Ç|Ðû¨>J0  À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:40:48] "[37mGET /luck HTTP/1.1[0m" 200 -
+223.115.81.102 - - [19/Feb/2020 08:40:48] code 400, message Bad request version ('**À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.115.81.102 - - [19/Feb/2020 08:40:48] "[1m[35m ª  ¦*ë<åyö´79eÇpÆ#aö¥ Ño[P¶]  **À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.115.81.102 - - [19/Feb/2020 08:40:48] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+39.105.128.250 - - [19/Feb/2020 08:41:12] "[32mGET /myticket HTTP/1.1[0m" 302 -
+39.105.128.250 - - [19/Feb/2020 08:41:12] "[37mGET /login HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:37] "[37mGET / HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:37] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:37] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:37] "[37mGET /static/img/index.jpg HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:41] "[37mGET /show HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:42] "[37mGET /static/show.js HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:42] "[37mGET /static/img/show_index.jpg HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:42] "[37mGET /static/img/The_Mad_Tea_Party.jpg HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:42] "[37mGET /static/img/show.png HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:43] "[37mGET /static/img/kitchen.png HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:43] "[37mGET /static/img/battle.png HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:43] "[37mGET /static/img/show.png HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:43] "[37mGET /static/img/show.png HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:45] "[37mGET /static/img/battle.png HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:45] "[37mGET /static/img/wonderland.png HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:45] "[37mGET /static/img/kitchen.png HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:46] "[37mGET /static/img/wonderland.png HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:46] "[37mGET /wonderland HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:47] "[37mGET /static/img/before.png HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:47] "[36mGET /static/userimg/9EB442434-4AB4-439E-9B53-3D1ACD61C2D9.png HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:43:47] "[36mGET /static/userimg/111709.05748.pdf HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:43:47] "[36mGET /static/userimg/16.jpg HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:43:47] "[36mGET /static/userimg/10EB442434-4AB4-439E-9B53-3D1ACD61C2D9.png HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:43:47] "[36mGET /static/userimg/56.jpg HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:43:47] "[37mGET /static/wonderland.js HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:47] "[36mGET /static/userimg/8EB442434-4AB4-439E-9B53-3D1ACD61C2D9.png HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:43:55] "[37mGET /wonderland?workid=10 HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:59] "[37mGET /wonderland HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:43:59] "[36mGET /static/popper.min.js HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:43:59] "[36mGET /static/jquery.min.js HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:00] "[36mGET /static/img/before.png HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:00] "[36mGET /static/userimg/16.jpg HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:00] "[36mGET /static/userimg/10EB442434-4AB4-439E-9B53-3D1ACD61C2D9.png HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:00] "[36mGET /static/userimg/9EB442434-4AB4-439E-9B53-3D1ACD61C2D9.png HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:00] "[36mGET /static/userimg/56.jpg HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:00] "[36mGET /static/wonderland.js HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:00] "[36mGET /static/userimg/111709.05748.pdf HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:01] "[36mGET /static/img/wonderland.png HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:01] "[36mGET /static/userimg/8EB442434-4AB4-439E-9B53-3D1ACD61C2D9.png HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:10] "[37mGET /show HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:13] "[37mGET /static/img/kitchen.png HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:14] "[37mGET /kitchen HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:14] "[37mGET /static/userimg/46.jpg HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:14] "[37mGET /static/kitchen.js HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:14] "[37mGET /static/img/kitchen.jpg HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:16] "[1m[35mGET /kitchen?workid=4 HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 2309, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 2295, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1741, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/lib64/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/lib64/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/jxs/pyvenv/USTCstunion_girl_days/app.py", line 1060, in kitchen
+    ChooseWork.thumbNumDaily = thumbWork.query.filter(thumbWork.workid == thumbUpWorkId, istoday(thumbWork.thumbTime)).count()+1
+  File "/home/jxs/pyvenv/USTCstunion_girl_days/app.py", line 1050, in istoday
+    time=datetime.strptime(str(t), "%Y-%m-%d %H:%M:%S.%f")
+  File "/usr/lib64/python3.6/_strptime.py", line 565, in _strptime_datetime
+    tt, fraction = _strptime(data_string, format)
+  File "/usr/lib64/python3.6/_strptime.py", line 362, in _strptime
+    (data_string, format))
+ValueError: time data 'thumbWork.thumbTime' does not match format '%Y-%m-%d %H:%M:%S.%f'
+221.198.65.12 - - [19/Feb/2020 08:44:20] "[37mGET /kitchen HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:20] "[36mGET /static/jquery.min.js HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:20] "[36mGET /static/popper.min.js HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:20] "[36mGET /static/img/before.png HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:20] "[36mGET /static/img/kitchen.jpg HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:21] "[36mGET /static/userimg/46.jpg HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:23] "[36mGET /static/kitchen.js HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:24] "[1m[35mGET /kitchen?workid=4 HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 2309, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 2295, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1741, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/lib64/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/lib64/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/jxs/pyvenv/USTCstunion_girl_days/app.py", line 1060, in kitchen
+    ChooseWork.thumbNumDaily = thumbWork.query.filter(thumbWork.workid == thumbUpWorkId, istoday(thumbWork.thumbTime)).count()+1
+  File "/home/jxs/pyvenv/USTCstunion_girl_days/app.py", line 1050, in istoday
+    time=datetime.strptime(str(t), "%Y-%m-%d %H:%M:%S.%f")
+  File "/usr/lib64/python3.6/_strptime.py", line 565, in _strptime_datetime
+    tt, fraction = _strptime(data_string, format)
+  File "/usr/lib64/python3.6/_strptime.py", line 362, in _strptime
+    (data_string, format))
+ValueError: time data 'thumbWork.thumbTime' does not match format '%Y-%m-%d %H:%M:%S.%f'
+221.198.65.12 - - [19/Feb/2020 08:44:28] "[37mGET /show HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:29] "[37mGET /static/img/battle.png HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:29] "[37mGET /static/img/battle.png HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:32] "[37mGET /static/img/battle.png HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:32] "[37mGET /kitchen HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:35] "[37mGET /show HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:37] "[37mGET /party HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:37] "[37mGET /static/userimg/26.jpg HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:38] "[37mGET /static/userimg/66.jpg HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:39] "[37mGET /wonderland?workid=2 HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:43] "[37mGET /party HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:43] "[36mGET /static/wonderland.js HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:43] "[36mGET /static/img/before.png HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:43] "[36mGET /static/jquery.min.js HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:43] "[36mGET /static/userimg/66.jpg HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:43] "[36mGET /static/popper.min.js HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:43] "[36mGET /static/userimg/26.jpg HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:44] "[36mGET /static/img/The_Mad_Tea_Party.jpg HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:45] "[37mGET /show HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:47] "[37mGET /static/img/battle.png HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:48] "[37mGET /battle HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:48] "[36mGET /static/userimg/76.jpg HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:48] "[36mGET /static/userimg/36.jpg HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:48] "[36mGET /static/userimg/12CD02905C-B7DF-47CC-9B3D-AE0BEEF2D187.jpeg HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 08:44:48] "[37mGET /static/battle.js HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:49] "[37mGET /static/img/battle.jpg HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:50] "[37mGET /wonderland?workid=3 HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:54] "[37mGET /show HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:44:56] "[37mGET /kitchen HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:45:00] "[1m[35mGET /kitchen?workid=4 HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 2309, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 2295, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1741, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/lib64/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/lib64/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/jxs/pyvenv/USTCstunion_girl_days/app.py", line 1060, in kitchen
+    ChooseWork.thumbNumDaily = thumbWork.query.filter(thumbWork.workid == thumbUpWorkId, istoday(thumbWork.thumbTime)).count()+1
+  File "/home/jxs/pyvenv/USTCstunion_girl_days/app.py", line 1050, in istoday
+    time=datetime.strptime(str(t), "%Y-%m-%d %H:%M:%S.%f")
+  File "/usr/lib64/python3.6/_strptime.py", line 565, in _strptime_datetime
+    tt, fraction = _strptime(data_string, format)
+  File "/usr/lib64/python3.6/_strptime.py", line 362, in _strptime
+    (data_string, format))
+ValueError: time data 'thumbWork.thumbTime' does not match format '%Y-%m-%d %H:%M:%S.%f'
+221.198.65.12 - - [19/Feb/2020 08:45:01] "[1m[35mGET /kitchen?workid=4 HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 2309, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 2295, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1741, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/lib64/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/lib64/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/lib64/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/jxs/pyvenv/USTCstunion_girl_days/app.py", line 1060, in kitchen
+    ChooseWork.thumbNumDaily = thumbWork.query.filter(thumbWork.workid == thumbUpWorkId, istoday(thumbWork.thumbTime)).count()+1
+  File "/home/jxs/pyvenv/USTCstunion_girl_days/app.py", line 1050, in istoday
+    time=datetime.strptime(str(t), "%Y-%m-%d %H:%M:%S.%f")
+  File "/usr/lib64/python3.6/_strptime.py", line 565, in _strptime_datetime
+    tt, fraction = _strptime(data_string, format)
+  File "/usr/lib64/python3.6/_strptime.py", line 362, in _strptime
+    (data_string, format))
+ValueError: time data 'thumbWork.thumbTime' does not match format '%Y-%m-%d %H:%M:%S.%f'
+61.158.146.124 - - [19/Feb/2020 08:47:04] "[37mGET / HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:47:04] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:47:04] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:47:05] "[37mGET /static/img/index.jpg HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:47:05] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+61.158.146.124 - - [19/Feb/2020 08:47:13] "[37mGET /register HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:47:17] "[37mGET / HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:47:17] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+61.158.146.124 - - [19/Feb/2020 08:47:19] "[37mGET /login HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:47:22] "[37mGET / HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:47:22] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+61.158.146.124 - - [19/Feb/2020 08:47:23] "[32mGET /wish HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 08:47:23] "[37mGET /login HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:47:32] "[37mGET / HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:47:33] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+61.158.146.124 - - [19/Feb/2020 08:47:35] "[37mGET /register HTTP/1.1[0m" 200 -
+61.129.6.174 - - [19/Feb/2020 08:48:15] "[37mGET /register HTTP/1.1[0m" 200 -
+61.129.6.174 - - [19/Feb/2020 08:48:16] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+61.129.6.174 - - [19/Feb/2020 08:48:17] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+61.129.6.251 - - [19/Feb/2020 08:48:18] "[37mGET /login HTTP/1.1[0m" 200 -
+61.129.6.251 - - [19/Feb/2020 08:48:20] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+61.129.6.251 - - [19/Feb/2020 08:48:21] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:49:24] "[32mPOST /register HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 08:49:25] "[37mGET /login HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:51:48] "[37mGET / HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:51:48] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+61.158.146.124 - - [19/Feb/2020 08:51:51] "[37mGET /login HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:52:35] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:52:35] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:52:35] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:52:36] "[37mGET /static/img/index.jpg HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:52:36] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+106.16.169.227 - - [19/Feb/2020 08:52:38] "[37mGET / HTTP/1.1[0m" 200 -
+106.16.169.227 - - [19/Feb/2020 08:52:38] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+106.16.169.227 - - [19/Feb/2020 08:52:38] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+106.16.169.227 - - [19/Feb/2020 08:52:39] "[37mGET /static/img/index.jpg HTTP/1.1[0m" 200 -
+106.16.169.227 - - [19/Feb/2020 08:52:40] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+14.153.187.233 - - [19/Feb/2020 08:52:41] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:52:43] "[37mGET / HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:52:47] "[32mGET /show HTTP/1.1[0m" 302 -
+223.156.20.249 - - [19/Feb/2020 08:52:47] "[37mGET /login HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:52:51] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:52:51] "[37mGET /register HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:52:51] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.156.20.249 - - [19/Feb/2020 08:52:53] "[32mGET /holiday HTTP/1.1[0m" 302 -
+223.156.20.249 - - [19/Feb/2020 08:52:53] "[37mGET /login HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:53:20] "[37mPOST /login HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:53:34] "[37mPOST /login HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:53:43] "[37mGET /reset HTTP/1.1[0m" 200 -
+58.247.206.144 - - [19/Feb/2020 08:53:47] "[32mGET /show HTTP/1.1[0m" 302 -
+58.247.206.149 - - [19/Feb/2020 08:53:49] "[37mGET /login HTTP/1.1[0m" 200 -
+58.247.206.154 - - [19/Feb/2020 08:53:51] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+58.247.206.149 - - [19/Feb/2020 08:53:53] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+101.91.60.109 - - [19/Feb/2020 08:53:53] "[32mGET /holiday HTTP/1.1[0m" 302 -
+101.91.60.109 - - [19/Feb/2020 08:53:55] "[37mGET /login HTTP/1.1[0m" 200 -
+101.91.60.109 - - [19/Feb/2020 08:53:56] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+101.91.60.109 - - [19/Feb/2020 08:53:57] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:54:03] "[32mPOST /reset HTTP/1.1[0m" 302 -
+223.156.20.249 - - [19/Feb/2020 08:54:03] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:54:33] "[32mPOST /register HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 08:54:33] "[37mGET /login HTTP/1.1[0m" 200 -
+61.129.6.251 - - [19/Feb/2020 08:54:43] "[37mGET /reset HTTP/1.1[0m" 200 -
+61.129.6.251 - - [19/Feb/2020 08:54:44] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+61.129.6.251 - - [19/Feb/2020 08:54:44] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:55:09] "[32mGET /confirm/eyJhbGciOiJIUzI1NiIsImlhdCI6MTU4MjA3MzY3MywiZXhwIjoxNTgyMDc3MjczfQ.eyJjb25maXJtIjo5fQ.NaN4g_T-gzcTvUUTimSF0Y7FGtQxz_C6-ikdK52yQ1w HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 08:55:09] "[37mGET /login HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:55:14] "[37mGET / HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:55:14] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.156.20.249 - - [19/Feb/2020 08:55:16] "[32mGET /holiday HTTP/1.1[0m" 302 -
+223.156.20.249 - - [19/Feb/2020 08:55:16] "[37mGET /login HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:55:20] "[37mGET /register HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:55:33] "[32mPOST /login HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 08:55:34] "[37mGET / HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:55:34] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+61.158.146.124 - - [19/Feb/2020 08:55:37] "[37mGET /register HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:55:57] "[32mPOST /login HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 08:55:57] "[37mGET / HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:56:07] "[32mPOST /register HTTP/1.1[0m" 302 -
+223.156.20.249 - - [19/Feb/2020 08:56:07] "[37mGET /login HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:56:38] "[32mGET /confirm/eyJhbGciOiJIUzI1NiIsImlhdCI6MTU4MjA3Mzc2NywiZXhwIjoxNTgyMDc3MzY3fQ.eyJjb25maXJtIjoxMH0.jvoZfCGLMfMJhxzrXfqFty_nByLkWoFxxDlgTNa9808 HTTP/1.1[0m" 302 -
+223.156.20.249 - - [19/Feb/2020 08:56:38] "[37mGET /login HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:56:39] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\r\x16h`\x1c/ª\x85 Ky\x81\x82YB\x0f\x010')
+223.156.20.249 - - [19/Feb/2020 08:56:39] "[1m[35m ª  ¦h`/ª KyYB0[0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:56:39] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:56:39] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:56:39] code 400, message Bad request version ('êêÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 08:56:39] "[1m[35m ª  ¦ê\Æ'HNàqw¶³äî»0éµ¥P=>¤^|ÌÝ  êêÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:56:39] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.156.20.249 - - [19/Feb/2020 08:56:42] "[32mPOST /login HTTP/1.1[0m" 302 -
+223.156.20.249 - - [19/Feb/2020 08:56:42] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\x90\x13áßô¸ÅÎ\x89ñ\x89ÇçY>È\x87¯ö\x05\x94½\x91\xad5M\x06\x16o\x04àÑ\x00\x00')
+223.156.20.249 - - [19/Feb/2020 08:56:42] "[1m[35m ª  ¦áßô¸ÅÎñÇçY>È¯ö½­5MoàÑ  À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:56:42] "[37mGET / HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:56:42] code 400, message Bad request version ('::À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 08:56:42] "[1m[35m ª  ¦0ºp²yâÀHGÊB¡½ibÞú0ß"·  ::À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:56:42] "[37mGET /static/img/index.jpg HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:56:44] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03ìaÜÅKõMJK·¢\x04é>\x11¬\x8b©mEYð¡·\x11Àá/>\x84½¼\x00\x00')
+223.156.20.249 - - [19/Feb/2020 08:56:44] "[1m[35m ª  ¦ìaÜÅKõMJK·¢é>¬©mEYð¡·Àá/>½¼  êêÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:56:44] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03ÉD\x17PÛà\x8abÇ@ã\x15¼ê\x97\x12\x19*É)o\x08\x13º\x00\x16Y4;°D:\x00\x00')
+223.156.20.249 - - [19/Feb/2020 08:56:44] "[1m[35m ª  ¦ÉDPÛàbÇ@ã¼ê*É)oº Y4;°D:  ÊÊÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:56:44] "[37mGET /holiday HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:56:45] "[37mGET /static/img/river_index.jpg HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:56:45] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+61.158.146.124 - - [19/Feb/2020 08:56:45] "[32mPOST /register HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 08:56:46] "[37mGET /login HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:56:49] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03Á4\x180Æ\x0e\x8a\x9fü\x05\x02-ð\x0f©\x8cû\x0b"*\x86]bF\x91U\x97Ëc\r#%\x00\x00\x1cÊÊÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 08:56:49] "[1m[35m ª  ¦Á40Æü-ð©û"*]bFUËc#%  ÊÊÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:56:49] "[37mGET /unconfirmed HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:56:49] code 400, message Bad HTTP/0.9 request type ("\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03Ò/'ø¶¢?úî\x08ö6©¦09ÒêãHÒâ\x0eÝvL¢G½âQ\x96\x00\x00")
+223.156.20.249 - - [19/Feb/2020 08:56:49] "[1m[35m ª  ¦Ò/'ø¶¢?úîö6©¦09ÒêãHÒâÝvL¢G½âQ  ÚÚÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:56:49] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.156.20.249 - - [19/Feb/2020 08:57:01] "[37mGET /login HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:57:02] "[37mGET /wish HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:57:02] "[37mGET /static/img/wishpool_wishAchieve.jpg HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:57:05] "[37mGET /unconfirmed HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:57:08] "[32mGET /confirm/eyJhbGciOiJIUzI1NiIsImlhdCI6MTU4MjA3MzY3MywiZXhwIjoxNTgyMDc3MjczfQ.eyJjb25maXJtIjo5fQ.NaN4g_T-gzcTvUUTimSF0Y7FGtQxz_C6-ikdK52yQ1w HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 08:57:08] "[37mGET / HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:57:11] "[32mGET /confirm/eyJhbGciOiJIUzI1NiIsImlhdCI6MTU4MjA3Mzc2NywiZXhwIjoxNTgyMDc3MzY3fQ.eyJjb25maXJtIjoxMH0.jvoZfCGLMfMJhxzrXfqFty_nByLkWoFxxDlgTNa9808 HTTP/1.1[0m" 302 -
+223.156.20.249 - - [19/Feb/2020 08:57:12] "[37mGET / HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:57:12] code 400, message Bad request version ('**À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 08:57:12] "[1m[35m ª  ¦'¾aâé\kÍçÖI|ÓMíaÔûþØØ`  **À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:57:12] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03¥º<\x08c\x10@\x8fÂ0)\x06§÷Çð¨NÍÞ\x0cÌ\x19´?í\x8e\x97\rc\xa0Ý\x00\x00\x1cªªÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 08:57:12] "[1m[35m ª  ¦¥º<c@Â0)§÷Çð¨NÍÞÌ´?íc Ý  ªªÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:57:12] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.156.20.249 - - [19/Feb/2020 08:57:18] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\x7f1eA¥\x9dxýû\x9dè9®>\x98\x1c^u\x17\xa0\x92s4%¾m\x04Az:\x12ë\x00\x00\x1czzÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 08:57:18] "[1m[35m ª  ¦1eA¥xýûè9®>^u s4%¾mAz:ë  zzÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:57:18] code 400, message Bad request syntax ("\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03´Å\x15ïñà\x81\x93\x03\x0b4\x8a'\x94Ý\x1cÙ\\Vº\x80åãk\x8bÝ\x08×\x8cæB¯\x00\x00\x1cººÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00")
+223.156.20.249 - - [19/Feb/2020 08:57:18] "[1m[35m ª  ¦´Åïñà4'ÝÙ\VºåãkÝ×æB¯  ººÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:57:18] "[37mGET /sing HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:57:19] "[37mGET /static/img/sing_index.jpg HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:57:19] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+14.153.187.233 - - [19/Feb/2020 08:57:19] "[37mGET /wish HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:57:20] "[32mGET /boy HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 08:57:20] "[32mGET /boy HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 08:57:20] "[37mGET /wish HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:57:23] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:57:23] "[37mGET /static/img/wish_letter.jpg HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:57:23] "[37mGET /static/wishpool.js HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:57:23] "[37mGET /static/img/before.png HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:57:27] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:57:28] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\x81·sÎ%å¯|méÏø\x0c\x8am®\x02 Ê\x02Ê\x85þ\x856f*X(qË0\x00\x00\x1c\x8a\x8aÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 08:57:28] "[1m[35m ª  ¦·sÎ%å¯|méÏøm® ÊÊþ6f*X(qË0  À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:57:28] "[37mGET /wish HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:57:28] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\x07\x14\x93h¨8ë®\x16²\x80_4@1ã£èg\x82¯:q\x9fÿ\x93\\¶\x03\x9dªf\x00\x00\x1c')
+223.156.20.249 - - [19/Feb/2020 08:57:28] "[1m[35m ª  ¦h¨8ë®²_4@1ã£èg¯:qÿ\¶ªf  [0m" HTTPStatus.BAD_REQUEST -
+14.153.187.233 - - [19/Feb/2020 08:57:28] "[37mGET /wish HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:57:28] "[37mGET /static/img/wishpool_wishAchieve.jpg HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:57:29] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+14.153.187.233 - - [19/Feb/2020 08:57:30] "[37mGET /faq HTTP/1.1[0m" 200 -
+101.89.29.97 - - [19/Feb/2020 08:57:38] "[32mGET /confirm/eyJhbGciOiJIUzI1NiIsImlhdCI6MTU4MjA3Mzc2NywiZXhwIjoxNTgyMDc3MzY3fQ.eyJjb25maXJtIjoxMH0.jvoZfCGLMfMJhxzrXfqFty_nByLkWoFxxDlgTNa9808 HTTP/1.1[0m" 302 -
+101.89.29.97 - - [19/Feb/2020 08:57:39] "[37mGET /login HTTP/1.1[0m" 200 -
+101.89.29.97 - - [19/Feb/2020 08:57:40] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+101.89.29.97 - - [19/Feb/2020 08:57:41] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+61.151.207.205 - - [19/Feb/2020 08:57:48] "[32mGET /unconfirmed HTTP/1.1[0m" 302 -
+61.151.207.205 - - [19/Feb/2020 08:57:49] "[37mGET /login HTTP/1.1[0m" 200 -
+61.151.207.205 - - [19/Feb/2020 08:57:49] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+61.151.207.205 - - [19/Feb/2020 08:57:50] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:58:00] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\x83&c\x1a\x90\x88ß\x1a\x0b\x97$£\x92\\\x1f.\x1f\x10ã\x84}ÒÏOHç[ªó§-\x9b\x00\x00\x1c\x8a\x8aÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 08:58:00] "[1m[35m ª  ¦&cß$£\.ã}ÒÏOHç[ªó§-  À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:58:00] code 400, message Bad request version ('\x9a\x9aÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 08:58:00] "[1m[35m ª  ¦O¾Ï® Ø4Î%Võ>ý¢¤®3pgðeÿÛ?wR  À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:58:00] "[37mGET /girl HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:58:00] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+221.198.65.12 - - [19/Feb/2020 08:58:05] "[37mGET / HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:58:08] "[37mGET /wish HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:58:09] "[37mGET /static/img/wishpool_wishAchieve.jpg HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:58:10] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:58:10] "[37mGET /static/wishpool.js HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:58:10] "[37mGET /static/img/wish_letter.jpg HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:58:12] "[37mGET /wishpool?email=xh191708%40mail.ustc.edu.cn HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:58:20] "[37mGET /wish HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:58:24] "[37mGET / HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:58:25] "[37mGET /holiday HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:58:26] "[37mGET /static/img/river_index.jpg HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:58:31] "[32mGET /BottleRiverPick HTTP/1.1[0m" 302 -
+221.198.65.12 - - [19/Feb/2020 08:58:31] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:58:34] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 08:58:37] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+116.198.15.11 - - [19/Feb/2020 08:58:40] "[32mGET /girl HTTP/1.1[0m" 302 -
+116.198.15.2 - - [19/Feb/2020 08:58:41] "[37mGET /login HTTP/1.1[0m" 200 -
+101.89.29.92 - - [19/Feb/2020 08:58:59] "[32mGET /girl HTTP/1.1[0m" 302 -
+101.89.29.92 - - [19/Feb/2020 08:59:00] "[37mGET /login HTTP/1.1[0m" 200 -
+101.89.29.92 - - [19/Feb/2020 08:59:00] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+101.89.29.92 - - [19/Feb/2020 08:59:01] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:59:10] "[32mPOST /girl HTTP/1.1[0m" 302 -
+223.156.20.249 - - [19/Feb/2020 08:59:10] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03')
+223.156.20.249 - - [19/Feb/2020 08:59:10] "[1m[35m ª  ¦caI×CÎÙ7*ÉÐ1D|uÓ¸a©Sô³ÕF  [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:59:10] "[37mGET /girl HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:59:10] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03·\r7T\x9cL\rÕ§\x8ftr±x\x05B\x18à\r\x92\x1cba\x92K\x0fþå¤ÝµT\x00\x00\x1cººÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 08:59:10] "[1m[35m ª  ¦·7TLÕ§tr±xBàbaKþå¤ÝµT  ººÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:59:10] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.156.20.249 - - [19/Feb/2020 08:59:16] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03k\x91\x11¯Ð\x86öâQ]ßÜ±÷6ÕÄD\x92\x17{l\x02pLTa@Eç$\x90\x00\x00')
+223.156.20.249 - - [19/Feb/2020 08:59:16] "[1m[35m ª  ¦k¯ÐöâQ]ßÜ±÷6ÕÄD{lpLTa@Eç$  jjÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:59:16] code 400, message Bad request syntax ("\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\x9e¥)î'º5Ðf\x99J\x8eX0")
+223.156.20.249 - - [19/Feb/2020 08:59:16] "[1m[35m ª  ¦¥)î'º5ÐfJX0[0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:59:16] "[37mGET / HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:59:16] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.156.20.249 - - [19/Feb/2020 08:59:18] code 400, message Bad request syntax ("\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03WÆ!¤RÛ\x1cô\x83ßÆÐ\x8eO\x0b.s÷A '\x0b\x11÷\x97\\öönñEÜ\x00\x00\x1cZZÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00")
+223.156.20.249 - - [19/Feb/2020 08:59:18] "[1m[35m ª  ¦WÆ!¤RÛôßÆÐO.s÷A '÷\öönñEÜ  ZZÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:59:18] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03Q\x96\x00½\x86£§\x14Ñô65í\x078ÚÞº\x9faQOD\x08áÉÈ\x8b¿x<Ù\x00\x00')
+223.156.20.249 - - [19/Feb/2020 08:59:18] "[1m[35m ª  ¦Q ½£§Ñô65í8ÚÞºaQODáÉÈ¿x<Ù  ZZÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:59:18] "[37mGET /holiday HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:59:18] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+14.153.187.233 - - [19/Feb/2020 08:59:21] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:59:22] "[37mGET /holiday HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:59:22] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03ÿRÕ×P¨ô&¡\\°·Û\x0b>ý\x80[X§\x1cßkÆÙ&\x19ÉM\x85ìN\x00\x00\x1cúúÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 08:59:22] "[1m[35m ª  ¦ÿRÕ×P¨ô&¡\°·Û>ý[X§ßkÆÙ&ÉMìN  úúÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+14.153.187.233 - - [19/Feb/2020 08:59:22] "[37mGET /static/img/river_index.jpg HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:59:22] "[32mGET /ThrowBottle HTTP/1.1[0m" 302 -
+223.156.20.249 - - [19/Feb/2020 08:59:22] code 400, message Bad HTTP/0.9 request type ("\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03§±\x9aìÞø¹Á\x14ýDà\x81'\x9cL")
+223.156.20.249 - - [19/Feb/2020 08:59:22] "[1m[35m ª  ¦§±ìÞø¹ÁýDà'L	|ñÛ(f[0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 08:59:22] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:59:23] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+116.198.10.7 - - [19/Feb/2020 08:59:25] "[32mGET /ThrowBottle HTTP/1.1[0m" 302 -
+116.198.15.11 - - [19/Feb/2020 08:59:25] "[37mGET /login HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:59:25] "[32mGET /ThrowBottle HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 08:59:25] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:59:32] "[37mPOST /ThrowBottle HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:59:34] "[37mGET / HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:59:35] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+61.158.146.124 - - [19/Feb/2020 08:59:37] "[37mGET /login HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:59:44] "[37mPOST /ThrowBottle HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:59:48] "[37mPOST /ThrowBottle HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 08:59:48] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+14.153.187.233 - - [19/Feb/2020 08:59:48] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:59:49] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:59:50] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:59:50] "[32mPOST /login HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 08:59:51] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:59:51] "[37mGET / HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:59:54] "[37mGET /wish HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:59:54] "[37mGET /static/img/wishpool_wishAchieve.jpg HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 08:59:57] "[37mGET /unconfirmed HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 08:59:59] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:00:03] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:00:04] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:00:13] "[32mGET /confirm HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 09:00:14] "[37mGET / HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:00:16] "[37mGET /wish HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:00:19] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:00:20] "[37mGET /unconfirmed HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:00:22] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+61.151.178.174 - - [19/Feb/2020 09:00:23] "[32mGET /ThrowBottle HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:00:23] "[37mGET /attendance HTTP/1.1[0m" 200 -
+61.151.178.174 - - [19/Feb/2020 09:00:24] "[37mGET /login HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:00:24] "[37mGET /BottleFaq HTTP/1.1[0m" 200 -
+61.151.178.174 - - [19/Feb/2020 09:00:26] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+61.151.178.174 - - [19/Feb/2020 09:00:27] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:00:27] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:00:48] "[37mPOST /ThrowBottle HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:00:51] "[32mGET /confirm/eyJhbGciOiJIUzI1NiIsImlhdCI6MTU4MjA3NDAxMywiZXhwIjoxNTgyMDc3NjEzfQ.eyJjb25maXJtIjoxMX0.EnNqQFuxBrXvVhg2WDMzv7Q8YMQ1fkRq7KsC50EMWl0 HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 09:00:51] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:00:53] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:00:53] "[37mGET /wish HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:00:57] "[32mGET /boy HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 09:00:57] "[32mGET /boy HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 09:00:57] "[32mGET /boy HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 09:00:58] "[37mGET /boy HTTP/1.1[0m" 200 -
+101.89.29.92 - - [19/Feb/2020 09:01:14] "[32mGET /confirm HTTP/1.1[0m" 302 -
+101.89.29.92 - - [19/Feb/2020 09:01:15] "[37mGET /login HTTP/1.1[0m" 200 -
+101.89.29.92 - - [19/Feb/2020 09:01:15] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+101.89.29.92 - - [19/Feb/2020 09:01:16] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:01:18] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:01:19] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:01:23] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03Í÷§"äÕ:xÖD¾@\x90ÍU\x96Y\x11}*ÛY`ÐY`"Âá\x17\x19\x9d\x00\x00')
+223.156.20.249 - - [19/Feb/2020 09:01:23] "[1m[35m ª  ¦Í÷§"äÕ:xÖD¾@ÍUY}*ÛY`ÐY`"Âá  ÊÊÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:01:23] code 400, message Bad request version ('ÊÊÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 09:01:23] "[1m[35m ª  ¦Ç$Îébú/v¿>#I+{Óúj³¾o:wò_d  ÊÊÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:01:23] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:01:23] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+39.105.128.250 - - [19/Feb/2020 09:01:26] "[32mGET /BottleRiverPick HTTP/1.1[0m" 302 -
+39.105.128.250 - - [19/Feb/2020 09:01:26] "[37mGET /login HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:01:26] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\xad\x93\\é\x8b\x11Y\x84®Xü\x84>\x11sì\xad\tZ\x96U¨\x8d[EäUF.Ú\r6\x00\x00\x1cªªÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 09:01:26] "[1m[35m ª  ¦­\éY®Xü>sì­	ZU¨[EäUF.Ú6  ªªÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:01:27] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:01:27] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03NÕ1\x17*©Y\t\x9eG\x06P\x8b¥ê\\\x84\rAzíû.Æ²kEÜ:\r¥¶\x00\x00\x1cJJÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 09:01:27] "[1m[35m ª  ¦NÕ1*©Y	GP¥ê\Azíû.Æ²kEÜ:¥¶  JJÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:01:27] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.156.20.249 - - [19/Feb/2020 09:01:30] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\x96\x8f\x05\x9eUTg\x1aÄöI÷i!¨ ÀÌ\x88Ò è\x98àÐæ\x1cÚêZ|¢\x00\x00\x1c\x9a\x9aÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 09:01:30] "[1m[35m ª  ¦UTgÄöI÷i!¨ ÀÌÒ èàÐæÚêZ|¢  À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:01:30] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:01:30] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03ÞTàM\x88Ã\x97\x15²á\x8d?Øú¦-YâÐQ¦\x02iÁÒ>\x90n\x1a×D\x8b\x00\x00')
+223.156.20.249 - - [19/Feb/2020 09:01:30] "[1m[35m ª  ¦ÞTàMÃ²á?Øú¦-YâÐQ¦iÁÒ>n×D  ÚÚÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:01:30] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+61.158.146.124 - - [19/Feb/2020 09:01:34] "[32mPOST /boy HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 09:01:35] "[37mGET /boy HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:01:42] "[32mPOST /boy HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 09:01:43] "[37mGET /boy HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:01:46] "[37mGET /wish HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:01:49] "[37mGET / HTTP/1.1[0m" 200 -
+180.97.118.219 - - [19/Feb/2020 09:01:50] "[32mGET /confirm/eyJhbGciOiJIUzI1NiIsImlhdCI6MTU4MjA3NDAxMywiZXhwIjoxNTgyMDc3NjEzfQ.eyJjb25maXJtIjoxMX0.EnNqQFuxBrXvVhg2WDMzv7Q8YMQ1fkRq7KsC50EMWl0 HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 09:01:51] "[37mGET /holiday HTTP/1.1[0m" 200 -
+180.97.118.219 - - [19/Feb/2020 09:01:51] "[37mGET /login HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:01:51] "[37mGET /static/img/river_index.jpg HTTP/1.1[0m" 200 -
+180.97.118.219 - - [19/Feb/2020 09:01:52] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+180.97.118.219 - - [19/Feb/2020 09:01:53] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:01:56] "[32mGET /BottleRiverPick HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 09:01:56] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:08] "[32mPOST /ThrowBottle HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 09:02:08] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:21] "[32mPOST /ThrowBottle HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 09:02:21] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+101.91.60.106 - - [19/Feb/2020 09:02:22] "[32mGET /BottleRiverPick HTTP/1.1[0m" 302 -
+101.91.60.106 - - [19/Feb/2020 09:02:22] "[37mGET /login HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:23] "[37mGET / HTTP/1.1[0m" 200 -
+101.91.60.106 - - [19/Feb/2020 09:02:23] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:23] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+101.91.60.106 - - [19/Feb/2020 09:02:23] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:25] "[37mGET /show HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:26] "[37mGET /static/img/show_index.jpg HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:26] "[37mGET /static/show.js HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:29] "[37mGET /static/img/wonderland.png HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:29] "[37mGET /wonderland HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:29] "[37mGET /static/img/wonderland.png HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:29] "[37mGET /static/wonderland.js HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:30] "[37mGET /static/userimg/10EB442434-4AB4-439E-9B53-3D1ACD61C2D9.png HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:30] "[37mGET /static/userimg/56.jpg HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:30] "[37mGET /static/userimg/16.jpg HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:30] "[37mGET /static/img/before.png HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:31] "[37mGET /static/userimg/8EB442434-4AB4-439E-9B53-3D1ACD61C2D9.png HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:31] "[37mGET /static/userimg/9EB442434-4AB4-439E-9B53-3D1ACD61C2D9.png HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:32] "[37mGET /static/userimg/111709.05748.pdf HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:02:36] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03Ñyõ\x17\x14\x83R\x06ü£Id\x16Héî$\x02\x17,Æ\x7fÞÈ\x15.hpr}>Ê\x00\x00')
+223.156.20.249 - - [19/Feb/2020 09:02:36] "[1m[35m ª  ¦ÑyõRü£IdHéî$,ÆÞÈ.hpr}>Ê  ÚÚÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:02:36] code 400, message Bad request syntax ("\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\x8e-\x9a\x02¦ÇI,Í\x13CÝ4Û#fwþ¡*Ìi\x85ø\x1f©¶>¼\x1eý'\x00\x00\x1c\x8a\x8aÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00")
+223.156.20.249 - - [19/Feb/2020 09:02:36] "[1m[35m ª  ¦-¦ÇI,ÍCÝ4Û#fwþ¡*Ìiø©¶>¼ý'  À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:02:36] "[37mGET / HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:02:36] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+61.158.146.124 - - [19/Feb/2020 09:02:38] "[37mGET / HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:38] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.156.20.249 - - [19/Feb/2020 09:02:38] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03f\x98ûY|\x15"fÄC\x06ÒQïE\x16ÔÅº§7\x9báYäXI7\x87\x0f\x95}\x00\x00')
+223.156.20.249 - - [19/Feb/2020 09:02:38] "[1m[35m ª  ¦fûY|"fÄCÒQïEÔÅº§7áYäXI7}  jjÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:02:38] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x034ä;¾DxDj`auÏ\x9eÃ½2¨\x0eº&K\x16Ê"5"ë\x9ba|+\x95\x00\x00')
+223.156.20.249 - - [19/Feb/2020 09:02:38] "[37mGET /holiday HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:02:38] "[1m[35m ª  ¦4ä;¾DxDj`auÏÃ½2¨º&KÊ"5"ëa|+  ::À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:02:39] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+61.158.146.124 - - [19/Feb/2020 09:02:40] "[37mGET /sing HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:40] "[37mGET /static/img/sing_index.jpg HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:46] "[37mGET / HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:02:48] "[37mGET /wish HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:02:59] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:03:02] "[37mGET /wish HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:03:03] "[32mGET /boy HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:03:03] "[32mGET /boy HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:03:04] "[37mGET /boy HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:03:20] "[37mPOST /boy HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:03:25] "[37mPOST /boy HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:03:26] "[37mPOST /boy HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:03:26] "[37mPOST /boy HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:03:26] "[37mPOST /boy HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:03:27] "[37mPOST /boy HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:03:27] "[37mPOST /boy HTTP/1.1[0m" 200 -
+101.89.29.86 - - [19/Feb/2020 09:03:28] "[37mGET /wonderland HTTP/1.1[0m" 200 -
+101.89.29.86 - - [19/Feb/2020 09:03:29] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+101.89.29.86 - - [19/Feb/2020 09:03:30] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+101.89.29.86 - - [19/Feb/2020 09:03:33] "[37mGET /static/wonderland.js HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:03:34] "[37mGET / HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:03:34] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+14.153.187.233 - - [19/Feb/2020 09:03:35] "[37mPOST /boy HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:03:36] "[37mPOST /boy HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:03:36] "[37mPOST /boy HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:03:36] "[37mPOST /boy HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:03:36] "[37mPOST /boy HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:03:36] "[37mGET /holiday HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:03:37] "[37mPOST /boy HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:03:43] "[32mPOST /boy HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:03:43] "[37mGET /boy HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:03:44] "[32mGET /BottleRiverPick HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 09:03:44] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:03:45] "[37mGET /static/img/river_letter.jpg HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:03:51] "[32mPOST /boy HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:03:51] "[37mGET /boy HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:03:52] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:04:04] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:04:08] "[37mGET / HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:04:09] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+61.158.146.124 - - [19/Feb/2020 09:04:10] "[37mGET /holiday HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:04:14] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:04:17] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 09:04:18] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:04:38] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:04:41] "[37mGET /wishpool?email=xiaoyanyan%40mail.ustc.edu.cn HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:04:44] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:04:48] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:04:55] "[37mGET /wish HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:04:58] "[37mGET /boy HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:05:18] "[37mGET / HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:05:19] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+61.158.146.124 - - [19/Feb/2020 09:05:20] "[37mGET /holiday HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:05:21] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:05:25] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 09:05:25] "[32mGET /BottleRiverPick HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 09:05:26] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:06:10] "[37mGET /wish HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:06:11] "[37mGET /boy HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:06:27] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:06:28] "[37mGET /holiday HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:06:29] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:06:30] "[37mGET / HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:06:31] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+61.158.146.124 - - [19/Feb/2020 09:06:32] "[37mGET /holiday HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:06:34] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:06:35] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+221.198.65.12 - - [19/Feb/2020 09:06:35] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:06:35] "[37mGET /static/img/river_letter.jpg HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:06:38] "[37mGET /attendance HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:06:40] "[37mGET /BottleFaq HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:06:44] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:06:46] "[37mGET /sing HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:06:46] "[37mGET /static/img/sing_index.jpg HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:06:47] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:06:49] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:06:50] "[37mGET /show HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:06:50] "[37mGET /static/show.js HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:06:50] "[37mGET /static/img/show_index.jpg HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:06:50] "[37mGET /static/img/The_Mad_Tea_Party.jpg HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:06:50] "[37mGET /static/img/show.png HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:06:50] "[37mGET /static/img/wonderland.png HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:06:51] "[37mGET /static/img/kitchen.png HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:06:53] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:06:54] "[37mGET /static/img/battle.png HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:06:55] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:06:59] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:07:00] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:07:05] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:07:07] "[37mGET /holiday HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:07:08] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:07:08] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:07:08] "[37mGET /static/shareup.js HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:07:17] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:07:18] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:07:19] "[37mGET /wish HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:07:24] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:07:29] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:07:31] "[37mGET /wishpool?email=xiaoyanyan%40mail.ustc.edu.cn HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:07:36] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:07:37] "[37mGET /wish HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:07:38] "[37mGET /faq HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:07:42] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:07:42] "[37mGET /wish HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:07:44] "[37mGET /boy HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:07:55] "[37mGET /wish HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:07:56] "[37mGET /boy HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:08:00] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:08:01] "[37mGET /holiday HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:08:04] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:08:06] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:08:07] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:08:17] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:08:17] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:08:21] "[37mPOST /bottleMessage HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:08:24] "[32mPOST /bottleMessage HTTP/1.1[0m" 302 -
+221.198.65.12 - - [19/Feb/2020 09:08:24] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:08:31] "[37mGET / HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:08:45] "[37mGET / HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:08:46] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+61.158.146.124 - - [19/Feb/2020 09:08:47] "[37mGET /holiday HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:08:51] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:08:57] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:08:59] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:09:01] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 09:09:01] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:09:02] "[37mGET /holiday HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:09:03] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:09:03] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:09:03] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:09:04] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:09:04] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 09:09:05] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:09:05] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 09:09:06] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:09:07] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+61.158.146.124 - - [19/Feb/2020 09:09:07] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:09:36] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:09:55] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:09:56] "[37mGET /holiday HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:09:57] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:10:13] "[37mGET / HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:10:13] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+61.158.146.124 - - [19/Feb/2020 09:10:16] "[37mGET /holiday HTTP/1.1[0m" 200 -
+61.158.146.124 - - [19/Feb/2020 09:10:19] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:10:29] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:10:31] "[37mPOST /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:10:34] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:10:36] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:10:38] "[37mPOST /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:10:39] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:10:43] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:10:47] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:10:48] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:10:49] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:10:50] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:11:04] "[37mPOST /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:11:05] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:11:15] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:11:16] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:11:17] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:11:18] "[32mPOST /bottleMessage HTTP/1.1[0m" 302 -
+221.198.65.12 - - [19/Feb/2020 09:11:18] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+101.89.29.92 - - [19/Feb/2020 09:11:18] "[32mGET /bottleMessage HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:11:18] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+101.89.29.92 - - [19/Feb/2020 09:11:19] "[37mGET /login HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:11:19] "[37mGET /attendance HTTP/1.1[0m" 200 -
+101.89.29.92 - - [19/Feb/2020 09:11:19] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+101.89.29.92 - - [19/Feb/2020 09:11:20] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:11:20] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:11:47] "[37mPOST /shareUp HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:11:49] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:11:54] "[37mGET /holiday HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:11:56] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:12:03] "[37mGET /attendance HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:12:04] "[37mGET /BottleFaq HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:12:05] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:12:08] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:12:16] "[32mGET /logout HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:12:44] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:12:48] "[37mGET /login HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:13:03] "[32mPOST /login HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:13:07] "[32mPOST /login HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:13:07] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:13:10] "[37mGET /holiday HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:13:11] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:13:13] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:13:29] "[37mGET / HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:13:29] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:13:29] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:13:30] "[37mGET /static/img/index.jpg HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:13:32] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+115.60.59.201 - - [19/Feb/2020 09:13:32] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+115.60.59.201 - - [19/Feb/2020 09:13:38] "[37mGET /login HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:13:38] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+115.60.59.201 - - [19/Feb/2020 09:13:38] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+221.198.65.12 - - [19/Feb/2020 09:13:52] "[32mGET /girl HTTP/1.1[0m" 302 -
+221.198.65.12 - - [19/Feb/2020 09:13:53] "[37mGET /login HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:13:53] "[33mGET /apple-touch-icon-120x120-precomposed.png HTTP/1.1[0m" 404 -
+221.198.65.12 - - [19/Feb/2020 09:13:54] "[33mGET /apple-touch-icon-120x120.png HTTP/1.1[0m" 404 -
+221.198.65.12 - - [19/Feb/2020 09:13:54] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+221.198.65.12 - - [19/Feb/2020 09:13:55] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+221.198.65.12 - - [19/Feb/2020 09:13:55] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+221.198.65.12 - - [19/Feb/2020 09:13:55] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+221.198.65.12 - - [19/Feb/2020 09:13:55] "[33mGET /apple-touch-icon-120x120-precomposed.png HTTP/1.1[0m" 404 -
+221.198.65.12 - - [19/Feb/2020 09:13:56] "[32mGET /sing HTTP/1.1[0m" 302 -
+221.198.65.12 - - [19/Feb/2020 09:13:56] "[37mGET /static/img/sing_index.jpg HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:13:56] "[37mGET /login HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:13:56] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:13:56] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:13:57] "[33mGET /apple-touch-icon-120x120.png HTTP/1.1[0m" 404 -
+221.198.65.12 - - [19/Feb/2020 09:13:57] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+221.198.65.12 - - [19/Feb/2020 09:13:57] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+221.198.65.12 - - [19/Feb/2020 09:13:57] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+221.198.65.12 - - [19/Feb/2020 09:13:57] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+221.198.65.12 - - [19/Feb/2020 09:14:06] "[32mPOST /login HTTP/1.1[0m" 302 -
+221.198.65.12 - - [19/Feb/2020 09:14:07] "[37mGET / HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:14:07] "[37mGET /static/img/index.jpg HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:14:10] "[37mGET /holiday HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:14:13] "[37mGET /static/img/river_index.jpg HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:14:16] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:14:17] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:14:21] "[37mGET / HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:14:24] "[32mPOST /login HTTP/1.1[0m" 302 -
+115.60.59.201 - - [19/Feb/2020 09:14:24] "[37mGET / HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:14:29] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:14:29] "[37mGET /luck HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:14:29] "[37mGET /static/img/luck.jpg HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:14:30] "[37mGET /holiday HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:14:30] "[37mGET /static/img/river_index.jpg HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:14:31] "[37mGET /myticket HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:14:32] "[37mGET /luck HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:14:34] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:14:34] "[37mGET /wish HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:14:35] "[37mGET /boy HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:14:36] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:14:40] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:14:43] "[37mGET /wish HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:14:45] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:14:45] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:14:46] "[37mGET /holiday HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:14:47] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:14:52] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:14:54] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:14:56] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:14:56] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:15:01] "[37mPOST /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:15:03] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:15:04] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:15:34] "[37mGET /holiday HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:15:39] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:15:41] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:15:43] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:15:45] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:15:48] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+115.60.59.201 - - [19/Feb/2020 09:15:48] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:15:49] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:15:49] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:15:49] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:15:50] "[37mGET /static/img/index.jpg HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:15:50] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+115.60.59.201 - - [19/Feb/2020 09:15:50] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:15:50] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+14.153.187.233 - - [19/Feb/2020 09:15:51] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+14.153.187.233 - - [19/Feb/2020 09:15:52] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:15:52] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+14.153.187.233 - - [19/Feb/2020 09:15:52] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+14.153.187.233 - - [19/Feb/2020 09:15:55] "[37mGET /login HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:16:18] "[32mPOST /login HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:16:18] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:16:20] "[37mGET /wish HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:16:20] "[37mGET /static/img/wishpool_wishAchieve.jpg HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:16:21] "[37mGET /boy HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:16:23] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:16:24] "[37mGET /holiday HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:16:24] "[37mGET /static/img/river_index.jpg HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:16:24] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:16:25] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:16:26] "[37mGET /holiday HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:16:26] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:16:28] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:16:31] "[32mPOST /ThrowBottle HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:16:31] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:16:34] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:16:34] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:16:39] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:16:39] "[37mGET /static/shareup.js HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:16:39] "[37mGET /static/img/before.png HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:16:45] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:16:48] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:16:50] "[37mGET /attendance HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:16:53] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:16:53] "[37mGET /holiday HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:16:54] "[37mGET / HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:16:57] "[37mGET /wish HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:16:57] "[37mGET /static/img/wishpool_wishAchieve.jpg HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:17:07] "[37mGET / HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:17:09] "[37mGET /holiday HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:17:11] code 400, message Bad request version ('/û>\x12\x96rFÙ\x00\x00')
+223.156.20.249 - - [19/Feb/2020 09:17:11] "[1m[35m ª  ¦OTm£iæT[É[°oq¡!	× /û>rFÙ  [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:17:11] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03$\x9f\x078ý\x96{\x98\x05³M_\x90GËäöÒì<Võd\x11V3\x03§Wì2d\x00\x00')
+223.156.20.249 - - [19/Feb/2020 09:17:11] "[1m[35m ª  ¦$8ý{³M_GËäöÒì<VõdV3§Wì2d  **À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:17:11] "[37mGET / HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:17:11] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.156.20.249 - - [19/Feb/2020 09:17:14] code 400, message Bad request version ('ÚÚÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 09:17:14] "[1m[35m ª  ¦ßZOLr+VX/ýï­ófæzÖLâTU*¸aÏ@ë  ÚÚÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:17:15] "[37mGET /holiday HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:17:15] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03[Ê©\x96ËF\x9b\x9dÛ\x81´LÂ<?ºåkç\x8fÅ\x9aL/;Á\x9fxwÌ\x98·\x00\x00')
+223.156.20.249 - - [19/Feb/2020 09:17:15] "[1m[35m ª  ¦[Ê©ËFÛ´LÂ<?ºåkçÅL/;ÁxwÌ·  ZZÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:17:16] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+115.60.59.201 - - [19/Feb/2020 09:17:19] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:17:22] "[32mPOST /bottleMessage HTTP/1.1[0m" 302 -
+115.60.59.201 - - [19/Feb/2020 09:17:22] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:17:22] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03c')
+223.156.20.249 - - [19/Feb/2020 09:17:22] "[1m[35m ª  ¦c[0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:17:23] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x031\x100°Ò¢ôb:¼atx\x10ëbË)¹\x01|ëjÓ»\x15ÂçåE.ù\x00\x00')
+223.156.20.249 - - [19/Feb/2020 09:17:23] "[1m[35m ª  ¦10°Ò¢ôb:¼atxëbË)¹|ëjÓ»ÂçåE.ù  ::À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:17:23] "[37mGET /wish HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:17:23] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.156.20.249 - - [19/Feb/2020 09:17:27] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:17:27] "[37mGET /static/img/wish_letter.jpg HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:17:27] "[37mGET /static/img/before.png HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:17:28] "[37mGET /static/wishpool.js HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:17:28] code 400, message Bad request version ('ººÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 09:17:28] "[1m[35m ª  ¦·"JÖÎ°JZ$ÕDÈOý1Ö6E(¢}¦/  ººÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:17:29] code 400, message Bad request version ('\x1a\x1aÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 09:17:29] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.156.20.249 - - [19/Feb/2020 09:17:29] "[1m[35m ª  ¦¶}Â1û ¯5¡E²pðx~XgÂ\Ð·h½Îié&  À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+116.198.10.6 - - [19/Feb/2020 09:17:30] "[32mGET /wishpool HTTP/1.1[0m" 302 -
+116.198.15.4 - - [19/Feb/2020 09:17:30] "[37mGET /login HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:17:42] "[32mPOST /bottleMessage HTTP/1.1[0m" 302 -
+115.60.59.201 - - [19/Feb/2020 09:17:42] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:17:43] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:17:43] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03ò\x8b\t')
+223.156.20.249 - - [19/Feb/2020 09:17:43] "[1m[35m ª  ¦ò	[0m" HTTPStatus.BAD_REQUEST -
+115.60.59.201 - - [19/Feb/2020 09:17:44] "[32mPOST /bottleMessage HTTP/1.1[0m" 302 -
+115.60.59.201 - - [19/Feb/2020 09:17:44] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:17:47] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03!¨Ip\x91àä6')
+223.156.20.249 - - [19/Feb/2020 09:17:47] "[1m[35m ª  ¦!¨Ipàä6åV[0m" HTTPStatus.BAD_REQUEST -
+14.153.187.233 - - [19/Feb/2020 09:17:49] "[32mGET /BottleRiverPick HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:17:49] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:17:51] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:17:54] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:17:54] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:17:54] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:17:55] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:17:55] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:17:55] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:17:56] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03íl¿\x0eh\x1aå8À\x07ø\x14Iìd\x0e\\\x92\x053fã\x13¨Y\x84h²&ñÏ½\x00\x00')
+223.156.20.249 - - [19/Feb/2020 09:17:56] "[1m[35m ª  ¦íl¿hå8ÀøIìd\3fã¨Yh²&ñÏ½  êêÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:17:56] code 400, message Bad request version ("\x8f\x91\x07'c/Ê,¡\x8cÁ~Ô\x9bk»\x00\x00")
+223.156.20.249 - - [19/Feb/2020 09:17:56] "[1m[35m ª  ¦ñó72S¹4Éwl4®ò'c/Ê,¡Á~Ôk»  [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:17:56] "[37mGET /show HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:17:56] "[37mGET /static/show.js HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:17:56] "[37mGET /static/img/show_index.jpg HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:17:57] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+14.153.187.233 - - [19/Feb/2020 09:17:57] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:17:57] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:18:02] "[37mGET /static/img/wonderland.png HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:18:02] "[37mGET /static/img/show.png HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:18:05] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:18:05] "[37mGET /static/img/before.png HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:18:05] "[37mGET /static/shareup.js HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:18:07] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:18:12] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:18:12] "[36mGET /static/popper.min.js HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 09:18:12] "[36mGET /static/jquery.min.js HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 09:18:12] "[36mGET /static/img/river_index.jpg HTTP/1.1[0m" 304 -
+61.129.6.159 - - [19/Feb/2020 09:18:15] "[32mGET /holiday HTTP/1.1[0m" 302 -
+61.129.6.159 - - [19/Feb/2020 09:18:15] "[37mGET /login HTTP/1.1[0m" 200 -
+61.129.6.159 - - [19/Feb/2020 09:18:15] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:18:16] "[32mPOST /bottleMessage HTTP/1.1[0m" 302 -
+61.129.6.159 - - [19/Feb/2020 09:18:16] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:18:16] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:18:26] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:18:28] "[37mGET /holiday HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:18:30] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:18:31] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:18:32] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:18:34] "[32mPOST /bottleMessage HTTP/1.1[0m" 302 -
+115.60.59.201 - - [19/Feb/2020 09:18:34] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:18:35] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:18:37] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:19:56] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:19:56] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:20:00] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:20:01] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:20:02] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:20:02] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:20:03] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:20:03] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:20:04] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:20:05] "[37mGET /holiday HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:20:21] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:20:26] "[37mGET /holiday HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:20:26] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:20:28] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:20:30] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:20:31] "[37mGET /static/shareup.js HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:20:34] "[37mGET /shareUp?workid=4 HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:20:48] "[37mPOST /shareUp HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:20:56] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:20:57] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:20:59] "[37mPOST /shareUp HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:20:59] "[36mGET /static/popper.min.js HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 09:20:59] "[36mGET /static/img/before.png HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 09:20:59] "[36mGET /static/jquery.min.js HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 09:21:00] "[36mGET /static/img/river_index.jpg HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 09:21:00] "[36mGET /static/shareup.js HTTP/1.1[0m" 304 -
+14.153.187.233 - - [19/Feb/2020 09:21:02] "[32mPOST /ThrowBottle HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:21:02] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:21:04] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:21:04] "[36mGET /static/jquery.min.js HTTP/1.1[0m" 304 -
+115.60.59.201 - - [19/Feb/2020 09:21:04] "[36mGET /static/popper.min.js HTTP/1.1[0m" 304 -
+115.60.59.201 - - [19/Feb/2020 09:21:04] "[36mGET /static/img/river_index.jpg HTTP/1.1[0m" 304 -
+14.153.187.233 - - [19/Feb/2020 09:21:05] "[37mPOST /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:21:08] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:21:11] "[37mPOST /shareUp HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:21:11] "[36mGET /static/shareup.js HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 09:21:11] "[36mGET /static/popper.min.js HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 09:21:11] "[36mGET /static/img/before.png HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 09:21:11] "[36mGET /static/jquery.min.js HTTP/1.1[0m" 304 -
+221.198.65.12 - - [19/Feb/2020 09:21:12] "[36mGET /static/img/river_index.jpg HTTP/1.1[0m" 304 -
+115.60.59.201 - - [19/Feb/2020 09:21:18] "[32mPOST /bottleMessage HTTP/1.1[0m" 302 -
+115.60.59.201 - - [19/Feb/2020 09:21:19] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:21:22] "[37mGET /holiday HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:21:22] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:21:22] "[36mGET /static/jquery.min.js HTTP/1.1[0m" 304 -
+14.153.187.233 - - [19/Feb/2020 09:21:22] "[36mGET /static/popper.min.js HTTP/1.1[0m" 304 -
+14.153.187.233 - - [19/Feb/2020 09:21:22] "[36mGET /static/img/river_index.jpg HTTP/1.1[0m" 304 -
+14.153.187.233 - - [19/Feb/2020 09:21:24] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:21:25] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:21:26] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:21:26] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:21:28] "[37mGET / HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:21:30] "[37mGET /show HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:21:32] "[37mPOST /shareUp HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:21:33] "[37mGET / HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:21:33] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:21:34] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:21:35] "[37mGET /wish HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:21:36] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:21:36] "[37mGET /boy HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:21:37] "[37mGET /holiday HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:21:41] "[37mGET /attendance HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:21:53] "[37mGET / HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:21:55] "[37mGET /holiday HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:21:57] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:22:00] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03FP"}\x0c\x01±"¤[Q¯o¬\'\x9cjÁ?\xa0èøRFæ\x89%>øE\x86\x85\x00\x00\x1cJJÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 09:22:00] "[1m[35m ª  ¦FP"}±"¤[Q¯o¬'jÁ? èøRFæ%>øE  JJÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:22:00] "[37mGET /wish HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:22:00] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03!.Q+mÂaÏ\x9c-G\x04\x9bÅNMh|§cê\x9fÀ/¾ã÷Ò5\x99p×\x00\x00')
+223.156.20.249 - - [19/Feb/2020 09:22:00] "[1m[35m ª  ¦!.Q+mÂaÏ-GÅNMh|§cêÀ/¾ã÷Ò5p×  **À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:22:00] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+115.60.59.201 - - [19/Feb/2020 09:22:01] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:22:04] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+115.60.59.201 - - [19/Feb/2020 09:22:04] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:22:51] code 400, message Bad request version ('zzÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 09:22:51] "[1m[35m ª  ¦xÖ¹òÆ¿k31H¸¿÷Ýô«ÞéùÀaÏ  zzÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:22:51] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:22:51] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03ýâ\x13t\x8e+ÉÓ|¤áÍJ\x91î,nI¡ÃZig!\x12ð\x80Å\x06Û\\$\x00\x00')
+223.156.20.249 - - [19/Feb/2020 09:22:51] "[1m[35m ª  ¦ýât+ÉÓ|¤áÍJî,nI¡ÃZig!ðÅÛ\$  úúÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:22:51] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+36.63.129.155 - - [19/Feb/2020 09:22:58] "[37mGET / HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:22:58] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:22:58] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:22:58] "[37mGET /static/img/index.jpg HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:22:59] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+36.63.129.155 - - [19/Feb/2020 09:22:59] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+36.63.129.155 - - [19/Feb/2020 09:23:06] "[37mGET /register HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:23:06] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+36.63.129.155 - - [19/Feb/2020 09:23:06] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+14.153.187.233 - - [19/Feb/2020 09:23:13] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:23:14] "[37mGET /holiday HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:23:15] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:23:22] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:23:23] "[37mGET /wish HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:23:23] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:23:23] "[37mGET /static/img/wish_letter.jpg HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:23:23] "[37mGET /static/wishpool.js HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:23:24] code 400, message Bad request version ('\x1a\x1aÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 09:23:24] "[1m[35m ª  ¦MÝÔ+Pöbzrçíë2R@ç ñiy R  À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:23:24] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03\x98/\x84«5ë\xa0\x1fû×GT:¬n\x16R-\x9e¢¤öÇñ1e\x916q7\x85©\x00\x00\x1c\x9a\x9aÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 09:23:24] "[1m[35m ª  ¦/«5ë û×GT:¬nR-¢¤öÇñ1e6q7©  À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:23:24] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:23:24] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.156.20.249 - - [19/Feb/2020 09:23:25] "[37mGET /wishpool?email=xiaoyanyan%40mail.ustc.edu.cn HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:23:39] "[37mGET /wish HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:23:44] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03B`Z,ö\x01Á>½t|\x8e\x8dñ\x12BàugF\x82Ò')
+223.156.20.249 - - [19/Feb/2020 09:23:44] "[1m[35m ª  ¦B`Z,öÁ>½t|ñBàugFÒ"æ-Ô~Ô[0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:23:44] "[37mGET /holiday HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:23:44] code 400, message Bad request version ('jjÀ+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 09:23:44] "[1m[35m ª  ¦d[ÝxÝ9P6ºøÇÌ	FI+¡l³^2éÍ7ºÚÈ  jjÀ+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:23:44] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+223.156.20.249 - - [19/Feb/2020 09:23:47] code 400, message Bad request version ('\x86MÚ±\x00\x00')
+223.156.20.249 - - [19/Feb/2020 09:23:47] "[1m[35m ª  ¦S:-¾+Qlj]9uá»EöbßÈõ:xMÚ±  [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:23:48] code 400, message Bad request syntax ('\x16\x03\x01\x00ª\x01\x00\x00¦\x03\x03#»~`\x7f\x93\x1e\x01Ìjëé\x7f\x93;lÍ¡0I\x0c~z¦|\x94\x15\x11>\x90µ#\x00\x00\x1c**À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x00')
+223.156.20.249 - - [19/Feb/2020 09:23:48] "[1m[35m ª  ¦#»~`Ìjëé;lÍ¡0I~z¦|>µ#  **À+À/À,À0Ì©Ì¨ÀÀ   / 5 [0m" HTTPStatus.BAD_REQUEST -
+223.156.20.249 - - [19/Feb/2020 09:23:48] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+223.156.20.249 - - [19/Feb/2020 09:23:48] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+14.153.187.233 - - [19/Feb/2020 09:23:52] "[37mGET / HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:23:52] "[32mPOST /register HTTP/1.1[0m" 302 -
+36.63.129.155 - - [19/Feb/2020 09:23:52] "[37mGET /login HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:23:53] "[37mGET /holiday HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:23:54] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:23:58] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:24:01] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:24:02] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:24:03] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:24:03] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:24:03] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:24:05] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:24:05] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:24:14] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:24:18] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:24:20] "[37mGET /attendance HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:24:21] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:24:22] "[32mGET /confirm/eyJhbGciOiJIUzI1NiIsImlhdCI6MTU4MjA3NTQzMiwiZXhwIjoxNTgyMDc5MDMyfQ.eyJjb25maXJtIjoxMn0.c8BKJtaxCUuQVgbCclLZbN5ndlarBEBq2BnwmqPJkuo HTTP/1.1[0m" 302 -
+36.63.129.155 - - [19/Feb/2020 09:24:22] "[37mGET /login HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:24:26] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:24:28] "[37mGET /holiday HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:24:34] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:24:35] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:24:37] "[37mGET / HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:24:37] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:24:37] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:24:37] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:24:37] "[37mGET /static/img/index.jpg HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:24:37] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+221.198.65.12 - - [19/Feb/2020 09:24:38] "[37mGET /shareUp?workid=5 HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:24:41] "[37mGET /register HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:24:42] "[37mGET /shareUp?workid=2 HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:24:56] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:25:01] "[37mGET /attendance HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:25:01] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:25:01] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:25:01] "[37mGET /static/img/index.jpg HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:25:02] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+14.153.187.233 - - [19/Feb/2020 09:25:02] "[37mGET /BottleFaq HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:25:03] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:25:05] "[32mGET /wish HTTP/1.1[0m" 302 -
+39.186.33.161 - - [19/Feb/2020 09:25:05] "[37mGET /login HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:25:05] "[37mPOST /login HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:25:16] "[37mGET /attendance HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:25:19] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:25:19] "[37mGET /register HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:25:19] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:25:21] "[37mGET /shareUp?workid=5 HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:25:22] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:25:23] "[37mGET /shareUp?workid=3 HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:25:24] "[37mGET /luck HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:25:24] "[37mGET /static/img/luck.jpg HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:25:25] "[37mGET /myticket HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:25:26] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:25:27] "[37mGET /luck HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:25:48] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:25:52] "[37mGET /holiday HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:26:00] "[37mGET /register HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:26:01] "[32mPOST /register HTTP/1.1[0m" 302 -
+39.186.33.161 - - [19/Feb/2020 09:26:01] "[37mGET /login HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:26:07] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:26:10] "[37mGET /holiday HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:26:11] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:26:12] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:26:24] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:26:26] "[32mGET /confirm/eyJhbGciOiJIUzI1NiIsImlhdCI6MTU4MjA3NTU2MSwiZXhwIjoxNTgyMDc5MTYxfQ.eyJjb25maXJtIjoxM30._YUM2E-GVNhZDOFkL9UeROCAPk-WD8-bD1iEEdZz6iI HTTP/1.1[0m" 302 -
+39.186.33.161 - - [19/Feb/2020 09:26:26] "[37mGET /login HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:26:32] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:26:34] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:26:34] "[32mPOST /login HTTP/1.1[0m" 302 -
+39.186.33.161 - - [19/Feb/2020 09:26:34] "[37mGET / HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:26:36] "[37mGET /wish HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:26:37] "[37mGET /static/img/wishpool_wishAchieve.jpg HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:26:39] "[37mGET /unconfirmed HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:26:42] "[32mPOST /register HTTP/1.1[0m" 302 -
+36.63.129.155 - - [19/Feb/2020 09:26:42] "[37mGET /login HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:26:46] "[32mGET /confirm/eyJhbGciOiJIUzI1NiIsImlhdCI6MTU4MjA3NTU2MSwiZXhwIjoxNTgyMDc5MTYxfQ.eyJjb25maXJtIjoxM30._YUM2E-GVNhZDOFkL9UeROCAPk-WD8-bD1iEEdZz6iI HTTP/1.1[0m" 302 -
+39.186.33.161 - - [19/Feb/2020 09:26:46] "[37mGET / HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:26:49] "[37mGET /wish HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:26:53] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:26:53] "[37mGET /static/img/wish_letter.jpg HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:26:53] "[37mGET /static/img/before.png HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:26:53] "[37mGET /static/wishpool.js HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:27:01] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:27:04] "[37mGET /wishpool?email=xiaoyanyan%40mail.ustc.edu.cn HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:27:07] "[37mGET /wishpool?email=xh191708%40mail.ustc.edu.cn HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:07] "[32mPOST /login HTTP/1.1[0m" 302 -
+36.63.129.155 - - [19/Feb/2020 09:27:07] "[37mGET / HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:27:09] "[37mGET /wish HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:10] "[32mGET /confirm/eyJhbGciOiJIUzI1NiIsImlhdCI6MTU4MjA3NTQzMiwiZXhwIjoxNTgyMDc5MDMyfQ.eyJjb25maXJtIjoxMn0.c8BKJtaxCUuQVgbCclLZbN5ndlarBEBq2BnwmqPJkuo HTTP/1.1[0m" 302 -
+36.63.129.155 - - [19/Feb/2020 09:27:10] "[37mGET / HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:27:11] "[32mGET /boy HTTP/1.1[0m" 302 -
+39.186.33.161 - - [19/Feb/2020 09:27:11] "[32mGET /boy HTTP/1.1[0m" 302 -
+39.186.33.161 - - [19/Feb/2020 09:27:11] "[37mGET /wish HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:27:14] "[37mGET / HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:27:15] "[37mGET /holiday HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:27:16] "[37mGET /static/img/river_index.jpg HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:27:17] "[32mPOST /register HTTP/1.1[0m" 302 -
+117.152.11.151 - - [19/Feb/2020 09:27:18] "[37mGET /login HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:27:20] "[32mGET /BottleRiverPick HTTP/1.1[0m" 302 -
+39.186.33.161 - - [19/Feb/2020 09:27:20] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:21] "[32mGET /confirm/eyJhbGciOiJIUzI1NiIsImlhdCI6MTU4MjA3NTYwMiwiZXhwIjoxNTgyMDc5MjAyfQ.eyJjb25maXJtIjoxNH0.xYBsAw63i53_5sLEPG6uaILfQVcgQA5o1G4FIg73d4o HTTP/1.1[0m" 302 -
+36.63.129.155 - - [19/Feb/2020 09:27:21] "[37mGET / HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:27:24] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:27:26] "[37mGET / HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:27:28] "[37mGET /holiday HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:27:30] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:30] "[37mGET /wish HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:30] "[37mGET /static/img/wishpool_wishAchieve.jpg HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:33] "[32mGET /boy HTTP/1.1[0m" 302 -
+36.63.129.155 - - [19/Feb/2020 09:27:33] "[32mGET /boy HTTP/1.1[0m" 302 -
+36.63.129.155 - - [19/Feb/2020 09:27:33] "[37mGET /wish HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:36] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:36] "[37mGET /static/img/before.png HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:36] "[37mGET /static/wishpool.js HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:36] "[37mGET /static/img/wish_letter.jpg HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:41] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:45] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:45] "[36mGET /static/wishpool.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:45] "[36mGET /static/jquery.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:45] "[36mGET /static/popper.min.js HTTP/1.1[0m" 304 -
+39.186.33.161 - - [19/Feb/2020 09:27:45] "[32mPOST /ThrowBottle HTTP/1.1[0m" 302 -
+36.63.129.155 - - [19/Feb/2020 09:27:45] "[36mGET /static/img/before.png HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:45] "[36mGET /static/img/wish_letter.jpg HTTP/1.1[0m" 304 -
+39.186.33.161 - - [19/Feb/2020 09:27:45] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:45] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:45] "[36mGET /static/popper.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:45] "[36mGET /static/img/wish_letter.jpg HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:45] "[36mGET /static/wishpool.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:45] "[36mGET /static/jquery.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:45] "[36mGET /static/img/before.png HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:45] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:45] "[36mGET /static/popper.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:45] "[36mGET /static/jquery.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:45] "[36mGET /static/wishpool.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:45] "[36mGET /static/img/wish_letter.jpg HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:45] "[36mGET /static/img/before.png HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:45] "[36mGET /static/img/wishpool_wishAchieve.jpg HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:46] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:27:46] "[32mPOST /login HTTP/1.1[0m" 302 -
+36.63.129.155 - - [19/Feb/2020 09:27:46] "[36mGET /static/popper.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:46] "[36mGET /static/jquery.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:46] "[36mGET /static/img/wish_letter.jpg HTTP/1.1[0m" 304 -
+117.152.11.151 - - [19/Feb/2020 09:27:46] "[37mGET / HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:46] "[36mGET /static/wishpool.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:46] "[36mGET /static/img/before.png HTTP/1.1[0m" 304 -
+14.153.187.233 - - [19/Feb/2020 09:27:46] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+36.63.129.155 - - [19/Feb/2020 09:27:46] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:46] "[36mGET /static/img/before.png HTTP/1.1[0m" 304 -
+14.153.187.233 - - [19/Feb/2020 09:27:46] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:46] "[36mGET /static/wishpool.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:46] "[36mGET /static/jquery.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:46] "[36mGET /static/img/wish_letter.jpg HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:46] "[36mGET /static/popper.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:46] "[36mGET /static/img/wishpool_wishAchieve.jpg HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:46] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:46] "[36mGET /static/img/before.png HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:46] "[36mGET /static/popper.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:46] "[36mGET /static/img/wish_letter.jpg HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:46] "[36mGET /static/wishpool.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:46] "[36mGET /static/jquery.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:47] "[36mGET /static/img/wishpool_wishAchieve.jpg HTTP/1.1[0m" 304 -
+14.153.187.233 - - [19/Feb/2020 09:27:47] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:27:47] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:47] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:47] "[36mGET /static/wishpool.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:47] "[36mGET /static/popper.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:47] "[36mGET /static/img/wish_letter.jpg HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:47] "[36mGET /static/jquery.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:47] "[36mGET /static/img/before.png HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:47] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:47] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:47] "[36mGET /static/popper.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:47] "[36mGET /static/img/before.png HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:47] "[36mGET /static/jquery.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:48] "[36mGET /static/wishpool.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:48] "[36mGET /static/img/wish_letter.jpg HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:48] "[36mGET /static/img/wishpool_wishAchieve.jpg HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:48] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:48] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:27:48] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+36.63.129.155 - - [19/Feb/2020 09:27:48] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:27:48] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:48] "[36mGET /static/jquery.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:48] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:48] "[36mGET /static/jquery.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:48] "[36mGET /static/img/wish_letter.jpg HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:48] "[36mGET /static/wishpool.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:48] "[36mGET /static/popper.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:48] "[36mGET /static/img/before.png HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:48] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:27:48] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+14.153.187.233 - - [19/Feb/2020 09:27:48] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:49] "[36mGET /static/img/wish_letter.jpg HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:49] "[36mGET /static/img/before.png HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:49] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:49] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:49] "[36mGET /static/img/before.png HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:49] "[36mGET /static/wishpool.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:49] "[36mGET /static/popper.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:49] "[36mGET /static/jquery.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:49] "[36mGET /static/img/wish_letter.jpg HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:27:49] "[36mGET /static/img/wishpool_wishAchieve.jpg HTTP/1.1[0m" 304 -
+117.152.11.151 - - [19/Feb/2020 09:27:50] "[37mGET /wish HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:27:50] "[37mGET /static/img/wishpool_wishAchieve.jpg HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:27:51] "[32mPOST /ThrowBottle HTTP/1.1[0m" 302 -
+39.186.33.161 - - [19/Feb/2020 09:27:52] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:54] "[37mGET /wish HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:27:55] "[32mPOST /ThrowBottle HTTP/1.1[0m" 302 -
+39.186.33.161 - - [19/Feb/2020 09:27:56] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:27:56] "[37mGET /faq HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:27:56] "[37mGET /unconfirmed HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:27:59] "[32mPOST /ThrowBottle HTTP/1.1[0m" 302 -
+39.186.33.161 - - [19/Feb/2020 09:27:59] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:28:03] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:28:06] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:13] "[37mGET / HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:15] "[37mGET /holiday HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:16] "[32mGET /BottleRiverPick HTTP/1.1[0m" 302 -
+39.186.33.161 - - [19/Feb/2020 09:28:16] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:20] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:23] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:25] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+39.186.33.161 - - [19/Feb/2020 09:28:25] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:28] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:28:29] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:30] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:31] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:28:32] "[37mGET /wish HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:28:34] "[37mGET / HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:35] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:28:35] "[37mGET /holiday HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:28:35] "[37mGET /static/img/river_index.jpg HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:36] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:38] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:39] "[37mGET /attendance HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:41] "[37mGET / HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:43] "[37mGET /wish HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:44] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:47] "[37mGET /wish HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:48] "[32mGET /boy HTTP/1.1[0m" 302 -
+39.186.33.161 - - [19/Feb/2020 09:28:48] "[37mGET /wish HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:51] "[37mGET / HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:28:51] "[37mGET /holiday HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:28:52] "[36mGET /static/popper.min.js HTTP/1.1[0m" 304 -
+39.186.33.161 - - [19/Feb/2020 09:28:52] "[37mGET /holiday HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:28:52] "[36mGET /static/jquery.min.js HTTP/1.1[0m" 304 -
+36.63.129.155 - - [19/Feb/2020 09:28:52] "[36mGET /static/img/river_index.jpg HTTP/1.1[0m" 304 -
+39.186.33.161 - - [19/Feb/2020 09:28:54] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:55] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:28:56] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:28:58] "[32mGET /bottleMessage HTTP/1.1[0m" 302 -
+36.63.129.155 - - [19/Feb/2020 09:28:58] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:29:03] "[37mGET /attendance HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:29:05] "[37mGET / HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:29:05] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:29:08] "[37mGET /holiday HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:29:10] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:29:10] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:29:12] "[37mGET / HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:29:12] "[37mGET /static/jquery.min.js HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:29:12] "[37mGET /static/popper.min.js HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:29:13] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:29:13] "[37mGET /static/img/index.jpg HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:29:14] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+221.198.65.12 - - [19/Feb/2020 09:29:15] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+221.198.65.12 - - [19/Feb/2020 09:29:17] "[37mGET /attendance HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:29:18] "[37mGET /login HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:29:18] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+221.198.65.12 - - [19/Feb/2020 09:29:23] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:29:27] "[37mPOST /ThrowBottle HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:29:32] "[32mPOST /login HTTP/1.1[0m" 302 -
+117.152.11.151 - - [19/Feb/2020 09:29:32] "[37mGET / HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:29:32] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+117.152.11.151 - - [19/Feb/2020 09:29:33] "[37mGET /wish HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:29:34] "[37mGET /static/img/wishpool_wishAchieve.jpg HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:29:34] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+39.186.33.161 - - [19/Feb/2020 09:29:34] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:29:35] "[37mGET /unconfirmed HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:29:35] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+36.63.129.155 - - [19/Feb/2020 09:29:36] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:29:37] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:29:39] "[37mGET / HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:29:39] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:29:40] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:29:40] "[37mGET /holiday HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:29:40] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:29:41] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:29:41] "[37mGET /wish HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:29:43] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:29:43] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:29:48] "[37mPOST /ThrowBottle HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:29:51] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:29:51] "[32mGET /confirm/eyJhbGciOiJIUzI1NiIsImlhdCI6MTU4MjA3NTYzNywiZXhwIjoxNTgyMDc5MjM3fQ.eyJjb25maXJtIjoxNX0.BnbPzPdOScS1LDX_hb8F61h2ZStuP9XtwAiqGo3uUbE HTTP/1.1[0m" 302 -
+117.152.11.151 - - [19/Feb/2020 09:29:52] "[37mGET /login HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:29:52] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+117.152.11.151 - - [19/Feb/2020 09:30:07] "[32mPOST /login HTTP/1.1[0m" 302 -
+117.152.11.151 - - [19/Feb/2020 09:30:07] "[37mGET / HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:30:07] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+117.152.11.151 - - [19/Feb/2020 09:30:08] "[37mGET /wish HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:30:08] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+117.152.11.151 - - [19/Feb/2020 09:30:16] "[32mGET /confirm/eyJhbGciOiJIUzI1NiIsImlhdCI6MTU4MjA3NTYzNywiZXhwIjoxNTgyMDc5MjM3fQ.eyJjb25maXJtIjoxNX0.BnbPzPdOScS1LDX_hb8F61h2ZStuP9XtwAiqGo3uUbE HTTP/1.1[0m" 302 -
+117.152.11.151 - - [19/Feb/2020 09:30:16] "[37mGET /login HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:30:17] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+117.152.11.151 - - [19/Feb/2020 09:30:33] "[32mPOST /login HTTP/1.1[0m" 302 -
+117.152.11.151 - - [19/Feb/2020 09:30:33] "[37mGET / HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:30:33] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+117.152.11.151 - - [19/Feb/2020 09:30:35] "[37mGET /wish HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:30:35] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+117.152.11.151 - - [19/Feb/2020 09:30:37] "[32mGET /boy HTTP/1.1[0m" 302 -
+117.152.11.151 - - [19/Feb/2020 09:30:37] "[32mGET /boy HTTP/1.1[0m" 302 -
+117.152.11.151 - - [19/Feb/2020 09:30:37] "[37mGET /wish HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:30:38] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+117.152.11.151 - - [19/Feb/2020 09:30:39] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:30:40] "[37mGET /static/img/wish_letter.jpg HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:30:40] "[37mGET /static/wishpool.js HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:30:40] "[37mGET /static/img/before.png HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:30:40] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+117.152.11.151 - - [19/Feb/2020 09:30:42] "[37mGET /wishpool?email=xiaoyanyan%40mail.ustc.edu.cn HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:30:43] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:30:44] "[37mGET /holiday HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:30:45] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:30:46] "[37mGET / HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:30:46] "[37mGET /wishpool?email=xh191708%40mail.ustc.edu.cn HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:30:47] "[37mGET /wish HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:30:47] "[37mGET /boy HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:30:49] "[37mGET / HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:30:50] "[37mGET /wish HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:30:50] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+39.186.33.161 - - [19/Feb/2020 09:30:50] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:30:51] "[37mGET / HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:30:52] "[37mGET / HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:30:56] "[32mGET /boy HTTP/1.1[0m" 302 -
+117.152.11.151 - - [19/Feb/2020 09:30:56] "[37mGET /wish HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:30:56] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+115.60.59.201 - - [19/Feb/2020 09:30:58] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:30:59] "[37mGET /faq HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:30:59] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+115.60.59.201 - - [19/Feb/2020 09:31:22] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:31:25] "[37mGET /shareUp?workid=3 HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:31:28] "[37mGET /shareUp?workid=1 HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:31:32] "[37mGET /shareUp?workid=6 HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:31:35] "[37mGET /shareUp?workid=6 HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:31:41] "[37mGET /wish HTTP/1.1[0m" 200 -
+117.152.11.151 - - [19/Feb/2020 09:31:43] "[33mGET /static/favicon.ico HTTP/1.1[0m" 404 -
+14.153.187.233 - - [19/Feb/2020 09:32:07] "[37mGET /wish HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:32:15] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:32:17] "[37mGET /wishpool?email=xiaoyanyan%40mail.ustc.edu.cn HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:32:20] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:32:21] "[37mGET /wish HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:32:22] "[37mGET /faq HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:32:33] "[37mGET /wish HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:32:35] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:32:39] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:32:40] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:32:42] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:32:42] "[37mGET / HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:32:43] "[37mGET / HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:32:44] "[37mGET /holiday HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:32:51] "[37mGET /wish HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:32:52] "[37mGET /boy HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:33:00] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:33:02] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:33:03] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:33:04] "[37mGET /faq HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:33:05] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:33:07] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:33:08] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:33:19] "[37mGET /holiday HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:33:22] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:33:23] "[37mPOST /BottleRiverPick HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:33:25] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+39.186.33.161 - - [19/Feb/2020 09:33:25] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+115.60.59.201 - - [19/Feb/2020 09:33:27] "[37mPOST /shareUp HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:33:28] "[32mPOST /BottleRiverPick HTTP/1.1[0m" 302 -
+39.186.33.161 - - [19/Feb/2020 09:33:28] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:33:29] "[37mGET /attendance HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:33:31] "[37mGET / HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:33:33] "[37mGET /wish HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:33:35] "[37mGET /faq HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:33:41] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:33:43] "[37mPOST /ThrowBottle HTTP/1.1[0m" 200 -
+36.63.129.155 - - [19/Feb/2020 09:33:46] "[37mGET /bottleMessage HTTP/1.1[0m" 200 -
+39.186.33.161 - - [19/Feb/2020 09:33:47] "[37mGET /wishpool HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:34:12] "[37mGET / HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:34:13] "[37mGET /holiday HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:34:14] "[37mGET /ThrowBottle HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:34:16] "[37mGET /BottleRiverPick HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:34:17] "[37mGET /shareUp HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:34:22] "[37mPOST /shareUp HTTP/1.1[0m" 200 -
+14.153.187.233 - - [19/Feb/2020 09:34:25] "[37mGET /shareUp HTTP/1.1[0m" 200 -

@@ -293,6 +293,7 @@ class bottleDatabase(db.Model):
     checkPartnerTime = db.Column(db.String(64), nullable=True)
     BePartenerTime=db.Column(db.String(64), nullable=True)
 
+
 class EventDatabase(db.Model):
     eventId=db.Column(db.Integer,primary_key=True, unique=True, index=True)
     eventName=db.Column(db.String(64),nullable=False)
@@ -353,10 +354,10 @@ ThrowLastTimeAtLeast=10
 ## set the LastTimeAtLeast=1 for test
 ## for reality it is 24*3600( 1 day )
 
-class selectBottleform(FlaskForm):
-    ChooseEventId = RadioField("请选择接下来的一周里，我每天要做的一件事", choices=[(i, "%d 号事件" % i) for i in range(1, 5)],
-                        validators=[],coerce=int)
-    throw = SubmitField("选择事件投放")
+##class selectBottleform(FlaskForm):
+ ##   ChooseEventId = RadioField("请选择接下来的一周里，我每天要做的一件事", choices=[(i, "%d 号事件" % i) for i in range(1, 5)],
+   ##                     validators=[],coerce=int)
+   ## throw = SubmitField("选择事件投放")
 
 class refreshBottleForm(FlaskForm):
     refresh=SubmitField("换一批")
@@ -367,12 +368,14 @@ class ThrowBottleCheckform(FlaskForm):
 class ThrowBottleCancelform(FlaskForm):
     cancel = SubmitField("取消")
 
-def chooseEvent():
-    EventChoose=EventDatabase.query.order_by(func.random()).limit(10)
-    setattr(selectBottleform, 'ChooseEventId',
-            RadioField("请选择接下来的一周里，我每天要做的一件事", choices=[(event.eventId, event.eventName) for event in EventChoose],
-                       validators=[],coerce=int))
-    return EventChoose
+
+def create_selectBottleform(EventChoose):
+    class selectBottleform(FlaskForm):
+        ChooseEventId= RadioField("请选择接下来的一周里，我每天要做的一件事", choices=[(event.eventId, event.eventName) for event in EventChoose],
+                       validators=[],coerce=int)
+        throw = SubmitField("选择事件投放")
+    selectbottle=selectBottleform()
+    return selectbottle
 
 def checkRiverStatus():
     lasttime = datetime.strptime(River.riverTime, "%Y-%m-%d %H:%M:%S.%f")
@@ -391,22 +394,32 @@ def checkRiverStatus():
         return 1,0
     return 0,(lasttime-nowtime).total_seconds()//3600
 
-class chooseCompareForm(FlaskForm):
-    chooseCompare=RadioField("我要选择和同伴一起完成的事件：", choices=[(i, "%d 号漂流瓶" % i) for i in range(1, 6)],
-                        validators=[], coerce=int)
-    chooseBottle = SubmitField("选择漂流瓶")
-
+###class chooseCompareForm(FlaskForm):
+ ##   chooseCompare=RadioField("我要选择和同伴一起完成的事件：", choices=[(i, "%d 号漂流瓶" % i) for i in range(1, 6)],
+ ##                       validators=[], coerce=int)
+  ##  chooseBottle = SubmitField("选择漂流瓶")
+def create_chooseCompareForm(chooseBottles):
+    class chooseCompareForm(FlaskForm):
+        chooseCompare=RadioField("我要选择和同伴一起完成的事件",
+               choices=[(event.userBottleId, event.eventName + '   ' + event.userNickName) for event in chooseBottles],
+               validators=[], coerce=int)
+        chooseBottle = SubmitField("选择漂流瓶")
+    choosecompare=chooseCompareForm()
+    return choosecompare
 
 class chooseRefreshForm(FlaskForm):
     refresh2= SubmitField( "换一批")
 
 class CheckPartnerform(FlaskForm):
     continueCheck=SubmitField("选择续约")
+def create_ReceiveInviteForm(myReceiveInvite):
 
-class ReceiveInviteForm(FlaskForm):
-    choosePartener=RadioField("我要选择以上几号同伴：", choices=[(i, "%d 号同伴" % i) for i in range(1, 6)],validators=[],coerce=int)
-    choosePartner=SubmitField('选择同伴')
-
+    class ReceiveInviteForm(FlaskForm):
+        choosePartener=RadioField("我要选择同伴的昵称是：", choices=[(invite.userBottleId, invite.userNickName) for invite in myReceiveInvite],
+                                  validators=[],coerce=int)
+        choosePartner=SubmitField('选择同伴')
+    receiveInvite=ReceiveInviteForm()
+    return receiveInvite
 
 class ThumbUpFormDaily(FlaskForm):
     thumbup=SubmitField('点赞')
@@ -529,8 +542,12 @@ def ThrowBottle():
         db.session.add(myBottle)
         db.session.commit()
         return redirect(url_for('ThrowBottle'))
-    chooseEvent()
-    selectForms=selectBottleform()
+    ##chooseEvent()
+    EventChoose = EventDatabase.query.order_by(func.random()).limit(10)
+   ## setattr(selectBottleform, 'ChooseEventId',
+    ##        RadioField("请选择接下来的一周里，我每天要做的一件事", choices=[(i, event.eventName) for event in EventChoose],
+      ##                 validators=[], coerce=int))
+    selectForms=create_selectBottleform(EventChoose=EventChoose)
     refreshBottleform=refreshBottleForm()
     nowTime = datetime.now()
     if myBottle.userBottleStatus==2:
@@ -541,7 +558,7 @@ def ThrowBottle():
             return redirect(url_for('ThrowBottle'))
 
     #提交选择
-    if selectForms.validate_on_submit() and selectForms.throw.data:
+    if selectForms.throw.data:
         myBottle = bottleDatabase.query.filter_by(userEmail=current_user.userEmail,
                                                   userSchoolNum=current_user.userSchoolNum).first()
         
@@ -570,8 +587,12 @@ def ThrowBottle():
             return redirect(url_for('ThrowBottle'))
 
     #换一批
-    if refreshBottleform.refresh.data and refreshBottleform.validate_on_submit():
-        chooseEvent()
+    if refreshBottleform.refresh.data :
+        EventChoose = EventDatabase.query.order_by(func.random()).limit(10)
+     ##   setattr(selectBottleform, 'ChooseEventId',
+      ##          RadioField("请选择接下来的一周里，我每天要做的一件事", choices=[(i, event.eventName) for event in EventChoose],
+       ##                    validators=[], coerce=int))
+        selectForms=create_selectBottleform(EventChoose=EventChoose)
         flash("换一批成功")
         return redirect(url_for('ThrowBottle'))
 
@@ -628,15 +649,17 @@ def BottleRiverPick():
         db.session.commit()
         return redirect(url_for('BottleRiverPick'))
     riverStatus, LeftTime = checkRiverStatus()
-    chooseCompare=chooseCompareForm()
+
     chooseRefresh=chooseRefreshForm()
-    chooseBottles=bottleDatabase.query.filter(not_(bottleDatabase.userSex ==myBottle.userSex),bottleDatabase.userBottleStatus==1).order_by(func.random()).limit(5)
+    if myBottle.userSex==1:
+        chooseBottles=bottleDatabase.query.filter_by(userSex =0,userBottleStatus=1).order_by(func.random()).limit(5)
+    else:
+        chooseBottles = bottleDatabase.query.filter_by(userSex=1, userBottleStatus=1).order_by(func.random()).limit(5)
     if chooseBottles is None:
         flash('暂时没有足够的异性的瓶子，可能系统正在计算，河流即将节水期，请刷新页面后重试')
         return redirect(url_for('BottleRiverPick'))
-    setattr(chooseCompareForm, 'chooseCompare',
-            RadioField("我要选择和同伴一起完成的事件", choices=[(event.userBottleId, event.eventName+'   '+event.userNickName) for event in chooseBottles],validators=[], coerce=int))
-    if chooseCompare.validate_on_submit() and chooseCompare.chooseBottle.data:
+    chooseCompare=create_chooseCompareForm(chooseBottles=chooseBottles)
+    if  chooseCompare.chooseBottle.data:
         if myBottle.userSalvageStatus==0:
             flash('你暂时还没有打捞资格,或者你选取的对象还没有回应')
             return redirect(url_for('BottleRiverPick'))
@@ -663,21 +686,23 @@ def BottleRiverPick():
             myBottle.partnerNickName=partnerBottle.userNickName
             myBottle.partnerQQnum=partnerBottle.userQQnum
             myBottle.partnerTelnum=partnerBottle.userTelnum
-            myBottle.partnerEventName=partnerBottle.eventName
+            myBottle.partenerEventName=partnerBottle.eventName
             myBottle.partnerEventId=partnerBottle.eventId
             myBottle.userBySalvageStatus=1
             db.session.commit()
             flash('你的请求已经发送给对方')
             return redirect(url_for('BottleRiverPick'))
-    if chooseRefresh.validate_on_submit() and chooseRefresh.refresh2.data:
-        chooseBottles = bottleDatabase.query.filter(not_(bottleDatabase.userSex==myBottle.userSex), bottleDatabase.userBottleStatus==1).order_by(
-            func.random()).limit(5)
+    if  chooseRefresh.refresh2.data:
+        if myBottle.userSex == 1:
+            chooseBottles = bottleDatabase.query.filter_by(userSex=0, userBottleStatus=1).order_by(func.random()).limit(
+                5)
+        else:
+            chooseBottles = bottleDatabase.query.filter_by(userSex=1, userBottleStatus=1).order_by(func.random()).limit(
+                5)
         if chooseBottles is None:
             flash('暂时没有足够的异性的瓶子，可能系统正在计算，河流即将节水期，请刷新页面后重试')
             return redirect(url_for('BottleRiverPick'))
-        setattr(chooseCompareForm, 'chooseCompare',
-                RadioField("我要选择和同伴一起完成的事件", choices=[(event.userBottleId, event.eventName) for event in chooseBottles],
-                           validators=[], coerce=int))
+        chooseCompare=create_chooseCompareForm(chooseBottles)
         flash('更换成功')
         return redirect(url_for('BottleRiverPick'))
 
@@ -709,7 +734,7 @@ def bottleMessage():
                                                    bottleDatabase.partnerSchoolNum==myBottle.userSchoolNum,bottleDatabase.userBySalvageStatus==1)
     myReceiveInviteNum=myReceiveInvite.count()
     checkpartnerform=CheckPartnerform()
-    receiveInviteform=ReceiveInviteForm()
+    receiveInviteform=create_ReceiveInviteForm(myReceiveInvite=myReceiveInvite)
 
     #超过5天后登陆直接解除同伴关系
     if myBottle.userBottleStatus==2:
@@ -736,6 +761,7 @@ def bottleMessage():
                flash('因为你没有及时续约，你的同伴已经被系统取消，请返回愿望池重新投瓶，')
                return redirect(url_for('bottleMessage'))
     #发出邀请一天后直接成功同伴关系
+    '''
     if myBottle.userBySalvageStatus==1 and myBottle.userBottleStatus==1:
         nowtime=datetime.now()
         lasttime=datetime.strptime(myBottle.checkPartnerTime, "%Y-%m-%d %H:%M:%S.%f")
@@ -762,7 +788,7 @@ def bottleMessage():
                 myBottle.partnerTelnum=partnerBottle.userTelnum
                 myBottle.partnerQQnum=partnerBottle.userQQnum
                 myBottle.partnerEventId=partnerBottle.eventId
-                myBottle.partnerEventName=partnerBottle.eventName
+                myBottle.partenerEventName=partnerBottle.eventName
                 partnerBottle.userBySalvageStatus=0
                 partnerBottle.userBottleStatus=2
                 partnerBottle.userSavageStatus=0
@@ -772,10 +798,11 @@ def bottleMessage():
                 partnerBottle.partnerTelnum=myBottle.userTelnum
                 partnerBottle.partnerNickName=myBottle.userNickName
                 partnerBottle.partnerEventId=myBottle.eventId
-                partnerBottle.partnerEventName=myBottle.eventName
+                partnerBottle.partenerEventName=myBottle.eventName
                 db.session.commit()
                 flash('你们已经成为了同伴，可以一起打卡咯！！')
                 return redirect(url_for('bottleMessage'))
+            '''
     #续约按钮功能
     if checkpartnerform.validate_on_submit() and checkpartnerform.continueCheck.data:
         if myBottle.userBottleStatus!=2:
@@ -811,8 +838,6 @@ def bottleMessage():
                     flash('匹配情况出现问题，系统出现故障，请直接咨询项目组。')
                     return redirect(url_for('bottleMessage'))
     #接受邀请按钮功能
-    setattr(ReceiveInviteForm, 'choosePartener',
-        RadioField("我要选择同伴的昵称是：", choices=[(invite.userBottleId, invite.userNickName) for invite in myReceiveInvite],validators=[],coerce=int))
     if receiveInviteform.validate_on_submit() and receiveInviteform.choosePartner.data:
         chooseNum=receiveInviteform.choosePartener.data
         AcceptPartner=bottleDatabase.query.filter_by(userBottleId=chooseNum).first()
@@ -834,7 +859,7 @@ def bottleMessage():
             myBottle.partnerTelnum = AcceptPartner.userTelnum
             myBottle.partnerQQnum = AcceptPartner.userQQnum
             myBottle.partnerEventId = AcceptPartner.eventId
-            myBottle.partnerEventName = AcceptPartner.eventName
+            myBottle.partenerEventName = AcceptPartner.eventName
             AcceptPartner.BePartenerTime=str(timenow)
             AcceptPartner.userBySalvageStatus=0
             AcceptPartner.userBottleStatus=2
@@ -844,8 +869,8 @@ def bottleMessage():
             AcceptPartner.partnerQQnum=myBottle.userQQnum
             AcceptPartner.partnerTelnum=myBottle.userTelnum
             AcceptPartner.partnerNickName=myBottle.userNickName
-            AcceptPartner.partnerEventId=partnerBottle.eventId
-            AcceptPartner.partnerEventNmae=partnerBottle.eventName
+            AcceptPartner.partnerEventId=myBottle.eventId
+            AcceptPartner.partenerEventName=myBottle.eventName
             db.session.commit()
             flash('你们已经成为了同伴，可以一起打卡咯！！')
             return redirect(url_for('bottleMessage'))
@@ -1666,6 +1691,7 @@ class RegisterForm(FlaskForm):
                                 '（1）昵称所有平台用户可见\n'
                                 '（2）填写的联系方式将会呈现给领取你愿望的人/你领取愿望的人，实现你愿望的人/你实现愿望的人，以及匹配中的同学\n'
                                 '邮箱显示给匹配同学/领取（许下）愿望同学'
+                                '同意在不公开姓名、昵称、学号、联系方式等个人信息的情况下个人许下的愿望或事件用于调研与采纳以及公众号展示'
                                 , default='checked', validators=[DataRequired()])
     submit = SubmitField('注册')
 
@@ -2011,4 +2037,5 @@ def refreshDatabase():
 if __name__ == "__main__":
     ##refreshDatabase()
     ##flash_event()
+    ##db.create_all()
     app.run(host='0.0.0.0', port=5000, debug=True)

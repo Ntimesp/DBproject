@@ -4,6 +4,7 @@
 {% block headInsert %}
 <style>
 body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg') }}) top left;background-size:cover;}
+
 </style>
 {% endblock %}
 
@@ -28,10 +29,6 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
 		<p>A：界面中一次会显示 5 个愿望，男生直接选择抽取第几个即可完成抽取</p>
 	</li>
 	<li>
-		<p>Q：男生界面显示的女生愿望中包含哪些内容？</p>
-		<p>A：仅有女生愿望的内容，没有相关联系方式</p>
-	</li>
-	<li>
 		<p>Q：涉及到需要与女生线下接触才能完成的愿望，如何获得女生的联系方式？</p>
 		<p>A：抽取愿望后即可获得对方校内邮箱</p>
 	</li>
@@ -45,11 +42,7 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
 	</li>
 	<li>
 		<p><strong>Q：如何刷新愿望？</strong></p>
-		<p><strong>A：系统每隔 6 小时会自动刷新一次愿望，每个男生自身每 6 小时有一次刷新愿望的机会</strong></p>
-	</li>
-	<li>
-		<p>Q：邮箱联系效率过慢，可以在愿望实现完成前得到女生的 QQ 号吗？</p>
-		<p>A：可以，但不要指望系统会给你，你可以发邮件让那女孩子加你（PS：我们帮到这一步了，就算我们最后不交换两人 QQ 号，还要不到对方 QQ 吗？）</p>
+		<p><strong>A：系统每隔 4 小时会自动刷新一次愿望，每个男生自身每 4 小时有一次刷新愿望的机会</strong></p>
 	</li>
     <li>
         <p>Q：女生实现愿望后，如何表达自己的谢意呢？</p>
@@ -61,5 +54,5 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
     </li>
 
 </ol>
-
+        <a type="button" class="btn btn-outline-primary" href="{{ url_for('girl') }}">返回幸运开奖</a>
 {% endblock %}

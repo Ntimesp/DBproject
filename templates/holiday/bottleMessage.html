@@ -71,6 +71,7 @@ body{background:url({{ url_for('static', filename='img/river_index.jpg') }}) top
         {% if myBottle.userSalvageStatus==1 %}
             <p>你拥有了捞瓶资格，可以前往事件河流捞瓶</p>
         {% endif %}
+        <p>我的事件是{{ myBottle.eventName }}</p>
     {% endif %}
    {% if myReceiveInviteNum >0  %}
         {% for invite in myReceiveInvite %}
