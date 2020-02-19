@@ -464,8 +464,9 @@ def shareUp():
     dailyCheck = 1
     if checkdailyEvents is None:
         dailyCheck = 0
-    thumbUpformDaily = ThumbUpFormDaily()
+    dailyUpForm=DailyUpForm()
     thumbUpWorkId = request.args.get('workid', '')
+
     if thumbUpWorkId:
         myBottle = bottleDatabase.query.filter_by(userEmail=current_user.userEmail,
                                                   userSchoolNum=current_user.userSchoolNum).first()
@@ -487,7 +488,7 @@ def shareUp():
             redirect(url_for('shareUp'))
         # checkdailyEvents.thumbUpNum=checkdailyEvents+1
 
-    if dailyUpForm.validate_on_submit() and dailyUpForm.submit.data:
+    if  dailyUpForm.submit.data:
         dailyEventNum = dailyEventDatabase.query.count() + 1
         newRecord = dailyEventDatabase(dailyEventId=dailyEventNum, dailyEventName=myBottle.eventName,
                                        dailyEventUserEmail=myBottle.userEmail,
