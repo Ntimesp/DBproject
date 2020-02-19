@@ -466,7 +466,7 @@ def shareUp():
         dailyCheck = 0
     thumbUpformDaily = ThumbUpFormDaily()
     dailyUpForm = DailyUpForm()
-    if thumbUpformDaily.validate_on_submit() and thumbUpformDaily.thumbup.data:
+    if   thumbUpformDaily.thumbup.data:
         myBottle = bottleDatabase.query.filter_by(userEmail=current_user.userEmail,
                                                   userSchoolNum=current_user.userSchoolNum).first()
         thumbUpRecord = thumbUpDailyCount.query.filter_by(dailyId=checkdailyEvents.dailyEventId,
