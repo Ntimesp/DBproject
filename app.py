@@ -506,7 +506,7 @@ def shareUp():
             flash('您和您的同伴获得了一张奖券')
         redirect(url_for('shareUp'))
 
-    return render_template('holiday/shareUp.html', check=check, dailyEvents=dailyEvents, thumbUpform=thumbUpformDaily
+    return render_template('holiday/shareUp.html', check=check, dailyEvents=dailyEvents
                            , dailyUpForm=dailyUpForm, dailyCheck=dailyCheck)
 
 
