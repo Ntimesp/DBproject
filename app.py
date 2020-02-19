@@ -320,7 +320,7 @@ class dailyCheckDatabase(db.Model):
 
 
 def querydailyCheckDatabase(userEmail, UserSchoolNum):
-    today = str(datetime.strptime(str(datetime.now()), '"%Y-%m-%d'))
+    today = datetime.strptime(str(datetime.now()), "%Y-%m-%d %H:%M:%S.%f").strftime("%Y-%m-%d")
     userCheckEvent = dailyCheckDatabase.query.filter_by(dailyUserEmail=userEmail, dailyUserSchoolNum=UserSchoolNum,
                                                         dailyDateTime=today)
     if userCheckEvent is None:
@@ -336,7 +336,7 @@ def AdddailyCheckDatabase(userEmail, UserSchoolNum):
         return False
     else:
         newId = dailyCheckDatabase.query.count()
-        today = str(datetime.strptime(str(datetime.now()), '"%Y-%m-%d'))
+        today = datetime.strptime(str(datetime.now()), "%Y-%m-%d %H:%M:%S.%f").strftime("%Y-%m-%d")
         newRecord = dailyCheckDatabase(dailyCheckId=newId, dailyUserEmail=userEmail, dailyUserSchoolNum=UserSchoolNum,
                                        dailyDateTime=today)
         db.session.add(newRecord)
@@ -619,7 +619,7 @@ def ThrowBottleCheck(checkEvent):
     cancelform = ThrowBottleCancelform()
     myBottle = bottleDatabase.query.filter_by(userEmail=current_user.userEmail,
                                               userSchoolNum=current_user.userSchoolNum).first()
-    if checkform.check.data and checkform.validate_on_submit():
+    if checkform.check.data :
         myBottle.userBottleStatus = 1
         myBottle.userSalvageStatus = 0
         myBottle.eventId = checkEvent
@@ -631,7 +631,7 @@ def ThrowBottleCheck(checkEvent):
               "请记得查收噢~该确认匹配消息有效期仅有一天，超过一天则默认同意匹配，"
               "双方进入匹配状态中~事件瓶在河流中漂流至24h即可获得捞瓶资格，可前往事件河流拾取事件瓶~”")
         return redirect(url_for('ThrowBottle'))
-    if cancelform.cancel.data and cancelform.validate_on_submit():
+    if cancelform.cancel.data :
         flash('您已经取消事件瓶的投放')
         return redirect(url_for('ThrowBottle'))
     return render_template('holiday/ThrowBottleCheck.html', checkform=checkform, cancelform=cancelform)
@@ -703,7 +703,7 @@ def BottleRiverPick():
             db.session.commit()
             flash('你的请求已经发送给对方')
             return redirect(url_for('BottleRiverPick'))
-    if chooseRefresh.validate_on_submit() and chooseRefresh.refresh2.data:
+    if  chooseRefresh.refresh2.data:
         chooseBottles = bottleDatabase.query.filter(not_(bottleDatabase.userSex == myBottle.userSex),
                                                     bottleDatabase.userBottleStatus == 1).order_by(
             func.random()).limit(5)
@@ -754,7 +754,7 @@ def bottleMessage():
     if myBottle.userBottleStatus == 2:
         lasttime = datetime.strptime(str(myBottle.BePartenerTime), "%Y-%m-%d %H:%M:%S.%f")
         timenow = datetime.now()
-        if (timenow - lasttime).total_seconds() >= 7 * LastTimeAtLeast:
+        if (timenow - lasttime).total_seconds() >= 5 * LastTimeAtLeast:
             partnerBottle = bottleDatabase.query.filter_by(userEmail=myBottle.partnerEmail,
                                                            userSchoolNum=myBottle.partnerSchoolNum).first()
             if partnerBottle is None:
