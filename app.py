@@ -332,7 +332,7 @@ def querydailyCheckDatabase(userEmail, UserSchoolNum):
 
 def AdddailyCheckDatabase(userEmail, UserSchoolNum):
     checkinDatabase = querydailyCheckDatabase(userEmail, UserSchoolNum)
-    if checkinDatabase:
+    if checkinDatabase is not None:
         return False
     else:
         newId = dailyCheckDatabase.query.count()
