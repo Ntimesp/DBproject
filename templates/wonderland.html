@@ -29,6 +29,7 @@ body{background:url({{ url_for('static', filename='img/wonderland.png') }}) top 
 	{% for work in works %}
 		<br>
 		<div class="card border-primary mb-3" style="max-width: 48rem;">
+            <div style="width:200px; height:200px;"></div>
 			<div class="card-header"> {{work.worktitle}} </div>
             <!--显示图片，还不知道能不能用-->
             <div><img src="{{url_for('static', filename=work.workImgPath)}}" ></div>

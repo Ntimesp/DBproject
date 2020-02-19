@@ -398,6 +398,7 @@ def checkRiverStatus():
  ##   chooseCompare=RadioField("我要选择和同伴一起完成的事件：", choices=[(i, "%d 号漂流瓶" % i) for i in range(1, 6)],
  ##                       validators=[], coerce=int)
   ##  chooseBottle = SubmitField("选择漂流瓶")
+
 def create_chooseCompareForm(chooseBottles):
     class chooseCompareForm(FlaskForm):
         chooseCompare=RadioField("我要选择和同伴一起完成的事件",
@@ -413,7 +414,6 @@ class chooseRefreshForm(FlaskForm):
 class CheckPartnerform(FlaskForm):
     continueCheck=SubmitField("选择续约")
 def create_ReceiveInviteForm(myReceiveInvite):
-
     class ReceiveInviteForm(FlaskForm):
         choosePartener=RadioField("我要选择同伴的昵称是：", choices=[(invite.userBottleId, invite.userNickName) for invite in myReceiveInvite],
                                   validators=[],coerce=int)
@@ -895,7 +895,7 @@ def holiday():
     if current_user.userEmail is None:
         return redirect(url_for('append'))
     riverStatus,LeftTime=checkRiverStatus()
-    return render_template('holiday/holiday.html',riverStatus=riverStatus,LeftTime=LeftTime,userStatus=current_user.userStatus)
+    return render_template('holiday.html',riverStatus=riverStatus,LeftTime=LeftTime,userStatus=current_user.userStatus)
 
 
 ######################################################################################################################
@@ -2033,6 +2033,16 @@ def refreshDatabase():
     db.drop_all()
     db.create_all()
     flash_event()
+
+
+@app.teardown_request
+def teardown_request(exception):
+    db.session.close()
+
+@app.after_request
+def releaseDB(response):
+    db.session.close()
+    return response
 
 if __name__ == "__main__":
     ##refreshDatabase()
