@@ -482,11 +482,9 @@ def shareUp():
             db.session.add(ChooseWish)
             db.session.add(thumbUpRecords)
             db.session.commit()
-            flash('点赞成功')
-            return redirect(url_for('shareUp'))
+            return '点赞成功'
         else:
-            flash('无法点赞，可能您已经为该愿望点赞了，或者存在其他系统故障')
-            return redirect(url_for('shareUp'))
+            return '无法点赞，可能您已经为该愿望点赞了，或者存在其他系统故障'
         # checkdailyEvents.thumbUpNum=checkdailyEvents+1
 
     if  dailyUpForm.submit.data:
