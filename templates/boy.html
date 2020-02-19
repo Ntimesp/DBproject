@@ -101,7 +101,7 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
                 <br>
             </div>
 		</div>
-        <p style='color:green'>您已经成功完成任务，女生对你的任务认同情况为
+        <p style='color:white'>您已经成功完成任务，女生对你的任务认同情况为
             <br>
             同意你已经完成，可以点击下面按钮再刷新领取任务</p>
             {{ render_form(refreshwishform) }}
@@ -130,14 +130,14 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
                 <br>
             </div>
 		</div>
-        <p style='color:green'>您已经成功完成任务，女生对你的任务认同情况为
+        <p style='color:white'>您已经成功完成任务，女生对你的任务认同情况为
             <br>
             未认同你已经完成，请联系女生确认完成</p>
     {% endif %}
 
     <br>
     {% if achieveNum>0 %}
-    <p style='color:green'>您已经完成的愿望如下</p>
+    <p style='color:white'>您已经完成的愿望如下</p>
         {% for wish in achieveWishes %}
             <br>
             <div class="card border-primary mb-3" style="max-width: 48rem;">
