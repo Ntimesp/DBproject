@@ -418,6 +418,8 @@ class chooseRefreshForm(FlaskForm):
     refresh2 = SubmitField("换一批")
 
 
+
+
 class CheckPartnerform(FlaskForm):
     continueCheck = SubmitField("选择续约")
 
@@ -885,7 +887,10 @@ def bottleMessage():
 
     return render_template('holiday/bottleMessage.html', myBottle=myBottle, riverStatus=riverStatus,
                            LeftTime=LeftTime, myReceiveInvite=myReceiveInvite, myReceiveInviteNum=myReceiveInviteNum,
-                           checkpartnerform=checkpartnerform, receiveInviteform=receiveInviteform)
+                        checkpartnerform=checkpartnerform, receiveInviteform=receiveInviteform)
+
+
+
 
 
 @app.route('/BottleFaq', methods=['GET', 'POST'])
