@@ -320,29 +320,27 @@ class dailyCheckDatabase(db.Model):
 
 
 def querydailyCheckDatabase(userEmail, UserSchoolNum):
-    today = datetime.strptime(str(datetime.now()), "%Y-%m-%d %H:%M:%S.%f").strftime("%Y-%m-%d")
+    today = datetime.now().strftime("%Y-%m-%d")
     userCheckEvent = dailyCheckDatabase.query.filter_by(dailyUserEmail=userEmail, dailyUserSchoolNum=UserSchoolNum,
                                                         dailyDateTime=today)
     if userCheckEvent is None:
         return False
     else:
         return True
-    return False
 
 
 def AdddailyCheckDatabase(userEmail, UserSchoolNum):
     checkinDatabase = querydailyCheckDatabase(userEmail, UserSchoolNum)
-    if checkinDatabase is not None:
+    if checkinDatabase == True:
         return False
     else:
-        newId = dailyCheckDatabase.query.count()
-        today = datetime.strptime(str(datetime.now()), "%Y-%m-%d %H:%M:%S.%f").strftime("%Y-%m-%d")
+        newId = dailyCheckDatabase.query.count()+1
+        today = datetime.now().strftime("%Y-%m-%d")
         newRecord = dailyCheckDatabase(dailyCheckId=newId, dailyUserEmail=userEmail, dailyUserSchoolNum=UserSchoolNum,
                                        dailyDateTime=today)
         db.session.add(newRecord)
         db.session.commit()
         return True
-    return False
 
 
 class thumbUpDailyCount(db.Model):
@@ -498,8 +496,7 @@ def shareUp():
         db.session.add(newRecord)
         db.session.commit()
         flash('打卡成功')
-        if AdddailyCheckDatabase(myBottle.userEmail, myBottle.userSchoolNum) and \
-                querydailyCheckDatabase(myBottle.partnerEmail, myBottle.partnerSchoolNum):
+        if AdddailyCheckDatabase(myBottle.userEmail, myBottle.userSchoolNum) and querydailyCheckDatabase(myBottle.partnerEmail, myBottle.partnerSchoolNum):
             InserTicket(myBottle.userEmail, myBottle.userSchoolNum)
             InserTicket(myBottle.partnerEmail, myBottle.partnerSchoolNum)
             flash('您和您的同伴获得了一张奖券')
