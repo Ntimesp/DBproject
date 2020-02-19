@@ -955,7 +955,7 @@ def wonderland():
             workDatabase.thumbNumWeekly.desc()).limit(10)
     elif choice == '随机推送':
         works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
-            workDatabase.thumbNumWeekly.desc()).limit(10)
+            func.random()).limit(10)
     else:       #'最热作品'
         works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
             workDatabase.thumbNum.desc()).limit(10)
@@ -1015,7 +1015,7 @@ def party():
             workDatabase.thumbNumWeekly.desc()).limit(10)
     elif choice == '随机推送':
         works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
-            workDatabase.thumbNumWeekly.desc()).limit(10)
+            func.random()).limit(10)
     else:       #'最热作品'
         works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
             workDatabase.thumbNum.desc()).limit(10)
@@ -1075,7 +1075,7 @@ def kitchen():
             workDatabase.thumbNumWeekly.desc()).limit(10)
     elif choice == '随机推送':
         works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
-            workDatabase.thumbNumWeekly.desc()).limit(10)
+            func.random()).limit(10)
     else:       #'最热作品'
         works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
             workDatabase.thumbNum.desc()).limit(10)
@@ -1135,7 +1135,7 @@ def battle():
             workDatabase.thumbNumWeekly.desc()).limit(10)
     elif choice == '随机推送':
         works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
-            workDatabase.thumbNumWeekly.desc()).limit(10)
+            func.random()).limit(10)
     else:       #'最热作品'
         works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
             workDatabase.thumbNum.desc()).limit(10)
