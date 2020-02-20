@@ -574,7 +574,7 @@ def ThrowBottle():
             return redirect(url_for('ThrowBottle'))
 
     # 提交选择
-    if selectForms.validate_on_submit() and selectForms.throw.data:
+    if  selectForms.throw.data:
         myBottle = bottleDatabase.query.filter_by(userEmail=current_user.userEmail,
                                                   userSchoolNum=current_user.userSchoolNum).first()
 
