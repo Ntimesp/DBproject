@@ -1201,7 +1201,7 @@ def hole():
     else:
         sex="女"
 
-    works=workDatabase.query.filter(userEmail==current_user.userEmail,workgroup != "delete")
+    works=workDatabase.query.filter(workDatabase.userEmail==current_user.userEmail,workgroup != "delete")
 
     return render_template('hole.html',name=current_user.userNickName,sex=sex,works=works)
 
