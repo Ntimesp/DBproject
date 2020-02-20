@@ -2062,4 +2062,4 @@ if __name__ == "__main__":
     ##refreshDatabase()
     ##flash_event()
     ##db.create_all()
-    app.run(host='0.0.0.0', port=443)
+    app.run(host='0.0.0.0')
