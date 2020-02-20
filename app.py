@@ -1211,7 +1211,8 @@ def hole():
 class uploadform(FlaskForm):
     name = StringField('作品名称')
     img =  FileField('作品内容（最大1MB）')
-    type=RadioField("分区类型", choices=[(1, 'wonderland'),(2,'party'),(3,'battle'),(4,'kitchen')],
+    type=RadioField("分区类型", choices=[(1, 'wonderland 主题为新年/春天的故事'),(2,'party 主题为宅居日常&生活杂谈'),
+                                     (3,'battle 主题为疫情相关内容'),(4,'kitchen 主题为黑暗料理vs美食佳肴')],
                         validators=[], coerce=int)
     text = TextAreaField(" 作品内容 ", validators=[DataRequired()])
     submit = SubmitField("上传作品")
