@@ -42,7 +42,7 @@ Talisman(app, content_security_policy={
     'img-src': "'self' http://* 'unsafe-inline' data: *",
 })
 app.config['SECRET_KEY'] = 'cbYSt76Vck*7^%4d'
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root: @localhost/test?charset=utf8"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:123456@localhost/test?charset=utf8"
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 10
 app.config['SQLALCHEMY_POOL_SIZE'] = 30
 app.config['MAX_CONTENT_LENGTH']=1*1024*1024  #最大1MB
