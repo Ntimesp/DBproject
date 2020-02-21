@@ -666,7 +666,7 @@ def BottleRiverPick():
             RadioField("我要选择和同伴一起完成的事件", choices=[(event.userBottleId, event.eventName+'   '+event.userNickName) for event in chooseBottles],
                        validators=[], coerce=int))
     '''
-    chooseCompare.chooseCompare.choices=[(event.userBottleId, '打卡事件'+event.eventName+'   用户昵称'+event.userNickName) for event in chooseBottles]
+    chooseCompare.chooseCompare.choices=[(event.userBottleId, '打卡事件：'+event.eventName+'   用户昵称：'+event.userNickName) for event in chooseBottles]
     if  chooseCompare.chooseBottle.data:
         if myBottle.userSalvageStatus == 0:
             flash('你暂时还没有打捞资格,或者你选取的对象还没有回应')
