@@ -400,7 +400,7 @@ def checkRiverStatus():
     bottleboyNum = bottleDatabase.query.filter_by(userBottleStatus=1, userSex=1).count()
     bottlegirlNum = bottleDatabase.query.filter_by(userBottleStatus=1, userSex=0).count()
 
-    if (bottleboyNum<15 or bottlegirlNum<15 or (bottlegirlNum+bottleboyNum)<40) and (nowtime-lasttime).total_seconds()>=0:
+    if (bottleboyNum<5 or bottlegirlNum<5 or (bottlegirlNum+bottleboyNum)<10) and (nowtime-lasttime).total_seconds()>=0:
         #进入节水期
         River.riverTime=str(nowtime+timedelta(days=1))
         River.riverStatusNum=0
