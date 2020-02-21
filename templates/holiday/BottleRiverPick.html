@@ -13,21 +13,6 @@ body{background:url({{ url_for('static', filename='img/river_index.jpg') }}) top
         <div class="alert alert-primary" role="alert"> 河流处在丰水期，快去拾取事件瓶吧 </div>
         {% if myBottle.userSalvageStatus %}
             <p>恭喜你，你已经获得了打捞漂流瓶的资格</p>
-            {% for bottle in Bottles %}
-            <br>
-            <div class="card border-primary mb-3" style="max-width: 48rem;">
-                <div class="card">
-			    <img class="card-img" src="{{ url_for('static', filename='img/river_letter.jpg') }}" alt="" style="width: 100%;height: 210px;"/>
-                <div class="card-img-overlay">
-                    <div class="card-header"> 事件漂流瓶 </div>
-                    <div class="card-body text-primary">
-                        <p class="card-text">{{ bottle.eventName }}</p>
-                        <p class="card-text"> {{ bottle.userNickName }} </p>
-                    </div>
-                    </div>
-                </div>
-                </div>
-            {% endfor %}
             {{ render_form(chooseCompare) }}
             {{ render_form(chooseRefresh) }}
         
