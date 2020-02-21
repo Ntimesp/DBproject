@@ -674,7 +674,7 @@ def BottleRiverPick():
         flash('暂时没有足够的异性的瓶子，可能系统正在计算，河流即将节水期，请刷新页面后重试')
         return redirect(url_for('BottleRiverPick'))
     setattr(chooseCompare, 'chooseCompare',
-            RadioField("我要选择和同伴一起完成的事件", choices=[(event.userBottleId, event.eventName+'   '+event.usernickname) for event in chooseBottles],
+            RadioField("我要选择和同伴一起完成的事件", choices=[(event.userBottleId, event.eventName+'   '+event.userNickName) for event in chooseBottles],
                        validators=[], coerce=int))
     if chooseCompare.validate_on_submit() and chooseCompare.chooseBottle.data:
         if myBottle.userSalvageStatus == 0:
