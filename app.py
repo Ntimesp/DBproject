@@ -854,6 +854,9 @@ def bottleMessage():
     if receiveInviteform.validate_on_submit() and receiveInviteform.choosePartner.data:
         chooseNum = receiveInviteform.choosePartener.data
         AcceptPartner = bottleDatabase.query.filter_by(userBottleId=chooseNum).first()
+        if myBottle.userBottleStatus==2:
+            flash('你已经匹配')
+            return redirect(url_for('bottleMessage'))
         if AcceptPartner is None:
             flash('系统存在故障，请联系项目组')
             return redirect(url_for('bottleMessage'))
