@@ -411,21 +411,11 @@ def checkRiverStatus():
         return 1, 0
     return 0, (lasttime - nowtime).total_seconds() // 3600
 
-
-
-
-
-
 class chooseRefreshForm(FlaskForm):
     refresh2 = SubmitField("换一批")
 
-
-
-
 class CheckPartnerform(FlaskForm):
     continueCheck = SubmitField("选择续约")
-
-
 
 
 class ThumbUpFormDaily(FlaskForm):
@@ -632,15 +622,15 @@ def ThrowBottleCheck(checkEvent):
         flash('您已经取消事件瓶的投放')
         return redirect(url_for('ThrowBottle'))
     return render_template('holiday/ThrowBottleCheck.html', checkform=checkform, cancelform=cancelform)
-
-
+class chooseCompareForm(FlaskForm):
+    chooseCompare = RadioField("我要选择和同伴一起完成的事件：", choices=[(i, "%d 号漂流瓶" % i) for i in range(1, 6)],
+                               validators=[], coerce=int)
+    chooseBottle = SubmitField("选择漂流瓶")
 @app.route('/BottleRiverPick', methods=['GET', 'POST'])
 @fresh_login_required
 def BottleRiverPick():
-    class chooseCompareForm(FlaskForm):
-        chooseCompare = RadioField("我要选择和同伴一起完成的事件：", choices=[(i, "%d 号漂流瓶" % i) for i in range(1, 6)],
-                                   validators=[], coerce=int)
-        chooseBottle = SubmitField("选择漂流瓶")
+
+
     timenow = datetime.now()
     myBottle = bottleDatabase.query.filter_by(userEmail=current_user.userEmail,
                                               userSchoolNum=current_user.userSchoolNum).first()
@@ -671,10 +661,13 @@ def BottleRiverPick():
     if chooseBottles is None:
         flash('暂时没有足够的异性的瓶子，可能系统正在计算，河流即将节水期，请刷新页面后重试')
         return redirect(url_for('BottleRiverPick'))
+    '''
     setattr(chooseCompareForm, 'chooseCompare',
             RadioField("我要选择和同伴一起完成的事件", choices=[(event.userBottleId, event.eventName+'   '+event.userNickName) for event in chooseBottles],
                        validators=[], coerce=int))
-    if chooseCompare.validate_on_submit() and chooseCompare.chooseBottle.data:
+    '''
+    chooseCompare.chooseCompare.choices=[(event.userBottleId, event.eventName+'   '+event.userNickName) for event in chooseBottles]
+    if  chooseCompare.chooseBottle.data:
         if myBottle.userSalvageStatus == 0:
             flash('你暂时还没有打捞资格,或者你选取的对象还没有回应')
             return redirect(url_for('BottleRiverPick'))
@@ -711,9 +704,13 @@ def BottleRiverPick():
         if chooseBottles is None:
             flash('暂时没有足够的异性的瓶子，可能系统正在计算，河流即将节水期，请刷新页面后重试')
             return redirect(url_for('BottleRiverPick'))
+        chooseCompare.chooseCompare.choices = [(event.userBottleId, event.eventName + '   ' + event.userNickName) for
+                                               event in chooseBottles]
+        '''
         setattr(chooseCompareForm, 'chooseCompare',
                 RadioField("我要选择和同伴一起完成的事件", choices=[(event.userBottleId, event.eventName) for event in chooseBottles],
                            validators=[], coerce=int))
+        '''
         flash('更换成功')
         return redirect(url_for('BottleRiverPick'))
 
@@ -754,7 +751,6 @@ def bottleMessage():
     myReceiveInviteNum = myReceiveInvite.count()
     checkpartnerform = CheckPartnerform()
     receiveInviteform = ReceiveInviteForm()
-
     # 超过7天后登陆直接解除同伴关系
     if myBottle.userBottleStatus == 2:
         lasttime = datetime.strptime(str(myBottle.BePartenerTime), "%Y-%m-%d %H:%M:%S.%f")
