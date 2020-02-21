@@ -916,7 +916,7 @@ def holiday():
     if current_user.userEmail is None:
         return redirect(url_for('append'))
     riverStatus, LeftTime = checkRiverStatus()
-    return render_template('holiday/holiday.html', riverStatus=riverStatus, LeftTime=LeftTime,
+    return render_template('holiday.html', riverStatus=riverStatus, LeftTime=LeftTime,
                            userStatus=current_user.userStatus)
 ######################################################################################################################
 #镜像show模块
