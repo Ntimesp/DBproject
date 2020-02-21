@@ -402,7 +402,7 @@ def checkRiverStatus():
 
     if (bottleboyNum<15 or bottlegirlNum<15 or (bottlegirlNum+bottleboyNum)<40) and (nowtime-lasttime).total_seconds()>=0:
         #进入节水期
-        River.riverTime=str(nowtime+timedelta(days=1).strptime("%Y-%m-%d %H:%M:%S.%f"))
+        River.riverTime=str(nowtime+timedelta(days=1))
         River.riverStatusNum=0
 
     lasttime = datetime.strptime(str(River.riverTime), "%Y-%m-%d %H:%M:%S.%f")
@@ -673,8 +673,8 @@ def BottleRiverPick():
     if chooseBottles is None:
         flash('暂时没有足够的异性的瓶子，可能系统正在计算，河流即将节水期，请刷新页面后重试')
         return redirect(url_for('BottleRiverPick'))
-    setattr(chooseCompareForm, 'chooseCompare',
-            RadioField("我要选择和同伴一起完成的事件", choices=[(event.userBottleId, event.eventName) for event in chooseBottles],
+    setattr(chooseCompare, 'chooseCompare',
+            RadioField("我要选择和同伴一起完成的事件", choices=[(event.userBottleId, event.eventName+'   '+event.usernickname) for event in chooseBottles],
                        validators=[], coerce=int))
     if chooseCompare.validate_on_submit() and chooseCompare.chooseBottle.data:
         if myBottle.userSalvageStatus == 0:
@@ -713,7 +713,7 @@ def BottleRiverPick():
         if chooseBottles is None:
             flash('暂时没有足够的异性的瓶子，可能系统正在计算，河流即将节水期，请刷新页面后重试')
             return redirect(url_for('BottleRiverPick'))
-        setattr(chooseCompareForm, 'chooseCompare',
+        setattr(chooseCompare, 'chooseCompare',
                 RadioField("我要选择和同伴一起完成的事件", choices=[(event.userBottleId, event.eventName) for event in chooseBottles],
                            validators=[], coerce=int))
         flash('更换成功')
@@ -847,7 +847,7 @@ def bottleMessage():
                     flash('匹配情况出现问题，系统出现故障，请直接咨询项目组。')
                     return redirect(url_for('bottleMessage'))
     # 接受邀请按钮功能
-    setattr(ReceiveInviteForm, 'choosePartener',
+    setattr(receiveInviteform, 'choosePartener',
             RadioField("我要选择同伴的昵称是：",
                        choices=[(invite.userBottleId, invite.userNickName) for invite in myReceiveInvite],
                        validators=[], coerce=int))
@@ -1604,7 +1604,6 @@ def boy():
             else:
                 flash("请确认女生同意你完成")
         return redirect(url_for('boy'))
-
     if myrecord is None:
         myrecord = selectwishes(userEmail=current_user.userEmail, userStatus=current_user.userStatus,
                                 userSchoolNum=current_user.userSchoolNum, achievestatus=0, wishstatus=0)
