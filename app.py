@@ -673,7 +673,7 @@ def BottleRiverPick():
     if chooseBottles is None:
         flash('暂时没有足够的异性的瓶子，可能系统正在计算，河流即将节水期，请刷新页面后重试')
         return redirect(url_for('BottleRiverPick'))
-    setattr(chooseCompare, 'chooseCompare',
+    setattr(chooseCompareForm, 'chooseCompare',
             RadioField("我要选择和同伴一起完成的事件", choices=[(event.userBottleId, event.eventName+'   '+event.userNickName) for event in chooseBottles],
                        validators=[], coerce=int))
     if chooseCompare.validate_on_submit() and chooseCompare.chooseBottle.data:
@@ -713,7 +713,7 @@ def BottleRiverPick():
         if chooseBottles is None:
             flash('暂时没有足够的异性的瓶子，可能系统正在计算，河流即将节水期，请刷新页面后重试')
             return redirect(url_for('BottleRiverPick'))
-        setattr(chooseCompare, 'chooseCompare',
+        setattr(chooseCompareForm, 'chooseCompare',
                 RadioField("我要选择和同伴一起完成的事件", choices=[(event.userBottleId, event.eventName) for event in chooseBottles],
                            validators=[], coerce=int))
         flash('更换成功')
@@ -847,7 +847,7 @@ def bottleMessage():
                     flash('匹配情况出现问题，系统出现故障，请直接咨询项目组。')
                     return redirect(url_for('bottleMessage'))
     # 接受邀请按钮功能
-    setattr(receiveInviteform, 'choosePartener',
+    setattr(ReceiveInviteForm, 'choosePartener',
             RadioField("我要选择同伴的昵称是：",
                        choices=[(invite.userBottleId, invite.userNickName) for invite in myReceiveInvite],
                        validators=[], coerce=int))
