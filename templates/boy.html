@@ -63,9 +63,9 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
 		<div class="card text-white bg-info mb-3" style="max-width: 48rem;">
 			<div class="card-header"> 资料卡 </div>
 			<div class="card-body">
-                <p class="card-text">
-                    对方校内邮箱：
-                    {{ myselectwish.girlEmail }} 在许愿过程中和对方及时沟通吧 </p>
+                <p class="card-text">对方校内邮箱：
+                    <br>
+                     <a href="mailto:{{ myselectwish.girlEmail }}">{{ myselectwish.girlEmail }}  在许愿过程中和对方及时沟通吧 </p>
                     <br>
                     <p class="card-text"> 电话号码{{ myselectwish.girlTelnum }} </p>
                     <br>
@@ -78,7 +78,8 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
 	{% endif %}
 
 
-	{% if myselectwish.wishstatus == 2 and myselectwish.achievestatus==1 %}
+	{% if myselectwish.wishstatus == 2 %}
+
 		<br>
 		<span class="badge badge-success">已完成</span>
 		<div class="card border-success mb-3" style="max-width: 48rem;">
@@ -93,7 +94,8 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
 			<div class="card-header"> 资料卡 </div>
 			<div class="card-body">
                 <p class="card-text">对方校内邮箱：
-                    {{ myselectwish.girlEmail }} 在许愿过程中和对方及时沟通吧 </p>
+                    <br>
+                    <a href="mailto:{{ myselectwish.girlEmail }}">{{ myselectwish.girlEmail }} 在许愿过程中和对方及时沟通吧 </p>
                     <br>
                     <p class="card-text"> 电话号码{{ myselectwish.girlTelnum }} </p>
                     <br>
@@ -101,39 +103,11 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
                 <br>
             </div>
 		</div>
-        <p style='color:white'>您已经成功完成任务，女生对你的任务认同情况为
-            <br>
-            同意你已经完成，可以点击下面按钮再刷新领取任务</p>
-            {{ render_form(refreshwishform) }}
+        <p style='color:white'>您已经成功完成任务，请联系妹子确认完成</p>
+
     {% endif %}
 
-    {% if myselectwish.wishstatus == 2 and myselectwish.achievestatus==0 %}
-		<br>
-		<span class="badge badge-success">已完成</span>
-		<div class="card border-success mb-3" style="max-width: 48rem;">
-			<div class="card-header"> 愿望卡 </div>
-			<div class="card-body text-success">
-				<h5 class="card-title"> 愿望内容 </h5>
-				<p class="card-text"> {{ myselectwish.wishcontent }} </p>
-			</div>
-		</div>
-		<br>
-		<div class="card text-white bg-info mb-3" style="max-width: 48rem;">
-			<div class="card-header"> 资料卡 </div>
-			<div class="card-body">
-                <p class="card-text">对方校内邮箱：
-                    {{ myselectwish.girlEmail }} 在许愿过程中和对方及时沟通吧 </p>
-                    <br>
-                    <p class="card-text"> 电话号码{{ myselectwish.girlTelnum }} </p>
-                    <br>
-                    <p class="card-text"> QQ号码{{ myselectwish.girlQQnum }} </p>
-                <br>
-            </div>
-		</div>
-        <p style='color:white'>您已经成功完成任务，女生对你的任务认同情况为
-            <br>
-            未认同你已经完成，请联系女生确认完成</p>
-    {% endif %}
+
 
     <br>
     {% if achieveNum>0 %}
@@ -153,7 +127,7 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
                     <br>
                     <p class="card-text"> QQ号码{{ wish.girlQQnum }} </p>
                     <br>
-                    <p class="card-text"> 校内邮箱{{ wish.userEmail }} </p>
+                    <p class="card-text"> 校内邮箱<a href="mailto:{{ wish.grilEmail }}">{{ wish.girlEmail }} </p>
                 </div>
             </div>
 	    {% endfor %}

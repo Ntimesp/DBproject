@@ -43,6 +43,9 @@ Talisman(app, content_security_policy={
 })
 app.config['SECRET_KEY'] = 'cbYSt76Vck*7^%4d'
 app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:123456@localhost/test?charset=utf8"
+app.config['SQLALCHEMY_POOL_RECYCLE'] = 10
+app.config['SQLALCHEMY_POOL_SIZE'] = 30
+app.config['MAX_CONTENT_LENGTH']=10*1024*1024  #最大10MB
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SERVER_NAME'] = 'stunion.ustc.edu.cn'
 # app.config['SERVER_NAME'] = 'localhost.localdomain'
@@ -1207,8 +1210,9 @@ def hole():
 
 class uploadform(FlaskForm):
     name = StringField('作品名称')
-    img =  FileField('作品内容')
-    type=RadioField("分区类型", choices=[(1, 'wonderland'),(2,'party'),(3,'battle'),(4,'kitchen')],
+    img =  FileField('作品内容（最大10MB）')
+    type=RadioField("分区类型", choices=[(1, 'wonderland 主题为新年/春天的故事'),(2,'party 主题为宅居日常&生活杂谈'),
+                                     (3,'battle 主题为疫情相关内容'),(4,'kitchen 主题为黑暗料理vs美食佳肴')],
                         validators=[], coerce=int)
     text = TextAreaField(" 作品内容 ", validators=[DataRequired()])
     submit = SubmitField("上传作品")
@@ -1224,6 +1228,9 @@ def upload():
     if form.validate_on_submit():
         name = form.name.data
         img = request.files['img']
+        if img.filename=='':
+            flash('未选择文件')
+            return redirect(url_for('upload'))
         imgname='userimg/'+str(workDatabase.query.count()+1)+img.filename
         img.save('static/'+imgname)
         text = form.text.data

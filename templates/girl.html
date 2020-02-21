@@ -88,13 +88,15 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
                     <p class="card-text">
                     <br>
                     对方的昵称：{{ mywish.boyNickName }}
+
                         <br>
-					对方的邮箱: {{ mywish.boyEmail }}
+                        对方的邮箱: <a href="mailto:{{ mywish.boyEmail }}">{{ mywish.boyEmail }}</a>
 					<br>
 					对方的 QQ 号：{{ mywish.boyQQnum }}
+
                         <br>
-                        对方的手机号：{{ mywish.boyTelnum }}
-					</p>
+                      对方的手机号：{{ mywish.boyTelnum }}
+                    </p>
 					<p>赶快联系他吧! </p>
 				</div>
 			</div>
