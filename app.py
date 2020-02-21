@@ -1783,6 +1783,7 @@ def login():
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
                 next = url_for('index')
+            flash('你已经成功登陆')
             return redirect('/')
         flash("邮箱地址或者密码不正确")
     return render_template('auth/login.html', form=form)
