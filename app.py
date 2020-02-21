@@ -44,7 +44,7 @@ Talisman(app, content_security_policy={
 app.config['SECRET_KEY'] = 'cbYSt76Vck*7^%4d'
 app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:123456@localhost/test?charset=utf8"
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 10
-app.config['SQLALCHEMY_POOL_SIZE'] = 30
+app.config['SQLALCHEMY_POOL_SIZE'] = 100
 app.config['MAX_CONTENT_LENGTH']=10*1024*1024  #最大10MB
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SERVER_NAME'] = 'stunion.ustc.edu.cn'
