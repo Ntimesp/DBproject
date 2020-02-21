@@ -718,14 +718,14 @@ def BottleRiverPick():
                            LeftTime=LeftTime, Bottles=chooseBottles, chooseCompare=chooseCompare,
                            chooseRefresh=chooseRefresh)
 
-
+class ReceiveInviteForm(FlaskForm):
+    choosePartener = RadioField("我要选择以上几号同伴：", choices=[(i, "%d 号同伴" % i) for i in range(1, 6)], validators=[],
+                                coerce=int)
+    choosePartner = SubmitField('选择同伴')
 @app.route('/bottleMessage', methods=['GET', 'POST'])
 @fresh_login_required
 def bottleMessage():
-    class ReceiveInviteForm(FlaskForm):
-        choosePartener = RadioField("我要选择以上几号同伴：", choices=[(i, "%d 号同伴" % i) for i in range(1, 6)], validators=[],
-                                    coerce=int)
-        choosePartner = SubmitField('选择同伴')
+
     timenow = datetime.now()
     myBottle = bottleDatabase.query.filter_by(userEmail=current_user.userEmail,
                                               userSchoolNum=current_user.userSchoolNum).first()
@@ -751,6 +751,7 @@ def bottleMessage():
     myReceiveInviteNum = myReceiveInvite.count()
     checkpartnerform = CheckPartnerform()
     receiveInviteform = ReceiveInviteForm()
+    receiveInviteform.choosePartener.choices=[(invite.userBottleId, invite.eventName+'    '+invite.userNickName) for invite in myReceiveInvite]
     # 超过7天后登陆直接解除同伴关系
     if myBottle.userBottleStatus == 2:
         lasttime = datetime.strptime(str(myBottle.BePartenerTime), "%Y-%m-%d %H:%M:%S.%f")
@@ -810,7 +811,7 @@ def bottleMessage():
                 return redirect(url_for('bottleMessage'))
     '''
     # 续约按钮功能
-    if checkpartnerform.validate_on_submit() and checkpartnerform.continueCheck.data:
+    if checkpartnerform.continueCheck.data:
         if myBottle.userBottleStatus != 2:
             flash('请确认自己有同伴否则无法确认续约')
             return redirect(url_for('bottleMessage'))
@@ -845,11 +846,26 @@ def bottleMessage():
                     flash('匹配情况出现问题，系统出现故障，请直接咨询项目组。')
                     return redirect(url_for('bottleMessage'))
     # 接受邀请按钮功能
+    '''
     setattr(receiveInviteform, 'choosePartener',
             RadioField("我要选择同伴的昵称是：",
                        choices=[(invite.userBottleId, invite.userNickName) for invite in myReceiveInvite],
                        validators=[], coerce=int))
-    if receiveInviteform.validate_on_submit() and receiveInviteform.choosePartner.data:
+                       '''
+    #复原自己的捞瓶状态
+    if myBottle.userBySalvageStatus==1:
+        partner=bottleDatabase.query.filter_by(userEmail=myBottle.partnerEmail,userSchoolNum=myBottle.partnerSchoolNum)
+        if partner is None:
+            myBottle.userBySalvageStatus=0
+            myBottle.userSalvageStatus=1
+            flash('系统存在故障')
+            return redirect(url_for('bottleMessage'))
+        if partner.userBottleStatus==2:
+            myBottle.userBySalvageStatus=0
+            myBottle.userSalvageStatus=1
+            flash('你所选取的对象已经与他人匹配，请回到事件河流重新选择')
+            return redirect(url_for('bottleMessage'))
+    if receiveInviteform.choosePartner.data:
         chooseNum = receiveInviteform.choosePartener.data
         AcceptPartner = bottleDatabase.query.filter_by(userBottleId=chooseNum).first()
         if myBottle.userBottleStatus==2:
@@ -914,7 +930,7 @@ def holiday():
     if current_user.userEmail is None:
         return redirect(url_for('append'))
     riverStatus, LeftTime = checkRiverStatus()
-    return render_template('holiday.html', riverStatus=riverStatus, LeftTime=LeftTime,
+    return render_template('holiday/holiday.html', riverStatus=riverStatus, LeftTime=LeftTime,
                            userStatus=current_user.userStatus)
 ######################################################################################################################
 #镜像show模块
