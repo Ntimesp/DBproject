@@ -63,9 +63,9 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
 		<div class="card text-white bg-info mb-3" style="max-width: 48rem;">
 			<div class="card-header"> 资料卡 </div>
 			<div class="card-body">
-                <p class="card-text">
-                    对方校内邮箱：
-                    {{ myselectwish.girlEmail }} 在许愿过程中和对方及时沟通吧 </p>
+                <p class="card-text">对方校内邮箱：
+                    <br>
+                     <a href="mailto:{{ myselectwish.girlEmail }}">{{ myselectwish.girlEmail }}  在许愿过程中和对方及时沟通吧 </p>
                     <br>
                     <p class="card-text"> 电话号码{{ myselectwish.girlTelnum }} </p>
                     <br>
@@ -94,7 +94,8 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
 			<div class="card-header"> 资料卡 </div>
 			<div class="card-body">
                 <p class="card-text">对方校内邮箱：
-                    {{ myselectwish.girlEmail }} 在许愿过程中和对方及时沟通吧 </p>
+                    <br>
+                    <a href="mailto:{{ myselectwish.girlEmail }}">{{ myselectwish.girlEmail }} 在许愿过程中和对方及时沟通吧 </p>
                     <br>
                     <p class="card-text"> 电话号码{{ myselectwish.girlTelnum }} </p>
                     <br>
@@ -126,7 +127,7 @@ body{background:url({{ url_for('static', filename='img/wishpool_wishAchieve.jpg'
                     <br>
                     <p class="card-text"> QQ号码{{ wish.girlQQnum }} </p>
                     <br>
-                    <p class="card-text"> 校内邮箱{{ wish.userEmail }} </p>
+                    <p class="card-text"> 校内邮箱<a href="mailto:{{ wish.grilEmail }}">{{ wish.girlEmail }} </p>
                 </div>
             </div>
 	    {% endfor %}
