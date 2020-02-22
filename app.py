@@ -856,7 +856,7 @@ def bottleMessage():
                        '''
     #复原自己的捞瓶状态
     if myBottle.userBySalvageStatus==1:
-        AcceptPartner=bottleDatabase.query.filter_by(userEmail=myBottle.partnerEmail,userSchoolNum=myBottle.partnerSchoolNum)
+        AcceptPartner=bottleDatabase.query.filter_by(userEmail=myBottle.partnerEmail,userSchoolNum=myBottle.partnerSchoolNum).first()
         if AcceptPartner is None:
             myBottle.userBySalvageStatus=0
             myBottle.userSalvageStatus=1
