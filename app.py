@@ -872,6 +872,7 @@ def bottleMessage():
         else:
             myBottle.userBySalvageStatus=1
             myBottle.userSalvageStatus=0
+            db.session.commit()
     if receiveInviteform.choosePartner.data:
         chooseNum = receiveInviteform.choosePartener.data
         AcceptPartner = bottleDatabase.query.filter_by(userBottleId=chooseNum).first()
