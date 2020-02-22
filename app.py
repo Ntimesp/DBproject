@@ -860,13 +860,18 @@ def bottleMessage():
         if AcceptPartner is None:
             myBottle.userBySalvageStatus=0
             myBottle.userSalvageStatus=1
+            db.session.commit()
             flash('系统存在故障')
             return redirect(url_for('bottleMessage'))
         if AcceptPartner.userBottleStatus==2:
             myBottle.userBySalvageStatus=0
             myBottle.userSalvageStatus=1
+            db.session.commit()
             flash('你所选取的对象已经与他人匹配，请回到事件河流重新选择')
             return redirect(url_for('bottleMessage'))
+        else:
+            myBottle.userBySalvageStatus=1
+            myBottle.userSalvageStatus=0
     if receiveInviteform.choosePartner.data:
         chooseNum = receiveInviteform.choosePartener.data
         AcceptPartner = bottleDatabase.query.filter_by(userBottleId=chooseNum).first()
