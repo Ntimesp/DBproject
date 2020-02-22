@@ -892,6 +892,9 @@ def bottleMessage():
         if AcceptPartner.userBottleStatus == 2:
             flash('对方已经和别人成为同伴，请刷新页面重试')
             return redirect(url_for('bottleMessage'))
+        elif AcceptPartner.partnerEmail != myBottle.userEmail or AcceptPartner.partnerSchoolNum !=myBottle.userSchoolNum:
+            flash('对方可能取消了邀请，你可以重新选择')
+            return redirect(url_for('bottleMessage'))
         else:
             timenow = datetime.now()
             myBottle.BePartenerTime = str(timenow)
