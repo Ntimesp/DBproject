@@ -649,8 +649,10 @@ def BottleRiverPick():
         db.session.commit()
         return redirect(url_for('ThrowBottle'))
     lasttime = datetime.strptime(str(myBottle.bottleLastTime), "%Y-%m-%d %H:%M:%S.%f")
-    if (timenow - lasttime).total_seconds() >= LastTimeAtLeastCheck and myBottle.userBottleStatus == 1 and myBottle.userSalvageStatus != 1:
+    if (timenow - lasttime).total_seconds() >= LastTimeAtLeastCheck and myBottle.userBottleStatus == 1 \
+            and myBottle.userSalvageStatus == 0 and myBottle.userBySalvageStatus==0:
         myBottle.userSalvageStatus = 1
+
         db.session.commit()
         return redirect(url_for('BottleRiverPick'))
     riverStatus, LeftTime = checkRiverStatus()
@@ -854,13 +856,13 @@ def bottleMessage():
                        '''
     #复原自己的捞瓶状态
     if myBottle.userBySalvageStatus==1:
-        partner=bottleDatabase.query.filter_by(userEmail=myBottle.partnerEmail,userSchoolNum=myBottle.partnerSchoolNum)
-        if partner is None:
+        AcceptPartner=bottleDatabase.query.filter_by(userEmail=myBottle.partnerEmail,userSchoolNum=myBottle.partnerSchoolNum)
+        if AcceptPartner is None:
             myBottle.userBySalvageStatus=0
             myBottle.userSalvageStatus=1
             flash('系统存在故障')
             return redirect(url_for('bottleMessage'))
-        if partner.userBottleStatus==2:
+        if AcceptPartner.userBottleStatus==2:
             myBottle.userBySalvageStatus=0
             myBottle.userSalvageStatus=1
             flash('你所选取的对象已经与他人匹配，请回到事件河流重新选择')
@@ -908,9 +910,6 @@ def bottleMessage():
     return render_template('holiday/bottleMessage.html', myBottle=myBottle, riverStatus=riverStatus,
                            LeftTime=LeftTime, myReceiveInvite=myReceiveInvite, myReceiveInviteNum=myReceiveInviteNum,
                         checkpartnerform=checkpartnerform, receiveInviteform=receiveInviteform)
-
-
-
 
 
 @app.route('/BottleFaq', methods=['GET', 'POST'])
