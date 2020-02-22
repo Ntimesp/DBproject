@@ -649,7 +649,7 @@ def BottleRiverPick():
         return redirect(url_for('ThrowBottle'))
     lasttime = datetime.strptime(str(myBottle.bottleLastTime), "%Y-%m-%d %H:%M:%S.%f")
     if (timenow - lasttime).total_seconds() >= LastTimeAtLeastCheck and myBottle.userBottleStatus == 1 \
-            and myBottle.userSalvageStatus == 0 and myBottle.userBySalvageStatus==0:
+            and myBottle.userSalvageStatus == 0 :
         myBottle.userSalvageStatus = 1
         db.session.commit()
         return redirect(url_for('BottleRiverPick'))
@@ -853,6 +853,7 @@ def bottleMessage():
                        validators=[], coerce=int))
                        '''
     #复原自己的捞瓶状态
+    '''
     if myBottle.userBySalvageStatus==1:
         AcceptPartner=bottleDatabase.query.filter_by(userEmail=myBottle.partnerEmail,userSchoolNum=myBottle.partnerSchoolNum).first()
         if AcceptPartner is None:
@@ -871,9 +872,10 @@ def bottleMessage():
             myBottle.userBySalvageStatus=1
             myBottle.userSalvageStatus=0
             db.session.commit()
+    '''
     lasttime = datetime.strptime(str(myBottle.bottleLastTime), "%Y-%m-%d %H:%M:%S.%f")
     if (timenow - lasttime).total_seconds() >= LastTimeAtLeastCheck and myBottle.userBottleStatus == 1 \
-            and myBottle.userSalvageStatus == 0 and myBottle.userBySalvageStatus==0:
+            and myBottle.userSalvageStatus == 0 :
         myBottle.userSalvageStatus = 1
         db.session.commit()
         return redirect(url_for('BottleRiverPick'))
