@@ -169,7 +169,6 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
-
 @login_manager.user_loader
 def loadUser(user_id):
     # print("loadUser: user_id =", user_id)
@@ -652,7 +651,6 @@ def BottleRiverPick():
     if (timenow - lasttime).total_seconds() >= LastTimeAtLeastCheck and myBottle.userBottleStatus == 1 \
             and myBottle.userSalvageStatus == 0 and myBottle.userBySalvageStatus==0:
         myBottle.userSalvageStatus = 1
-
         db.session.commit()
         return redirect(url_for('BottleRiverPick'))
     riverStatus, LeftTime = checkRiverStatus()
@@ -873,6 +871,13 @@ def bottleMessage():
             myBottle.userBySalvageStatus=1
             myBottle.userSalvageStatus=0
             db.session.commit()
+    lasttime = datetime.strptime(str(myBottle.bottleLastTime), "%Y-%m-%d %H:%M:%S.%f")
+    if (timenow - lasttime).total_seconds() >= LastTimeAtLeastCheck and myBottle.userBottleStatus == 1 \
+            and myBottle.userSalvageStatus == 0 and myBottle.userBySalvageStatus==0:
+        myBottle.userSalvageStatus = 1
+        db.session.commit()
+        return redirect(url_for('BottleRiverPick'))
+
     if receiveInviteform.choosePartner.data:
         chooseNum = receiveInviteform.choosePartener.data
         AcceptPartner = bottleDatabase.query.filter_by(userBottleId=chooseNum).first()
