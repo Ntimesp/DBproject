@@ -1589,7 +1589,7 @@ def boy():
             flash(NOT_ACTIVATE_STRING)
             return redirect(url_for('boy'))
         if myrecord.lastupdatetime is None:
-            wishes = wishDatabase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
+            wishes = wishDatabase.query.filter_by(wishstatus=0).order_by(func.random()).limit(5)
             if wishes.count() == 0:
                 flash("当前没有可以被选取的愿望。")
                 return redirect(url_for('boy'))
@@ -1604,7 +1604,7 @@ def boy():
         nowtime = datetime.now()
         lastupdatetime = datetime.strptime(myrecord.lastupdatetime, "%Y-%m-%d %H:%M:%S.%f")
         if (nowtime - lastupdatetime).total_seconds() >= 4 * 3600:  # 4 hours
-            wishes = wishDatabase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
+            wishes = wishDatabase.query.filter_by(wishstatus=0).order_by(func.random()).limit(5)
             if wishes.count() == 0:
                 flash("没有可以被选取的愿望。")
                 return redirect(url_for('boy'))
@@ -1648,7 +1648,7 @@ def boy():
     myrecord = selectwishes.query.filter_by(userEmail=current_user.userEmail,
                                             userSchoolNum=current_user.userSchoolNum).first()
     if myrecord.cashid is None:
-        wishes = wishDatabase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
+        wishes = wishDatabase.query.filter_by(wishstatus=0).order_by(func.random()).limit(5)
         if wishes.count() == 0:
             flash("没有可以被选取的愿望。")
             return redirect(url_for('wish'))
@@ -1688,7 +1688,7 @@ def boy():
     lasttime = datetime.strptime(str(myrecord.lastviewtime), "%Y-%m-%d %H:%M:%S.%f")
     nowtime = datetime.now()
     if (nowtime - lasttime).total_seconds() >= 4 * 3600:  # 4 hours
-        wishes = wishDatabase.query.filter_by(wishstatus=0, userStatus=1).order_by(func.random()).limit(5)
+        wishes = wishDatabase.query.filter_by(wishstatus=0).order_by(func.random()).limit(5)
         if wishes.count() == 0:
             flash("没有可以被选取的愿望")
         mystr = ";".join([wish.userEmail for wish in wishes if wish.userEmail])
