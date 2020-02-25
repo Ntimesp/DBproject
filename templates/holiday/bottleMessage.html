@@ -75,6 +75,10 @@ body{background:url({{ url_for('static', filename='img/river_index.jpg') }}) top
     {% endif %}
     {% if myBottle.userBySalvageStatus==1 %}
     <p>您已经选择了同伴{{ myBottle.partnerNickName }}，请等待ta的回复吧</p>
+       <br>
+        {% if checkable == 1 %}
+        <p>您等候时间已经超过了24小时，如果对方实在未回复，可以考虑通过邮箱联系ta。他的邮箱是{{ myBottle.partnerEmail }}</p>
+            {% endif %}
     {% endif %}
 
    {% if myReceiveInviteNum >0  %}

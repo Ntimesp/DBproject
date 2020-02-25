@@ -684,7 +684,7 @@ def BottleRiverPick():
                 flash('非常抱歉，你选取的漂流瓶的主人已经和别人达成了同伴关系，你可以重新刷新页面选取漂流瓶')
                 return redirect(url_for('BottleRiverPick'))
             ##可以成功选取作为匹配潜在对象
-            myBottle.checkPartnerTime = datetime.now()
+            myBottle.checkPartnerTime = str(datetime.now())
             myBottle.userSalvageStatus = 0
             myBottle.partnerEmail = partnerBottle.userEmail
             myBottle.partnerSchoolNum = partnerBottle.userSchoolNum
@@ -922,10 +922,13 @@ def bottleMessage():
             db.session.commit()
             flash('你们已经成为了同伴，可以一起打卡咯！！')
             return redirect(url_for('bottleMessage'))
-
+    checkable=0
+    lasttime = datetime.strptime(str(myBottle.checkPartnerTime), "%Y-%m-%d %H:%M:%S.%f")
+    if (timenow-lasttime).total_seconds()>=LastTimeAtLeastCheck:
+        checkable=1
     return render_template('holiday/bottleMessage.html', myBottle=myBottle, riverStatus=riverStatus,
                            LeftTime=LeftTime, myReceiveInvite=myReceiveInvite, myReceiveInviteNum=myReceiveInviteNum,
-                        checkpartnerform=checkpartnerform, receiveInviteform=receiveInviteform)
+                        checkpartnerform=checkpartnerform, receiveInviteform=receiveInviteform,checkable=checkable)
 
 
 @app.route('/BottleFaq', methods=['GET', 'POST'])
