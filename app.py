@@ -1856,10 +1856,8 @@ def register():
                         userSex=newusersex, userTelnum=newuserTelnum,
                         userNickName=newuserNickName)
         else:
-            User.query.filter_by(userEmail=form.email.data).delete()
-            user = User(userEmail=newuseremail, userSchoolNum=newuserschoolnum, userQQnum=newuserQQnum,
-                        userSex=newusersex, userTelnum=newuserTelnum,
-                        userNickName=newuserNickName)
+            flash('你的邮箱已经被注册，请检查是否注册过邮箱')
+            return redirect(url_for("register"))
         user.setPassword(newuserpassword)
         user.userStatus = 0
         db.session.add(user)
