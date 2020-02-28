@@ -208,7 +208,7 @@ def InserTicket(userEmail,userSchoolNum):
         else:
             newticketId=TicketDatabase.query.count()+1
             newticketRecord=TicketDatabase(ticketId=newticketId,ticketUserEmail=userEmail,ticketCheck=checkTime,
-                                           ticketUserSchoolNum=userSchoolNum,ticketLuckNum=random.randint(0,21))
+                                           ticketUserSchoolNum=userSchoolNum,ticketLuckNum=random.randint(1,21))
             db.session.add(newticketRecord)
             db.session.commit()
             flash('获得一张奖券，请到我的奖券领取奖券~')
