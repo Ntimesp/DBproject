@@ -7,21 +7,22 @@ body{background:url({{ url_for('static', filename='img/luck.jpg') }}) top left;b
 {% endblock %}
 {% block content %}
 
-
-
+<p>第一周为2月20日网站开放-2月29日晚9：37分</p>
+<br>
+    <p>第二周为2月29日晚9:37分到3月7日晚9:37分</p>
 <div class="center-block">
-	
 	<br>
         {% for ticket in ticketes %}
 		<br>
 		<div class="card border-primary mb-3" style="max-width: 48rem;">
 			<div class="card-header"> 获奖奖券 </div>
 			<div class="card-body text-primary">
-
                 <p class="card-text" id="ads"> 幸运号码{{ ticket.ticketLuckNum }} </p>
+                <p class="card-text" id="ads"> 该奖券为第{{ ticket.ticketCheck }}周可用</p>
 			</div>
 		</div>
          {% endfor %}
+
         <a type="button" class="btn btn-primary" href="{{ url_for('luck') }}">返回幸运开奖</a>
 	<br>
 </div>

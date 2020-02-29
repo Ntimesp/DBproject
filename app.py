@@ -219,8 +219,8 @@ def InserTicket(userEmail,userSchoolNum):
 @fresh_login_required
 def luck():
     nowtime = datetime.now()
-    timepoint1 = datetime(2020, 2, 29, 21, 37, 0, 0)
-    timepoint2 = datetime(2020, 3, 7, 21, 37, 0, 0)
+    timepoint1 = datetime(2020, 3, 2 , 21, 37, 0, 0)
+    timepoint2 = datetime(2020, 3, 9, 21, 37, 0, 0)
     flag1 = nowtime <= timepoint1
 
     if timelimit:
@@ -243,10 +243,9 @@ def myticket():
     if current_user.userEmail is None:
         return redirect(url_for('append'))
     timeweek=checkTicketTime()
-    ticketes=TicketDatabase.query.filter_by(ticketUserEmail=current_user.userEmail,ticketUserSchoolNum=current_user.userSchoolNum,
-                                            ticketCheck=timeweek).all()
+    ticketes=TicketDatabase.query.filter_by(ticketUserEmail=current_user.userEmail,ticketUserSchoolNum=current_user.userSchoolNum).all()
 
-    return render_template('myticket.html',ticketes=ticketes)
+    return render_template('myticket.html',ticketes=ticketes,timeweek=timeweek)
 
 @app.route('/faq_ticket', methods=['GET', 'POST'])
 @fresh_login_required
