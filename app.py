@@ -323,7 +323,7 @@ class dailyCheckDatabase(db.Model):
 def querydailyCheckDatabase(userEmail, UserSchoolNum):
     today = datetime.now().strftime("%Y-%m-%d")
     userCheckEvent = dailyCheckDatabase.query.filter_by(dailyUserEmail=userEmail, dailyUserSchoolNum=UserSchoolNum,
-                                                        dailyDateTime=today).all()
+                                                        dailyDateTime=today).first()
     if userCheckEvent is None:
         return False
     else:
@@ -333,7 +333,7 @@ def querydailyCheckDatabase(userEmail, UserSchoolNum):
 def AdddailyCheckDatabase(userEmail, UserSchoolNum):
     today = datetime.now().strftime("%Y-%m-%d")
     userCheckEvent = dailyCheckDatabase.query.filter_by(dailyUserEmail=userEmail, dailyUserSchoolNum=UserSchoolNum,
-                                                        dailyDateTime=today).all()
+                                                        dailyDateTime=today).first()
     if userCheckEvent is not None:
         return False
     else:
@@ -993,7 +993,7 @@ def wonderland():
     choice=request.args.get('choice', '')
     workgroup='wonderland'
     if not choice:
-        choice='最热作品'
+        choice='随机推送'
     
     if choice=='每日新秀':
         works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
@@ -1053,7 +1053,7 @@ def party():
     choice=request.args.get('choice', '')
     workgroup='party'
     if not choice:
-        choice='最热作品'
+        choice='随机推送'
     
     if choice=='每日新秀':
         works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
@@ -1113,7 +1113,7 @@ def kitchen():
     choice=request.args.get('choice', '')
     workgroup='kitchen'
     if not choice:
-        choice='最热作品'
+        choice='随机推送'
     
     if choice=='每日新秀':
         works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
@@ -1173,7 +1173,7 @@ def battle():
     choice=request.args.get('choice', '')
     workgroup='battle'
     if not choice:
-        choice='最热作品'
+        choice='随机推送'
     
     if choice=='每日新秀':
         works = workDatabase.query.filter(workDatabase.workgroup == workgroup).order_by(
