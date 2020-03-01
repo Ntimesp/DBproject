@@ -361,7 +361,7 @@ River = riverStatus()
 River.riverTime = "2020-02-22 00:00:00.000000"
 LastTimeAtLeast = 24*3600
 LastTimeAtLeastCheck=24*3600
-
+WaitTime=6*3600
 
 ## set the LastTimeAtLeast=1 for test
 ## for reality it is 24*3600( 1 day )
@@ -920,7 +920,7 @@ def bottleMessage():
             return redirect(url_for('bottleMessage'))
     checkable=0
     lasttime = datetime.strptime(str(myBottle.checkPartnerTime), "%Y-%m-%d %H:%M:%S.%f")
-    if (timenow-lasttime).total_seconds()>=LastTimeAtLeastCheck:
+    if (timenow-lasttime).total_seconds()>=WaitTime:
         checkable=1
     return render_template('holiday/bottleMessage.html', myBottle=myBottle, riverStatus=riverStatus,
                            LeftTime=LeftTime, myReceiveInvite=myReceiveInvite, myReceiveInviteNum=myReceiveInviteNum,
