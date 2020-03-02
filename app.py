@@ -852,7 +852,7 @@ def bottleMessage():
                        validators=[], coerce=int))
                        '''
     #复原自己的捞瓶状态
-
+'''''
     if myBottle.userBySalvageStatus==1:
         AcceptPartner=bottleDatabase.query.filter_by(userEmail=myBottle.partnerEmail,userSchoolNum=myBottle.partnerSchoolNum).first()
         if AcceptPartner is None:
@@ -867,7 +867,7 @@ def bottleMessage():
             db.session.commit()
             flash('你所选取的对象已经与他人匹配，请回到事件河流重新选择')
             return redirect(url_for('bottleMessage'))
-
+'''''
 
     lasttime = datetime.strptime(str(myBottle.bottleLastTime), "%Y-%m-%d %H:%M:%S.%f")
     if (timenow - lasttime).total_seconds() >= LastTimeAtLeastCheck and myBottle.userBottleStatus == 1 \
