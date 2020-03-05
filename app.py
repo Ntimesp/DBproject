@@ -360,7 +360,7 @@ class riverStatus():
 River = riverStatus()
 River.riverTime = "2020-02-22 00:00:00.000000"
 LastTimeAtLeast = 24*3600
-LastTimeAtLeastCheck=24*3600
+LastTimeAtLeastCheck=60
 WaitTime=6*3600
 
 ## set the LastTimeAtLeast=1 for test
