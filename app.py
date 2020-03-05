@@ -1602,7 +1602,7 @@ def boy():
             return redirect(url_for('boy'))
         nowtime = datetime.now()
         lastupdatetime = datetime.strptime(myrecord.lastupdatetime, "%Y-%m-%d %H:%M:%S.%f")
-        if (nowtime - lastupdatetime).total_seconds() >= 4 * 3600:  # 4 hours
+        if (nowtime - lastupdatetime).total_seconds() >= 60:  # 4 hours
             wishes = wishDatabase.query.filter_by(wishstatus=0).order_by(func.random()).limit(5)
             if wishes.count() == 0:
                 flash("没有可以被选取的愿望。")
@@ -1615,7 +1615,6 @@ def boy():
             db.session.commit()
             flash("刷新愿望成功。")
             return redirect(url_for('boy'))
-        flash("每 6 小时只允许刷新一次。")
         return redirect(url_for('boy'))
 
     # 女生确认完成愿望后可以刷新
