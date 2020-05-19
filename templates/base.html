@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>中国科学技术大学学生会</title>
+	<title>高校信息管理系统</title>
 	<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
 	<script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='popper.min.js') }}"></script>
@@ -16,7 +16,7 @@
 </head>
 <body>
 	<nav class="navbar navbar-dark bg-primary">
-		<a class="navbar-brand" href="{{ url_for('index') }}">中国科学技术大学学生会</a>
+		<a class="navbar-brand" href="{{ url_for('index') }}">高校信息管理系统</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -25,40 +25,15 @@
 				<li class="nav-item active">
 					<a class="nav-link" href="{{ url_for('index') }}">主页 <span class="sr-only">(current)</span></a>
 				</li>
-				{% if current_user.is_authenticated %}
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							账户操作
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">功能
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-							<a class="dropdown-item" href="{{ url_for('change_password') }}">更换账户密码</a>
-							<a class="dropdown-item" href="{{ url_for('logout') }}">登出</a>
-						</div>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">最新活动
-						</a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-							<a class="dropdown-item" href="{{ url_for('wish') }}"> 愿望大厅 </a>
+							<a class="dropdown-item" href="{{ url_for('campus') }}"> 校区管理 </a>
                            
-							<a class="dropdown-item" href="{{ url_for('holiday') }}"> 假日与你 </a>
-                            
-                            <a class="dropdown-item" href="{{ url_for('show') }}"> 境像show </a>
-                            
-                            <a class="dropdown-item" href="{{ url_for('sing') }}"> 情歌专场 </a>
-                            
-                            <a class="dropdown-item" href="{{ url_for('luck') }}"> 幸运开奖 </a>
-                            
+							<a class="dropdown-item" href="{{ url_for('campus') }}"> 校区管理 </a>                           
 						</div>
 					</li>
-				{% else %}
-					<li class="nav-item">
-						<a class="nav-link" href="{{ url_for('register') }}">注册</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{ url_for('login') }}">登录</a>
-					</li>
-				{% endif %}
 			</ul>
 		</div>
 	</nav>
@@ -72,11 +47,6 @@
 				</div>
 			{% endfor %}
 			<br>
-			{% if current_user.is_authenticated %}
-				{% if current_user.userSchoolNum %}
-					<span class="badge badge-primary">{{ current_user.userSchoolNum }}</span>
-				{% endif %}
-			{% endif %}
 			{% block content %}
 
 			{% endblock %}

@@ -1,8 +1,2 @@
-env/
-venv/
 __pycache__/
-
-.idea/
-.DS_Store
-static/userimg
-*.log
+test.py

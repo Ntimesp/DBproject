@@ -1,19 +1,17 @@
-# USTC Student Union backend [![Build Status](https://travis-ci.com/breakingdevil/USTC_stunion_backend.svg?token=9jooK4Qfof8h4FFgpnEK&branch=master)](https://travis-ci.com/breakingdevil/USTC_stunion_backend)
+# 数据库课程实验——校区管理系统
 
-https://blog.csdn.net/lxfHaHaHa/article/details/78490249
+需要在安装有mysql（5.7版本以上）和python3的linux环境下运行
 
-修改数据库字符集：
+在项目文件夹下执行以下命令
+```
+pip install -r requirements.txt
+python3 app.py
+```
+然后浏览器打开`http://localhost:5000`
 
-    ALTER DATABASE db_name DEFAULT CHARACTER SET character_name [COLLATE ...];
-    
-把表默认的字符集和所有字符列（CHAR, VARCHAR, TEXT）改为新的字符集：
+注：
+1. templates文件夹下是html模板，templates/reference里面是一些前端的例子
+2. static文件夹下是图片和js
+3. sqlfile 文件夹下保存sql文件
+4. requirments.txt里是需要安装的包
 
-    ALTER TABLE tbl_name CONVERT TO CHARACTER SET character_name [COLLATE ...]如：ALTER TABLE logtest CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
-
-导出表结构
-
-    mysqldump --opt -d 数据库名 -u root -p > export.sql
-
-修改字符集为 UTF-8
-
-重新创建数据库 
