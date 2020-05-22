@@ -25,17 +25,31 @@ def index():
 @app.route('/campus', methods=['GET', 'POST'])
 def campus():
     if request.method == 'POST':
+        print(request.form)
         cursor = conn.cursor()
-        sql="""
-        insert into Campus (Campus_id, Campus_name, Campus_address) values (%s,%s,%s);
-        """
-        Campus_id=request.form["Campus_id"]
-        Campus_name=request.form["Campus_name"]
-        Campus_address=request.form["Campus_address"]
-        res=cursor.execute(sql, [Campus_id, Campus_name, Campus_address])
+        op=request.form["query"]
+        if op=="insert":
+            sql="""
+            insert into Campus (Campus_id, Campus_name, Campus_address) values (%s,%s,%s);
+            """
+            Campus_id=request.form["Campus_id"]
+            Campus_name=request.form["Campus_name"]
+            Campus_address=request.form["Campus_address"]
+            res=cursor.execute(sql, [Campus_id, Campus_name, Campus_address])
+            flash("操作成功")
+        elif op=="delete":
+            sql="""
+            delete from Campus where Campus_id=%s;
+            """
+            Campus_id=request.form["Campus_id"]
+            res=cursor.execute(sql, Campus_id)
+            flash("操作成功")
+        elif op=="select":
+            1+1
+        elif op=="update":
+            1+1
         cursor.close()
-        flash("操作成功")
-    
+
     cursor = conn.cursor()
     sql="""
     select * from Campus
@@ -45,7 +59,14 @@ def campus():
     cursor.close()
     return render_template('campus.html',campus=res)
 
-
-
+@app.route('/major', methods=['GET', 'POST'])
+def major():
+    return render_template('major.html')
+@app.route('/classes', methods=['GET', 'POST'])
+def classes():
+    1+1
+@app.route('/student', methods=['GET', 'POST'])
+def student():
+    1+1
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
