@@ -62,6 +62,19 @@
             <label for="info_nationality_inp" class="inp-prompt">nationality: </label>
             <input type="text", id="info_nationality_inp", name="info_nationality", class="inp-prompt">
         </div>
+        <div id="select-filter" class="display-none">
+            <input type="button" value="Add Filter" id="add-filter-btn">
+            <select name="sel0" id="sel0" onchange="ChangeSel(this)">
+                <option value="ID" selected="selected">class ID</option>
+                <option value="name">class name</option>
+                <option value="createdate">create date</option>
+                <option value="headteacher">head teacher</option>
+                <option value="grade">grade</option>
+                <option value="major">major</option>
+            </select>
+            =
+            <input type="number" name="subclause0" id="subclause0">
+        </div>
         <!--提交-->
         <div>
             <input type="submit", value="提交">
