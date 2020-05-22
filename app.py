@@ -149,15 +149,24 @@ def major():
             Major_leader = request.form["major_leader"]
             cursor.execute(sql, [Major_id, Major_name, Major_address, Major_campus_id, Major_leader])
             flash("操作成功")
+<<<<<<< Updated upstream
             res = cursor.fetchall()
         elif op == "delete":
             sql = """
                 delete from Major where Major_id=%s;
+=======
+        elif op == "delete":
+            sql = """
+                delete from Campus where Campus_id=%s;
+>>>>>>> Stashed changes
                 """
             Major_id = request.form["major_id"]
             cursor.execute(sql, Major_id)
             flash("操作成功")
+<<<<<<< Updated upstream
             res = cursor.fetchall()
+=======
+>>>>>>> Stashed changes
         elif op == "select":
             Major_id = request.form["major_id"]
             Major_name = request.form["major_name"]
@@ -180,6 +189,10 @@ def major():
                     sql = sql + " and Major_campus_id=" + "\"" + Major_campus_id + "\""
                 if Major_leader:
                     sql = sql + " and Major_leader=" + "\"" + Major_leader + "\""
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
             cursor.execute(sql)
             flash("操作成功")
             res = cursor.fetchall()
@@ -205,6 +218,7 @@ def major():
                 print(sql)
                 cursor.execute(sql)
                 flash("操作成功")
+<<<<<<< Updated upstream
                 res = cursor.fetchall()
         cursor.close()
     else:
@@ -220,6 +234,10 @@ def major():
 =======
     return render_template('major.html', major=res)
 
+>>>>>>> Stashed changes
+=======
+        cursor.close()
+    return render_template('major.html')
 >>>>>>> Stashed changes
 
 @app.route('/classes', methods=['GET', 'POST'])
