@@ -368,31 +368,66 @@ def student():
 
 
 @app.route('/personalinfo', methods=['GET', 'POST'])
-def student():
+def personalinfo():
     res = []
     if request.method == 'POST':
         print(request.form)
         cursor = conn.cursor()
         op = request.form["query"]
         if op == "insert":
-            sql = """
-                        insert into Person (Person_id, Person_id_type, Person_name, Person_gender, Person_date_of_birth, Person_nationality) 
-                        values (%s,%s,%s, %s, %s, %s);
-                        """
             Person_id = request.form["info_id"]
             Person_id_type = request.form["info_type"]
             Person_name = request.form["info_name"]
             Person_gender = request.form["info_gender"]
             Person_date_of_birth = request.form["info_birthday"]
             Person_nationality = request.form["info_nationality"]
+            Person_address = request.form["info_addr"]
+            Person_postcode = request.form["info_postcode"]
+            Person_phone_number = request.form["info_phone"]
+            sql = """
+                insert into Person (Person_id, Person_id_type, Person_name, Person_gender, Person_date_of_birth, Person_nationality) 
+                values (%s,%s,%s, %s, %s, %s);
+                """
             cursor.execute(sql, [Person_id, Person_id_type, Person_name, Person_gender, Person_date_of_birth, Person_nationality])
+            if Person_address + Person_postcode + Person_phone_number:
+                sql = "insert into `Contact information` ("
+                if Person_address:
+                    sql = sql + "Person_address"
+                    if Person_postcode or Person_phone_number:
+                        sql = sql + ", "
+                if Person_postcode:
+                    sql = sql + "Person_postcode"
+                    if Person_phone_number:
+                        sql = sql + ", "
+                if Person_phone_number:
+                    sql = sql + "Person_phone_number"
+                sql = sql + ") values ("
+                if Person_address:
+                    sql = sql + "\"" + Person_address + "\""
+                    if Person_postcode or Person_phone_number:
+                        sql = sql + ", "
+                if Person_postcode:
+                    sql = sql + "\"" + Person_postcode + "\""
+                    if Person_phone_number:
+                        sql = sql + ", "
+                if Person_phone_number:
+                    sql = sql + "\"" + Person_phone_number + "\""
+                cursor.execute(sql, [Person_address, Person_postcode, Person_phone_number])
             flash("操作成功")
+            sql = """
+                select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id;
+                """
+            cursor.execute(sql, Person_id)
             res = cursor.fetchall()
         elif op == "delete":
+            Person_id = request.form["info_id"]
+            sql = """
+                delete from `Contact information` where Person_id=%s;
+                """
+            cursor.execute(sql, Person_id)
             sql = """
                 delete from Person where Person_id=%s;
                 """
-            Person_id = request.form["info_id"]
             cursor.execute(sql, Person_id)
             flash("操作成功")
             res = cursor.fetchall()
@@ -403,24 +438,38 @@ def student():
             Person_gender = request.form["info_gender"]
             Person_date_of_birth = request.form["info_birthday"]
             Person_nationality = request.form["info_nationality"]
-            if not Person_id + Person_id_type + Person_name + Person_gender + Person_date_of_birth + Person_nationality:
-                sql = "select * from Person"
+            Person_address = request.form["info_addr"]
+            Person_postcode = request.form["info_postcode"]
+            Person_phone_number = request.form["info_phone"]
+            if not Person_id + Person_id_type + Person_name + Person_gender + Person_date_of_birth + Person_nationality \
+                   + Person_address + Person_postcode + Person_phone_number:
+                sql = "select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id;"
             else:
-                sql = "select * from Person where 1=1"
+                sql = "select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id where 1=1"
                 if Person_id:
-                    sql = sql + " and Person_id=" + "\"" + Person_id + "\""
+                    sql = sql + " and Person.Person_id=" + "\"" + Person_id + "\""
                 if Person_id_type:
-                    sql = sql + " and Person_id_type=" + "\"" + Person_id_type + "\""
+                    sql = sql + " and Person.Person_id_type=" + "\"" + Person_id_type + "\""
                 if Person_name:
-                    sql = sql + " and Person_name=" + "\"" + Person_name + "\""
+                    sql = sql + " and Person.Person_name=" + "\"" + Person_name + "\""
                 if Person_gender:
-                    sql = sql + " and Person_gender=" + "\"" + Person_gender + "\""
+                    sql = sql + " and Person.Person_gender=" + "\"" + Person_gender + "\""
                 if Person_date_of_birth:
-                    sql = sql + " and Person_date_of_birth=" + "\"" + Person_date_of_birth + "\""
+                    sql = sql + " and Person.Person_date_of_birth=" + "\"" + Person_date_of_birth + "\""
                 if Person_nationality:
-                    sql = sql + " and Person_nationality=" + "\"" + Person_nationality + "\""
+                    sql = sql + " and Person.Person_nationality=" + "\"" + Person_nationality + "\""
+                if Person_address:
+                    sql = sql + " and `Contact information`.Person_address=" + "\"" + Person_address + "\""
+                if Person_postcode:
+                    sql = sql + " and `Contact information`.Person_postcode=" + "\"" + Person_postcode + "\""
+                if Person_phone_number:
+                    sql = sql + " and `Contact information`.Person_phone_number=" + "\"" + Person_phone_number + "\""
             cursor.execute(sql)
             flash("操作成功")
+            sql = """
+                select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id where Person.Person_id=%s;
+                """
+            cursor.execute(sql, Person_id)
             res = cursor.fetchall()
         elif op == "update":
             Person_id = request.form["info_id"]
@@ -429,31 +478,51 @@ def student():
             Person_gender = request.form["info_gender"]
             Person_date_of_birth = request.form["info_birthday"]
             Person_nationality = request.form["info_nationality"]
-            if not Person_id_type + Person_name + Person_gender + Person_date_of_birth + Person_nationality:
+            Person_address = request.form["info_addr"]
+            Person_postcode = request.form["info_postcode"]
+            Person_phone_number = request.form["info_phone"]
+            if not Person_id_type + Person_name + Person_gender + Person_date_of_birth + Person_nationality \
+                   + Person_address + Person_postcode + Person_phone_number:
                 flash("什么也不做")
             else:
-                sql = "update Person set"
-                if Person_id_type:
-                    sql = sql + " Person_id_type=" + "\"" + Person_id_type + "\","
-                if Person_name:
-                    sql = sql + " Person_name=" + "\"" + Person_name + "\""
-                if Person_gender:
-                    sql = sql + " Person_gender=" + "\"" + Person_gender + "\""
-                if Person_date_of_birth:
-                    sql = sql + " Person_date_of_birth=" + "\"" + Person_date_of_birth + "\""
-                if Person_nationality:
-                    sql = sql + " Person_nationality=" + "\"" + Person_nationality + "\""
-                sql = sql + " where Person_id=" + "\"" + Person_id + "\""
-                print(sql)
-                cursor.execute(sql)
+                if Person_id_type + Person_name + Person_gender + Person_date_of_birth + Person_nationality:
+                    sql = "update Person set"
+                    if Person_id_type:
+                        sql = sql + " Person_id_type=" + "\"" + Person_id_type + "\","
+                    if Person_name:
+                        sql = sql + " Person_name=" + "\"" + Person_name + "\""
+                    if Person_gender:
+                        sql = sql + " Person_gender=" + "\"" + Person_gender + "\""
+                    if Person_date_of_birth:
+                        sql = sql + " Person_date_of_birth=" + "\"" + Person_date_of_birth + "\""
+                    if Person_nationality:
+                        sql = sql + " Person_nationality=" + "\"" + Person_nationality + "\""
+                    sql = sql + " where Person_id=" + "\"" + Person_id + "\""
+                    print(sql)
+                    cursor.execute(sql)
+                if Person_address + Person_postcode + Person_phone_number:
+                    sql = "update `Contact information` set"
+                    if Person_address:
+                        sql = sql + " Person_address=" + "\"" + Person_address + "\","
+                    if Person_postcode:
+                        sql = sql + " Person_postcode=" + "\"" + Person_postcode + "\""
+                    if Person_phone_number:
+                        sql = sql + " Person_phone_number=" + "\"" + Person_phone_number + "\""
+                    sql = sql + " where Person_id=" + "\"" + Person_id + "\""
+                    print(sql)
+                    cursor.execute(sql)
                 flash("操作成功")
+                sql = """
+                    select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id;
+                    """
+                cursor.execute(sql, Person_id)
                 res = cursor.fetchall()
         cursor.close()
     else:
         cursor = conn.cursor()
         sql = """
-                select * from Person;
-                """
+            select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id;
+            """
         cursor.execute(sql)
         res = cursor.fetchall()
         cursor.close()
