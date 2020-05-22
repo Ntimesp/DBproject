@@ -1,0 +1,91 @@
+
+{% extends "base.html" %}
+
+{% from 'bootstrap/form.html' import render_form, render_field %}
+
+{% block headInsert %}
+<style type="text/css">
+.inp-prompt {
+    display: block;
+    min-height: 20px;
+}
+.display-block {
+    display: block;
+}
+.display-none {
+    display: none;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="center-block">
+
+    <div><form method="POST">
+        <!--选择类型-->
+        <div>
+            <select name="query" id="quert-select">
+                <option value="insert" selected="selected">插入</option>
+                <option value="delete">删除</option>
+                <option value="select">查询</option>
+                <option value="update">修改</option>
+            </select>
+        </div>
+        <!--输入数据-->
+        <div id="info-id" class="display-block">
+            <label for="info_id_inp" class="inp-prompt">personal info ID: </label>
+            <input type="number", id="info_id_inp", name="info_id", class="inp-prompt">
+        </div>
+        <div id="info-type" class="display-block">
+            <label for="info_type_inp" class="inp-prompt">information type: </label>
+            <select id="info_type_inp" name="info_type">
+                <option value="creditcard" selected="selected">身份证</option>
+                <option value="passport">护照</option>
+            </select>
+        </div>
+        <div id="info-name" class="display-block">
+            <label for="info_name_inp" class="inp-prompt">name: </label>
+            <input type="text", id="info_name_inp", name="info_name", class="inp-prompt">
+        </div>
+        <div id="info-gender" class="display-block">
+            <label for="info_gender_inp" class="inp-prompt">gender: </label>
+            <select id="info_gender_inp" name="info_gender">
+                <option value="male">男</option>
+                <option value="female">女</option>
+            </select>
+        </div>
+        <div id="info-birthday" class="display-block">
+            <label for="info_birthday_inp" class="inp-prompt">birthday: </label>
+            <input type="date", id="info_birthday_inp", name="info_birthday", class="inp-prompt">
+        </div>
+        <div id="info-nationality" class="display-block">
+            <label for="info_nationality_inp" class="inp-prompt">nationality: </label>
+            <input type="text", id="info_nationality_inp", name="info_nationality", class="inp-prompt">
+        </div>
+        <!--提交-->
+        <div>
+            <input type="submit", value="提交">
+            <input type="reset", value="重置">
+        </div>
+    </form></div>
+    <br>
+
+    <div class="card border-primary mb-3" style="max-width: 48rem;">
+        <div class="card">
+        <div >
+            <div class="card-header"> 个人信息 </div>
+            <div class="card-body text-primary">
+                {% for inf in info %}
+                <p class="card-text"> {{ inf }} <button type="button" class="btn btn-primary" id="{{inf[0]}}">删除</button></p>
+                {% endfor %}
+            </div>
+            </div>
+        </div>
+        </div>
+
+    <a type="button" class="btn btn-primary" href="{{ url_for('index') }}">返回主页</a>
+	<br>
+    <p style="color:white;">本次活动对于愿望池提供点赞功能，对于点赞高的愿望，在男生愿望池中会有更高概率出现，如果最终男生没有成功完成，那么会由项目组抽取部分点赞代表性高的愿望为其完成</p>
+	<script src="{{ url_for('static', filename='info.js') }}"></script>
+</div>
+{% endblock %}
