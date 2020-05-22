@@ -204,8 +204,8 @@ def classes():
             res = cursor.fetchall()
         elif op == "delete":
             sql = """
-                    delete from Class where Class_id=%s;
-                    """
+                delete from Class where Class_id=%s;
+                """
             Class_id = request.form["class_id"]
             cursor.execute(sql, Class_id)
             flash("操作成功")
@@ -271,7 +271,7 @@ def classes():
         cursor.execute(sql)
         res = cursor.fetchall()
         cursor.close()
-    return render_template('class.html', classes=res)
+    return render_template('class.html', classes = res)
 
 
 @app.route('/student', methods=['GET', 'POST'])
@@ -297,8 +297,8 @@ def student():
             res = cursor.fetchall()
         elif op == "delete":
             sql = """
-                        delete from Student where Student_id=%s;
-                        """
+                delete from Student where Student_id=%s;
+                """
             Student_id = request.form["student_id"]
             cursor.execute(sql, Student_id)
             flash("操作成功")
@@ -364,7 +364,100 @@ def student():
         cursor.execute(sql)
         res = cursor.fetchall()
         cursor.close()
-    return render_template('student.html')
+    return render_template('student.html', student = res)
+
+
+@app.route('/personalinfo', methods=['GET', 'POST'])
+def student():
+    res = []
+    if request.method == 'POST':
+        print(request.form)
+        cursor = conn.cursor()
+        op = request.form["query"]
+        if op == "insert":
+            sql = """
+                        insert into Person (Person_id, Person_id_type, Person_name, Person_gender, Person_date_of_birth, Person_nationality) 
+                        values (%s,%s,%s, %s, %s, %s);
+                        """
+            Person_id = request.form["info_id"]
+            Person_id_type = request.form["info_type"]
+            Person_name = request.form["info_name"]
+            Person_gender = request.form["info_gender"]
+            Person_date_of_birth = request.form["info_birthday"]
+            Person_nationality = request.form["info_nationality"]
+            cursor.execute(sql, [Person_id, Person_id_type, Person_name, Person_gender, Person_date_of_birth, Person_nationality])
+            flash("操作成功")
+            res = cursor.fetchall()
+        elif op == "delete":
+            sql = """
+                delete from Person where Person_id=%s;
+                """
+            Person_id = request.form["info_id"]
+            cursor.execute(sql, Person_id)
+            flash("操作成功")
+            res = cursor.fetchall()
+        elif op == "select":
+            Person_id = request.form["info_id"]
+            Person_id_type = request.form["info_type"]
+            Person_name = request.form["info_name"]
+            Person_gender = request.form["info_gender"]
+            Person_date_of_birth = request.form["info_birthday"]
+            Person_nationality = request.form["info_nationality"]
+            if not Person_id + Person_id_type + Person_name + Person_gender + Person_date_of_birth + Person_nationality:
+                sql = "select * from Person"
+            else:
+                sql = "select * from Person where 1=1"
+                if Person_id:
+                    sql = sql + " and Person_id=" + "\"" + Person_id + "\""
+                if Person_id_type:
+                    sql = sql + " and Person_id_type=" + "\"" + Person_id_type + "\""
+                if Person_name:
+                    sql = sql + " and Person_name=" + "\"" + Person_name + "\""
+                if Person_gender:
+                    sql = sql + " and Person_gender=" + "\"" + Person_gender + "\""
+                if Person_date_of_birth:
+                    sql = sql + " and Person_date_of_birth=" + "\"" + Person_date_of_birth + "\""
+                if Person_nationality:
+                    sql = sql + " and Person_nationality=" + "\"" + Person_nationality + "\""
+            cursor.execute(sql)
+            flash("操作成功")
+            res = cursor.fetchall()
+        elif op == "update":
+            Person_id = request.form["info_id"]
+            Person_id_type = request.form["info_type"]
+            Person_name = request.form["info_name"]
+            Person_gender = request.form["info_gender"]
+            Person_date_of_birth = request.form["info_birthday"]
+            Person_nationality = request.form["info_nationality"]
+            if not Person_id_type + Person_name + Person_gender + Person_date_of_birth + Person_nationality:
+                flash("什么也不做")
+            else:
+                sql = "update Person set"
+                if Person_id_type:
+                    sql = sql + " Person_id_type=" + "\"" + Person_id_type + "\","
+                if Person_name:
+                    sql = sql + " Person_name=" + "\"" + Person_name + "\""
+                if Person_gender:
+                    sql = sql + " Person_gender=" + "\"" + Person_gender + "\""
+                if Person_date_of_birth:
+                    sql = sql + " Person_date_of_birth=" + "\"" + Person_date_of_birth + "\""
+                if Person_nationality:
+                    sql = sql + " Person_nationality=" + "\"" + Person_nationality + "\""
+                sql = sql + " where Person_id=" + "\"" + Person_id + "\""
+                print(sql)
+                cursor.execute(sql)
+                flash("操作成功")
+                res = cursor.fetchall()
+        cursor.close()
+    else:
+        cursor = conn.cursor()
+        sql = """
+                select * from Person;
+                """
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        cursor.close()
+    return render_template('student.html', info = res)
 
 
 if __name__ == "__main__":
