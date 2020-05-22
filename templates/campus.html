@@ -42,7 +42,16 @@
         </div>
         <div id="campus-addr" class="display-block">
             <label for="campus_addr_inp" class="inp-prompt">campus address: </label>
-            <input type="text", id="campus_addr_inp", name="Campus_address", class="inp-prompt">
+            <input type="text" id="campus_addr_inp" name="Campus_address" class="inp-prompt">
+        </div>
+        <div id="select-filter" class="display-none">
+            <input type="button" value="Add Filter" id="add-filter-btn">
+            <select name="sel0" id="sel0">
+                <option value="ID" selected="selected">campus ID</option>
+                <option value="name">campus name</option>
+                <option value="addr">campus address</option>
+            </select>
+            <input type="text" name="subclause0" id="subclause0">
         </div>
         <!--提交-->
         <div>
