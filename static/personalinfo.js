@@ -5,6 +5,9 @@ const infoname = document.getElementById("info-name");
 const infogender = document.getElementById("info-gender");
 const infobirthday = document.getElementById("info-birthday");
 const infonational = document.getElementById("info-nationality");
+const infoaddr = document.getElementById("info-address");
+const infopostcode = document.getElementById("info-postcode");
+const infophone = document.getElementById("info-phone");
 const selectfilter = document.getElementById("select-filter");
 
 queryselect.onchange = function () {
@@ -21,6 +24,12 @@ queryselect.onchange = function () {
         infobirthday.classList.add("display-none");
         infonational.classList.remove("display-block");
         infonational.classList.add("display-none");
+        infoaddr.classList.remove("display-block");
+        infoaddr.classList.add("display-none");
+        infopostcode.classList.remove("display-block");
+        infopostcode.classList.add("display-none");
+        infophone.classList.remove("display-block");
+        infophone.classList.add("display-none");
         selectfilter.classList.remove("display-block");
         selectfilter.classList.add("display-none");
     } else if (queryselect.value === "select") {
@@ -36,6 +45,12 @@ queryselect.onchange = function () {
         infobirthday.classList.add("display-none");
         infonational.classList.remove("display-block");
         infonational.classList.add("display-none");
+        infoaddr.classList.remove("display-block");
+        infoaddr.classList.add("display-none");
+        infopostcode.classList.remove("display-block");
+        infopostcode.classList.add("display-none");
+        infophone.classList.remove("display-block");
+        infophone.classList.add("display-none");
         selectfilter.classList.remove("display-none");
         selectfilter.classList.add("display-block");
     } else {
@@ -51,6 +66,12 @@ queryselect.onchange = function () {
         infobirthday.classList.add("display-block");
         infonational.classList.remove("display-none");
         infonational.classList.add("display-block");
+        infoaddr.classList.remove("display-none");
+        infoaddr.classList.add("display-block");
+        infopostcode.classList.remove("display-none");
+        infopostcode.classList.add("display-block");
+        infophone.classList.remove("display-none");
+        infophone.classList.add("display-block");
         selectfilter.classList.remove("display-block");
         selectfilter.classList.add("display-none");
     }
@@ -105,6 +126,18 @@ btn.onclick = function () {
     new_opt.value = "nationality";
     new_opt.innerText = "nationality";
     new_sel.appendChild(new_opt);
+    new_opt = document.createElement("option");
+    new_opt.value = "addr";
+    new_opt.innerText = "address";
+    new_sel.appendChild(new_opt);
+    new_opt = document.createElement("option");
+    new_opt.value = "postcode";
+    new_opt.innerText = "postcode";
+    new_sel.appendChild(new_opt);
+    new_opt = document.createElement("option");
+    new_opt.value = "phone";
+    new_opt.innerText = "phone";
+    new_sel.appendChild(new_opt);
     new_div.appendChild(new_sel);
     new_div.appendChild(document.createTextNode(" = "));
     // input text
@@ -145,6 +178,18 @@ function ChangeSel(val) {
             break;
         case "nationality":
             inp.setAttribute("type", "text");
+            inp.placeholder = "";
+            break;
+        case "addr":
+            inp.setAttribute("type", "text");
+            inp.placeholder = "";
+            break;
+        case "postcode":
+            inp.setAttribute("type", "number");
+            inp.placeholder = "";
+            break;
+        case "phone":
+            inp.setAttribute("type", "number");
             inp.placeholder = "";
             break;
         default:

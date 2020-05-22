@@ -1,7 +1,7 @@
 
 {% extends "base.html" %}
 
-{% from 'bootstrap/form.html' import render_form render_field %}
+{% from 'bootstrap/form.html' import render_form, render_field %}
 
 {% block headInsert %}
 <style type="text/css">
@@ -79,6 +79,6 @@
     <a type="button" class="btn btn-primary" href="{{ url_for('index') }}">返回主页</a>
 	<br>
     <p style="color:white;">本次活动对于愿望池提供点赞功能，对于点赞高的愿望，在男生愿望池中会有更高概率出现，如果最终男生没有成功完成，那么会由项目组抽取部分点赞代表性高的愿望为其完成</p>
-	<script src="{{ url_for('static' filename='campus.js') }}"></script>
+	<script src="{{ url_for('static', filename='campus.js') }}"></script>
 </div>
 {% endblock %}
