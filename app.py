@@ -179,8 +179,8 @@ def major():
     else:
         cursor = conn.cursor()
         sql = """
-                    select * from Major;
-                    """
+            select * from Major;
+            """
         cursor.execute(sql)
         res = cursor.fetchall()
         cursor.close()
@@ -189,7 +189,97 @@ def major():
 
 @app.route('/classes', methods=['GET', 'POST'])
 def classes():
-    return render_template('class.html')
+    res = []
+    if request.method == 'POST':
+        print(request.form)
+        cursor = conn.cursor()
+        op = request.form["query"]
+        if op == "insert":
+            sql = """
+                    insert into Major (Class_id, Class_name, Class_create_date, Class_head_teacher, Class_grade, Class_major) 
+                    values (%s,%s,%s, %s, %s, %s);
+                    """
+            Class_id = request.form["class_id"]
+            Class_name = request.form["class_name"]
+            Class_create_date = request.form["class_create_date"]
+            Class_head_teacher = request.form["class_teacher"]
+            Class_grade = request.form["class_grade"]
+            Class_major = request.form["class_major"]
+            cursor.execute(sql, [Class_id, Class_name, Class_create_date, Class_head_teacher, Class_grade, Class_major])
+            flash("操作成功")
+            res = cursor.fetchall()
+        elif op == "delete":
+            sql = """
+                    delete from Class where Class_id=%s;
+                    """
+            Class_id = request.form["class_id"]
+            cursor.execute(sql, Class_id)
+            flash("操作成功")
+            res = cursor.fetchall()
+        elif op == "select":
+            Class_id = request.form["class_id"]
+            Class_name = request.form["class_name"]
+            Class_create_date = request.form["class_create_date"]
+            Class_head_teacher = request.form["class_teacher"]
+            Class_grade = request.form["class_grade"]
+            Class_major = request.form["class_major"]
+            if not Class_id + Class_name + Class_create_date + Class_head_teacher + Class_grade + Class_major:
+                sql = "select * from Class"
+            else:
+                sql = "select * from Class where 1=1"
+                if Class_id:
+                    sql = sql + " and Class_id=" + "\"" + Class_id + "\""
+
+                if Class_name:
+                    sql = sql + " and Class_name=" + "\"" + Class_name + "\""
+
+                if Class_create_date:
+                    sql = sql + " and Class_create_date=" + "\"" + Class_create_date + "\""
+                if Class_head_teacher:
+                    sql = sql + " and Class_head_teacher=" + "\"" + Class_head_teacher + "\""
+                if Class_grade:
+                    sql = sql + " and Class_grade=" + "\"" + Class_grade + "\""
+                if Class_major:
+                    sql = sql + " and Class_major=" + "\"" + Class_major + "\""
+            cursor.execute(sql)
+            flash("操作成功")
+            res = cursor.fetchall()
+        elif op == "update":
+            Class_id = request.form["class_id"]
+            Class_name = request.form["class_name"]
+            Class_create_date = request.form["class_create_date"]
+            Class_head_teacher = request.form["class_teacher"]
+            Class_grade = request.form["class_grade"]
+            Class_major = request.form["class_major"]
+            if not Class_id + Class_name + Class_create_date + Class_head_teacher + Class_grade + Class_major:
+                flash("什么也不做")
+            else:
+                sql = "update Class set"
+                if Class_name:
+                    sql = sql + " Class_name=" + "\"" + Class_name + "\","
+                if Class_create_date:
+                    sql = sql + " Class_create_date=" + "\"" + Class_create_date + "\""
+                if Class_head_teacher:
+                    sql = sql + " Class_head_teacher=" + "\"" + Class_head_teacher + "\""
+                if Class_grade:
+                    sql = sql + " Class_grade=" + "\"" + Class_grade + "\""
+                if Class_major:
+                    sql = sql + " Class_major=" + "\"" + Class_major + "\""
+                sql = sql + " where Class_id=" + "\"" + Class_id + "\""
+                print(sql)
+                cursor.execute(sql)
+                flash("操作成功")
+                res = cursor.fetchall()
+        cursor.close()
+    else:
+        cursor = conn.cursor()
+        sql = """
+            select * from Major;
+            """
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        cursor.close()
+    return render_template('class.html', classes=res)
 
 
 @app.route('/student', methods=['GET', 'POST'])
