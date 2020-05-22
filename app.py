@@ -118,7 +118,7 @@ def major():
             res = cursor.fetchall()
         elif op == "delete":
             sql = """
-                delete from Campus where Campus_id=%s;
+                delete from Major where Major_id=%s;
                 """
             Major_id = request.form["major_id"]
             cursor.execute(sql, Major_id)
@@ -172,6 +172,14 @@ def major():
                 cursor.execute(sql)
                 flash("操作成功")
                 res = cursor.fetchall()
+        cursor.close()
+    else:
+        cursor = conn.cursor()
+        sql = """
+                    select * from Major;
+                    """
+        cursor.execute(sql)
+        res = cursor.fetchall()
         cursor.close()
     return render_template('major.html')
 
