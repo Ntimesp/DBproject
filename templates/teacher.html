@@ -32,39 +32,42 @@
             </select>
         </div>
         <!--输入数据-->
-        <div id="student-id" class="display-block">
-            <label for="student_id_inp" class="inp-prompt">student ID: </label>
-            <input type="text" id="student_id_inp" name="student_id" class="inp-prompt">
+        <div id="teacher-id" class="display-block">
+            <label for="teacher_id_inp" class="inp-prompt">teacher ID: </label>
+            <input type="text" id="teacher_id_inp" name="teacher_id" class="inp-prompt">
         </div>
-        <div id="student-person-id" class="display-block">
-            <label for="student_personal_inp" class="inp-prompt">student personal ID: </label>
-            <input type="number" id="student_personal_inp" name="student_person_id" class="inp-prompt">
+        <div id="teacher-person-id" class="display-block">
+            <label for="teacher_personal_inp" class="inp-prompt">teacher personal ID: </label>
+            <input type="number" id="teacher_personal_inp" name="teacher_person_id" class="inp-prompt">
         </div>
-        <div id="student-email" class="display-block">
-            <label for="student_email_inp" class="inp-prompt">student email address: </label>
-            <input type="email" id="student_email_inp" name="student_email_address" class="inp-prompt">
+        <div id="teacher-entry" class="display-block">
+            <label for="teacher_entry_inp" class="inp-prompt">teacher entry date: </label>
+            <input type="date" id="teacher_entry_inp" name="teacher_entry" class="inp-prompt">
         </div>
-        <div id="student-class" class="display-block">
-            <label for="student_class_inp" class="inp-prompt">student class ID: </label>
-            <input type="text" id="student_class_inp" name="student_class" class="inp-prompt">
+        <div id="teacher-email" class="display-block">
+            <label for="teacher_email_inp" class="inp-prompt">teacher email address: </label>
+            <input type="email" id="teacher_email_inp" name="teacher_email_address" class="inp-prompt">
         </div>
-        <div id="student-major" class="display-block">
-            <label for="student_major_inp" class="inp-prompt">student major ID: </label>
-            <input type="text" id="student_major_inp" name="student_major" class="inp-prompt">
+        <div id="teacher-major" class="display-block">
+            <label for="teacher_major_inp" class="inp-prompt">teacher major ID: </label>
+            <input type="text" id="teacher_major_inp" name="teacher_major" class="inp-prompt">
         </div>
-        <div id="student-enrollment" class="display-block">
-            <label for="student_enrollment_inp" class="inp-prompt">student enrollment date: </label>
-            <input type="date" id="student_enrollment_inp" name="student_enrollment" class="inp-prompt">
+        <div id="teacher-rank" class="display-block">
+            <label for="teacher_rank_inp" class="inp-prompt">teacher rank: </label>
+            <select id="teacher_rank_inp" name="teacher_rank" class="inp-prompt">
+                <option value="professor">professor</option>
+                <option value="assistant">assistant</option>
+            </select>
         </div>
         <div id="select-filter" class="display-none">
             <input type="button" value="Add Filter" id="add-filter-btn">
             <select name="sel0" id="sel0" onchange="ChangeSel(this)">
                 <option value="ID" selected="selected">ID</option>
                 <option value="personal ID">personal ID</option>
+                <option value="entry">entry date</option>
                 <option value="email">email</option>
-                <option value="class">class</option>
-                <option value="major">major</option>
-                <option value="enrollment">enrollment</option>
+                <option value="major">major ID</option>
+                <option value="rank">rank</option>
             </select>
             =
             <input type="text" name="subclause0" id="subclause0">
@@ -80,10 +83,10 @@
     <div class="card border-primary mb-3" style="max-width: 48rem;">
         <div class="card">
         <div >
-            <div class="card-header"> 学生信息 </div>
+            <div class="card-header"> 教师信息 </div>
             <div class="card-body text-primary">
-                {% for studen in student %}
-                <p class="card-text"> {{ studen }} <button type="button" class="btn btn-primary" id="{{studen[0]}}">删除</button></p>
+                {% for teache in teacher %}
+                <p class="card-text"> {{ teache }} <button type="button" class="btn btn-primary" id="{{teache[0]}}">删除</button></p>
                 {% endfor %}
             </div>
             </div>
@@ -94,6 +97,6 @@
     <a type="button" class="btn btn-primary" href="{{ url_for('index') }}">返回主页</a>
 	<br>
     <p style="color:white;">本次活动对于愿望池提供点赞功能，对于点赞高的愿望，在男生愿望池中会有更高概率出现，如果最终男生没有成功完成，那么会由项目组抽取部分点赞代表性高的愿望为其完成</p>
-	<script src="{{ url_for('static', filename='student.js') }}"></script>
+	<script src="{{ url_for('static', filename='teacher.js') }}"></script>
 </div>
 {% endblock %}
