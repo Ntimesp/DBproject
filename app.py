@@ -443,9 +443,7 @@ def student():
         cursor.close()
     else:
         cursor = conn.cursor()
-        sql = """
-                select * from Student;
-                """
+        sql = "select * from Student;"
         cursor.execute(sql)
         res = cursor.fetchall()
         cursor.close()
@@ -575,8 +573,16 @@ def personalinfo():
         elif op == "update":
             Person_id = request.form["info_id"]
             Person_id_type = request.form["info_type"]
+            if Person_id_type == "creaditcard":
+                Person_id_type = "身份证"
+            else:
+                Person_id_type = "护照"
             Person_name = request.form["info_name"]
             Person_gender = request.form["info_gender"]
+            if Person_id_type == "male":
+                Person_id_type = "男"
+            else:
+                Person_id_type = "女"
             Person_date_of_birth = request.form["info_birthday"]
             Person_nationality = request.form["info_nationality"]
             Person_address = request.form["info_addr"]
@@ -624,6 +630,126 @@ def personalinfo():
         res = cursor.fetchall()
         cursor.close()
     return render_template('personalinfo.html', info = res)
+
+
+@app.route('/teacher', methods=['GET', 'POST'])
+def teacher():
+    res = []
+    if request.method == 'POST':
+        print(request.form)
+        cursor = conn.cursor()
+        op = request.form["query"]
+        if op == "insert":
+            sql = """
+                insert into Teacher (Teacher_id, Teacher_person_id, Teacher_entry_date, Teacher_email, Teacher_major_id, Teacher_rank) 
+                values (%s,%s,%s, %s, %s, %s);
+                """
+            Teacher_id = request.form["teacher_id"]
+            Teacher_person_id = request.form["teacher_person_id"]
+            Teacher_entry_date = request.form["teacher_entry"]
+            Teacher_email = request.form["teacher_email_address"]
+            Teacher_major_id = request.form["teacher_major"]
+            Teacher_rank = request.form["teacher_rank"]
+            if Teacher_rank == "professor":
+                Teacher_rank = "教授"
+            else:
+                Teacher_rank = "副教授"
+            cursor.execute(sql, [Teacher_id, Teacher_person_id, Teacher_entry_date, Teacher_email, Teacher_major_id, Teacher_rank])
+            flash("操作成功")
+            sql = "select * from Teacher;"
+            cursor.execute(sql)
+            res = cursor.fetchall()
+        elif op == "delete":
+            sql = """
+                delete from Teacher where Teacher_id=%s;
+                """
+            Teacher_id = request.form["teacher_id"]
+            cursor.execute(sql, Teacher_id)
+            flash("操作成功")
+            sql = "select * from Teacher;"
+            cursor.execute(sql)
+            res = cursor.fetchall()
+        elif op == "select":
+            sel = []
+            logic = []
+            subclause = []
+            i = 0
+            if "sel0" in request.form:
+                sel.append(request.form["sel0"])
+            else:
+                sel.append("\0")
+            while sel[i]:
+                subclause.append(request.form["subclause" + str(i)])
+                i = i + 1
+                if "logic" + str(i) in request.form:
+                    logic.append(request.form["logic" + str(i)])
+                    sel.append(request.form["sel" + str(i)])
+                else:
+                    break
+            if i == 0:
+                sql = "select * from Teacher"
+            else:
+                sql = "select * from Teahcer where "
+                for j in range(0, i):
+                    if sel[j] == "ID":
+                        sel[j] = "Teacher_id"
+                    elif sel[j] == "personal ID":
+                        sel[j] = "Teacher_person_id"
+                    elif sel[j] == "entry":
+                        sel[j] = "Teacher_entry_date"
+                    elif sel[j] == "email":
+                        sel[j] = "Teacher_email"
+                    elif sel[j] == "major":
+                        sel[j] = "Teacher_major_id"
+                    else:
+                        sel[j] = "Teacher_rank"
+                    sql = sql + sel[j] + "=\"" + subclause[j] + "\""
+                    if not j == i - 1:
+                        sql = sql + " " + logic[j] + " "
+            print(sql)
+            cursor.execute(sql)
+            flash("操作成功")
+            res = cursor.fetchall()
+        elif op == "update":
+            Teacher_id = request.form["teacher_id"]
+            Teacher_person_id = request.form["teacher_person_id"]
+            Teacher_entry_date = request.form["teacher_entry"]
+            Teacher_email = request.form["teacher_email_address"]
+            Teacher_major_id = request.form["teacher_major"]
+            Teacher_rank = request.form["teacher_rank"]
+            if Teacher_rank == "professor":
+                Teacher_rank = "教授"
+            else:
+                Teacher_rank = "副教授"
+            if not Teacher_person_id + Teacher_entry_date + Teacher_email + Teacher_major_id + Teacher_rank:
+                flash("什么也不做")
+            else:
+                sql = "update Teacher set"
+                if Teacher_person_id:
+                    sql = sql + " Teacher_person_id=" + "\"" + Teacher_person_id + "\","
+                if Teacher_entry_date:
+                    sql = sql + " Teacher_entry_date=" + "\"" + Teacher_entry_date + "\""
+                if Teacher_email:
+                    sql = sql + " Teacher_email=" + "\"" + Teacher_email + "\""
+                if Teacher_major_id:
+                    sql = sql + " Teacher_major_id=" + "\"" + Teacher_major_id + "\""
+                if Teacher_rank:
+                    sql = sql + " Teacher_rank=" + "\"" + Teacher_rank + "\""
+                sql = sql + " where Teacher_id=" + "\"" + Student_id + "\""
+                print(sql)
+                cursor.execute(sql)
+                flash("操作成功")
+                sql = "select * from Teacher;"
+                cursor.execute(sql)
+                res = cursor.fetchall()
+        cursor.close()
+    else:
+        cursor = conn.cursor()
+        sql = "select * from Teacher;"
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        cursor.close()
+    return render_template('teacher.html', teacher = res)
 
 
 if __name__ == "__main__":
