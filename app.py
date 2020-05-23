@@ -906,7 +906,7 @@ def section():
         if op == "insert":
             sql = """
                 insert into Section (Course_id, Teacher_id, Year, Semester, Time_slot_id) 
-                values (%s, %s, %s, %s, %s, %s);
+                values (%s, %s, %s, %s, %s);
                 """
             Course_id = request.form["course_id"]
             Teacher_id = request.form["teacher_id"]
@@ -995,6 +995,285 @@ def section():
         res = cursor.fetchall()
         cursor.close()
     return render_template('section.html', section = res)
+
+
+@app.route('/takes', methods=['GET', 'POST'])
+def takes():
+    res = []
+    if request.method == 'POST':
+        print(request.form)
+        cursor = conn.cursor()
+        op = request.form["query"]
+        if op == "insert":
+            Student_id = request.form["student_id"]
+            Section_Course_id = request.form["course_id"]
+            Section_Teacher_id = request.form["teacher_id"]
+            Section_Year = request.form["section_year"]
+            Section_Semester = request.form["section_seme"]
+            Grade = request.form["takes_grade"]
+            sql = """
+                insert into Takes (Student_id, Section_Course_id, Section_Teacher_id, Section_Year, Section_Semester, Grade) 
+                values (%s, %s, %s, %s
+                """
+            if not Grade:
+                sql = sql + ", " + Grade + + ");"
+            else:
+                sql = sql + ");"
+            cursor.execute(sql, [Student_id, Section_Course_id, Section_Teacher_id, Section_Year, Section_Semester])
+            flash("操作成功")
+            sql = "select * from Takes;"
+            cursor.execute(sql)
+            res = cursor.fetchall()
+        elif op == "delete":
+            Student_id = request.form["student_id"]
+            Section_Course_id = request.form["course_id"]
+            Section_Teacher_id = request.form["teacher_id"]
+            Section_Year = request.form["section_year"]
+            Section_Semester = request.form["section_seme"]
+            sql = """
+                delete from Section where Student_id=%s and Section_Course_id=%s and Section_Teacher_id=%s and Section_Year=%s 
+                and Section_Semester=%s;
+                """
+            cursor.execute(sql, [Student_id, Section_Course_id, Section_Teacher_id, Section_Year, Section_Semester])
+            flash("操作成功")
+            sql = "select * from Takes;"
+            cursor.execute(sql)
+            res = cursor.fetchall()
+        elif op == "select":
+            sel = []
+            logic = []
+            subclause = []
+            i = 0
+            if "sel0" in request.form:
+                sel.append(request.form["sel0"])
+            else:
+                sel.append("\0")
+            while sel[i]:
+                subclause.append(request.form["subclause" + str(i)])
+                i = i + 1
+                if "logic" + str(i) in request.form:
+                    logic.append(request.form["logic" + str(i)])
+                    sel.append(request.form["sel" + str(i)])
+                else:
+                    break
+            if i == 0:
+                sql = "select * from Takes;"
+            else:
+                sql = "select * from Takes where "
+                for j in range(0, i):
+                    if sel[j] == "studentid":
+                        sel[j] = "Student_id"
+                    elif sel[j] == "courseid":
+                        sel[j] = "Section_Course_id"
+                    elif sel[j] == "teacherid":
+                        sel[j] = "Section_Teacher_id"
+                    elif sel[j] == "year":
+                        sel[j] = "Section_Year"
+                    elif sel[j] == "seme":
+                        sel[j] = "Section_Semester"
+                    else:
+                        sel[j] = "Grade"
+                    if sel[j] == "Grade":
+                        sql = sql + sel[j] + "=" + subclause[j]
+                    else:
+                        sql = sql + sel[j] + "=\"" + subclause[j] + "\""
+                    if not j == i - 1:
+                        sql = sql + " " + logic[j] + " "
+            print(sql)
+            cursor.execute(sql)
+            flash("操作成功")
+            res = cursor.fetchall()
+        elif op == "update":
+            Student_id = request.form["student_id"]
+            Section_Course_id = request.form["course_id"]
+            Section_Teacher_id = request.form["teacher_id"]
+            Section_Year = request.form["section_year"]
+            Section_Semester = request.form["section_seme"]
+            Grade = request.form["takes_grade"]
+            if not Grade:
+                flash("什么也不做")
+            else:
+                sql = "update Takes set Grade=" + Grade + " where Student_id=%s and Section_Course_id=%s " \
+                                                          "and Section_Teacher_id=%s and Section_Year=%s and Section_Semester=%s"
+                print(sql)
+                cursor.execute(sql, [Student_id, Section_Course_id, Section_Teacher_id, Section_Year, Section_Semester])
+                flash("操作成功")
+            sql = "select * from Takes;"
+            cursor.execute(sql)
+            res = cursor.fetchall()
+        cursor.close()
+    else:
+        cursor = conn.cursor()
+        sql = "select * from Takes;"
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        cursor.close()
+    return render_template('takes.html', takes = res)
+
+
+@app.route('/changestatus', methods=['GET', 'POST'])
+def changestatus():
+    res = []
+    if request.method == 'POST':
+        print(request.form)
+        cursor = conn.cursor()
+        op = request.form["query"]
+        if op == "insert":
+            Change_id = request.form["change_id"]
+            Change_date = request.form["change_date"]
+            Original_class_id = request.form["orig_class"]
+            Current_class_id = request.form["curr_calss"]
+            Change_type = request.form["change_type"]
+            Student_id = request.form["student_id"]
+            Change_detail = request.form["change_detail"]
+            sql = """
+                insert into `Student status change` (Change_id, Change_date, Original_class_id, Current_class_id, Change_type) 
+                values (%s, %s, %s, %s, %s);
+                """
+            cursor.execute(sql, [Change_id, Change_date, Original_class_id, Current_class_id, Change_type])
+            if Change_type == "专业":
+                sql = """
+                    insert into `Student major change` (Change_id, Student_id, Change_league_member) 
+                    values (%s, %s, %s);
+                    """
+                cursor.execute(sql, [Change_id, Student_id, Change_detail])
+            else:
+                sql = """
+                    insert into `Student grade change` (Change_id, Student_id, Change_reason) 
+                    values (%s, %s, %s);
+                    """
+                cursor.execute(sql, [Change_id, Student_id, Change_detail])
+            flash("操作成功")
+            sql = """
+            select *  from (`Student status change` natural left join `Student major change`) 
+            natural left join `Student grade change`;
+            """
+            cursor.execute(sql)
+            res = cursor.fetchall()
+        elif op == "delete":
+            Change_id = request.form["change_id"]
+            sql = """
+                delete from `Student status change` where Change_id=%s;
+                """
+            cursor.execute(sql, Change_id)
+            flash("操作成功")
+            sql = """
+            select *  from (`Student status change` natural left join `Student major change`) 
+            natural left join `Student grade change`;
+            """
+            cursor.execute(sql)
+            res = cursor.fetchall()
+        elif op == "select":
+            sel = []
+            logic = []
+            subclause = []
+            i = 0
+            if "sel0" in request.form:
+                sel.append(request.form["sel0"])
+            else:
+                sel.append("\0")
+            while sel[i]:
+                subclause.append(request.form["subclause" + str(i)])
+                i = i + 1
+                if "logic" + str(i) in request.form:
+                    logic.append(request.form["logic" + str(i)])
+                    sel.append(request.form["sel" + str(i)])
+                else:
+                    break
+            if i == 0:
+                sql = """
+                select *  from (`Student status change` natural left join `Student major change`) 
+                natural left join `Student grade change`;
+                """
+            else:
+                sql = """
+                select *  from (`Student status change` natural left join `Student major change`) 
+                natural left join `Student grade change` where 
+                """
+                for j in range(0, i):
+                    if sel[j] == "changeid":
+                        sel[j] = "Change_id"
+                    elif sel[j] == "date":
+                        sel[j] = "Change_date"
+                    elif sel[j] == "orig":
+                        sel[j] = "Original_class_id"
+                    elif sel[j] == "curr":
+                        sel[j] = "Current_class_id"
+                    else:
+                        sel[j] = "Change_type"
+                    sql = sql + sel[j] + "=\"" + subclause[j] + "\""
+                    if not j == i - 1:
+                        sql = sql + " " + logic[j] + " "
+            print(sql)
+            cursor.execute(sql)
+            flash("操作成功")
+            res = cursor.fetchall()
+        elif op == "update":
+            Change_id = request.form["change_id"]
+            Change_date = request.form["change_date"]
+            Original_class_id = request.form["orig_class"]
+            Current_class_id = request.form["curr_calss"]
+            Change_type = request.form["change_type"]
+            Student_id = request.form["student_id"]
+            Change_detail = request.form["change_detail"]
+            if not Change_date + Original_class_id + Current_class_id + Change_type + Student_id + Change_detail:
+                flash("什么也不做")
+            else:
+                if Original_class_id + Original_class_id + Current_class_id + Change_type:
+                    sql = "update `Student status change` set"
+                    if Change_date:
+                        sql = sql + " Change_date=" + "\"" + Change_date + "\""
+                        if Original_class_id + Original_class_id + Current_class_id + Change_type:
+                            sql = sql + ","
+                    if Original_class_id:
+                        sql = sql + " Original_class_id=" + "\"" + Original_class_id + "\""
+                        if Current_class_id + Change_type:
+                            sql = sql + ","
+                    if Current_class_id:
+                        sql = sql + " Current_class_id=" + "\"" + Current_class_id + "\""
+                        if Change_type:
+                            sql = sql + ","
+                    if Change_type:
+                        sql = sql + " Change_type=" + "\"" + Change_type + "\""
+                    sql = sql + " where Change_id=" + "\"" + Change_id + "\";"
+                    print(sql)
+                    cursor.execute(sql, [Change_date, Original_class_id, Current_class_id, Change_type, Change_id])
+                if Student_id + Change_detail:
+                    if Change_type == "专业":
+                        sql = "update `Student major change` set"
+                        if Student_id:
+                            sql = sql + " Student_id=" + "\"" + Student_id + "\""
+                            if Change_detail:
+                                sql = sql + ","
+                        if Change_detail:
+                            sql = sql + " Change_league_member=" + "\"" + Change_detail + "\""
+                        sql = sql + " where Change_id=" + "\"" + Change_id + "\";"
+                    else:
+                        sql = "update `Student grade change` set"
+                        if Student_id:
+                            sql = sql + " Student_id=" + "\"" + Student_id + "\""
+                            if Change_detail:
+                                sql = sql + ","
+                        if Change_detail:
+                            sql = sql + " Change_reason=" + "\"" + Change_detail + "\""
+                        sql = sql + " where Change_id=" + "\"" + Change_id + "\";"
+                    print(sql)
+                    cursor.execute(sql, [Student_id, Change_detail, Change_id])
+                flash("操作成功")
+            sql = "select Course_id, Teacher_id, Year, Semester, Day, Piece  from Section natural left join Time_slot;"
+            cursor.execute(sql, Person_id)
+            res = cursor.fetchall()
+        cursor.close()
+    else:
+        cursor = conn.cursor()
+        sql = """
+        select *  from (`Student status change` natural left join `Student major change`) 
+        natural left join `Student grade change`;
+        """
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        cursor.close()
+    return render_template('changestatus.html', change = res)
 
 
 if __name__ == "__main__":
