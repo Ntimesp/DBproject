@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `lab3`.`Person` (
   `Person_date_of_birth` DATE NULL,
   `Person_nationality` VARCHAR(45) NULL,
   PRIMARY KEY (`Person_id`),
-  UNIQUE INDEX `Person_id_UNIQUE` (`Person_id` ASC) INVISIBLE)
+  UNIQUE INDEX `Person_id_UNIQUE` (`Person_id` ASC))
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -176,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `lab3`.`Contact information` (
   `Person_address` VARCHAR(45) NULL,
   `Person_postcode` DECIMAL(6) NULL,
   `Person_phone_number` DECIMAL(11) NULL,
-  INDEX `fk_Contact information_Person1_idx` (`Person_id` ASC) INVISIBLE,
+  INDEX `fk_Contact information_Person1_idx` (`Person_id` ASC),
   PRIMARY KEY (`Person_id`),
   UNIQUE INDEX `Person_id_UNIQUE` (`Person_id` ASC),
   UNIQUE INDEX `Person_phone_number_UNIQUE` (`Person_phone_number` ASC),
@@ -346,7 +346,6 @@ CREATE TABLE IF NOT EXISTS `lab3`.`Takes` (
   INDEX `fk_Takes_Student1_idx` (`Student_id` ASC),
   PRIMARY KEY (`Student_id`, `Section_Course_id`),
   INDEX `fk_Takes_Section1_idx` (`Section_Course_id` ASC, `Section_Teacher_id` ASC, `Section_Year` ASC, `Section_Semester` ASC),
-  UNIQUE INDEX `Section_Course_id_UNIQUE` (`Section_Course_id` ASC),
   CONSTRAINT `fk_Takes_Student1`
     FOREIGN KEY (`Student_id`)
     REFERENCES `lab3`.`Student` (`Student_id`)
