@@ -91,8 +91,12 @@ btn.onclick = function () {
     new_opt.innerText = "semester";
     new_sel.appendChild(new_opt);
     new_opt = document.createElement("option");
-    new_opt.value = "time";
-    new_opt.innerText = "time slot";
+    new_opt.value = "weekday";
+    new_opt.innerText = "weekday";
+    new_sel.appendChild(new_opt);
+    new_opt = document.createElement("option");
+    new_opt.value = "session";
+    new_opt.innerText = "session";
     new_sel.appendChild(new_opt);
     new_div.appendChild(new_sel);
     new_div.appendChild(document.createTextNode(" = "));
@@ -128,9 +132,13 @@ function ChangeSel(val) {
             inp.setAttribute("type", "text");
             inp.placeholder = "春/秋";
             break;
-        case "time":
-            inp.setAttribute("type", "text");
-            inp.placeholder = "";
+        case "weekday":
+            inp.setAttribute("type", "number");
+            inp.placeholder = "1-5";
+            break;
+        case "session":
+            inp.setAttribute("type", "number");
+            inp.placeholder = "1-9";
             break;
         default:
             inp.setAttribute("type", "text");
