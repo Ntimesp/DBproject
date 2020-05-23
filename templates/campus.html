@@ -34,11 +34,11 @@
         <!--输入数据-->
         <div id="campus-id" class="display-block">
             <label for="campus_id_inp" class="inp-prompt">campus ID: </label>
-            <input type="text", id="campus_id_inp", name="Campus_id", class="inp-prompt">
+            <input type="text" id="campus_id_inp" name="Campus_id" class="inp-prompt">
         </div>
         <div id="campus-name" class="display-block">
             <label for="campus_name_inp" class="inp-prompt">campus name: </label>
-            <input type="text", id="campus_name_inp", name="Campus_name", class="inp-prompt">
+            <input type="text" id="campus_name_inp" name="Campus_name" class="inp-prompt">
         </div>
         <div id="campus-addr" class="display-block">
             <label for="campus_addr_inp" class="inp-prompt">campus address: </label>
@@ -51,12 +51,13 @@
                 <option value="name">campus name</option>
                 <option value="addr">campus address</option>
             </select>
+            =
             <input type="text" name="subclause0" id="subclause0">
         </div>
         <!--提交-->
         <div>
-            <input type="submit", value="提交">
-            <input type="reset", value="重置">
+            <input type="submit" value="提交">
+            <input type="reset" value="重置">
         </div>
     </form></div>
     <br>
@@ -67,17 +68,15 @@
             <div class="card-header"> 校区信息 </div>
             <div class="card-body text-primary">
                 {% for campu in campus %}
-                <p class="card-text"> {{ campu }} <button type="button" class="btn btn-primary" id="{{campu[0]}}">删除</button></p>
+                <p class="card-text"> {{ campu }} </p>
                 {% endfor %}
             </div>
             </div>
         </div>
         </div>
 
-    <a type="button" class="btn btn-primary " href="{{ url_for('index') }}">换一批</a>
     <a type="button" class="btn btn-primary" href="{{ url_for('index') }}">返回主页</a>
 	<br>
-    <p style="color:white;">本次活动对于愿望池提供点赞功能，对于点赞高的愿望，在男生愿望池中会有更高概率出现，如果最终男生没有成功完成，那么会由项目组抽取部分点赞代表性高的愿望为其完成</p>
 	<script src="{{ url_for('static', filename='campus.js') }}"></script>
 </div>
 {% endblock %}

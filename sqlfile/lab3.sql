@@ -65,13 +65,13 @@ CREATE TABLE IF NOT EXISTS `lab3`.`Teacher` (
   CONSTRAINT `fk_Teacher_Person1`
     FOREIGN KEY (`Teacher_person_id`)
     REFERENCES `lab3`.`Person` (`Person_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Teacher_Major1`
     FOREIGN KEY (`Teacher_major_id`)
     REFERENCES `lab3`.`Major` (`Major_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -93,13 +93,13 @@ CREATE TABLE IF NOT EXISTS `lab3`.`Major` (
   CONSTRAINT `fk_Major_Campus1`
     FOREIGN KEY (`Major_campus_id`)
     REFERENCES `lab3`.`Campus` (`Campus_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Major_Teacher1`
     FOREIGN KEY (`Major_leader`)
     REFERENCES `lab3`.`Teacher` (`Teacher_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -121,13 +121,13 @@ CREATE TABLE IF NOT EXISTS `lab3`.`Class` (
   CONSTRAINT `fk_Class_Major`
     FOREIGN KEY (`Class_major`)
     REFERENCES `lab3`.`Major` (`Major_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Class_head_teacher`
     FOREIGN KEY (`Class_head_teacher`)
     REFERENCES `lab3`.`Teacher` (`Teacher_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -152,18 +152,18 @@ CREATE TABLE IF NOT EXISTS `lab3`.`Student` (
   CONSTRAINT `fk_Student_Class`
     FOREIGN KEY (`Student_class`)
     REFERENCES `lab3`.`Class` (`Class_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Student_Person`
     FOREIGN KEY (`Student_person_id`)
     REFERENCES `lab3`.`Person` (`Person_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Student_Major1`
     FOREIGN KEY (`Student_major_id`)
     REFERENCES `lab3`.`Major` (`Major_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -183,8 +183,8 @@ CREATE TABLE IF NOT EXISTS `lab3`.`Contact information` (
   CONSTRAINT `fk_Contact information_Person1`
     FOREIGN KEY (`Person_id`)
     REFERENCES `lab3`.`Person` (`Person_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -205,8 +205,8 @@ CREATE TABLE IF NOT EXISTS `lab3`.`Student status change` (
   CONSTRAINT `fk_Student status change_Class1`
     FOREIGN KEY (`Original_class_id`)
     REFERENCES `lab3`.`Class` (`Class_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Student status change_Class2`
     FOREIGN KEY (`Current_class_id`)
     REFERENCES `lab3`.`Class` (`Class_id`)
@@ -231,13 +231,13 @@ CREATE TABLE IF NOT EXISTS `lab3`.`Student major change` (
   CONSTRAINT `fk_Student major change_Student status change1`
     FOREIGN KEY (`Change_id`)
     REFERENCES `lab3`.`Student status change` (`Change_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Student major change_Student1`
     FOREIGN KEY (`Student_id`)
     REFERENCES `lab3`.`Student` (`Student_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -257,13 +257,13 @@ CREATE TABLE IF NOT EXISTS `lab3`.`Student grade change` (
   CONSTRAINT `fk_Student grade change_Student status change1`
     FOREIGN KEY (`Change_id`)
     REFERENCES `lab3`.`Student status change` (`Change_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Student grade change_Student1`
     FOREIGN KEY (`Student_id`)
     REFERENCES `lab3`.`Student` (`Student_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -282,8 +282,8 @@ CREATE TABLE IF NOT EXISTS `lab3`.`Course` (
   CONSTRAINT `fk_Course_Major1`
     FOREIGN KEY (`Course_major_id`)
     REFERENCES `lab3`.`Major` (`Major_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -317,18 +317,18 @@ CREATE TABLE IF NOT EXISTS `lab3`.`Section` (
   CONSTRAINT `fk_Course_has_Time slot_Course1`
     FOREIGN KEY (`Course_id`)
     REFERENCES `lab3`.`Course` (`Course_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Course_has_Time slot_Time slot1`
     FOREIGN KEY (`Time_slot_id`)
     REFERENCES `lab3`.`Time_slot` (`Time_slot_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Course_has_Time slot_Teacher1`
     FOREIGN KEY (`Teacher_id`)
     REFERENCES `lab3`.`Teacher` (`Teacher_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -344,18 +344,18 @@ CREATE TABLE IF NOT EXISTS `lab3`.`Takes` (
   `Section_Semester` ENUM("春", "秋") NOT NULL,
   `Grade` INT NULL,
   INDEX `fk_Takes_Student1_idx` (`Student_id` ASC),
-  PRIMARY KEY (`Student_id`, `Section_Course_id`, `Section_Teacher_id`, `Section_Year`, `Section_Semester`),
+  PRIMARY KEY (`Student_id`, `Section_Course_id`),
   INDEX `fk_Takes_Section1_idx` (`Section_Course_id` ASC, `Section_Teacher_id` ASC, `Section_Year` ASC, `Section_Semester` ASC),
   CONSTRAINT `fk_Takes_Student1`
     FOREIGN KEY (`Student_id`)
     REFERENCES `lab3`.`Student` (`Student_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Takes_Section1`
     FOREIGN KEY (`Section_Course_id` , `Section_Teacher_id` , `Section_Year` , `Section_Semester`)
     REFERENCES `lab3`.`Section` (`Course_id` , `Teacher_id` , `Year` , `Semester`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
