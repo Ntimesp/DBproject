@@ -33,7 +33,7 @@ def campus():
         op = request.form["query"]
         if op == "insert":
             sql = """
-            insert into Campus (Campus_id, Campus_name, Campus_address) values (%s,%s,%s);
+            insert into Campus (Campus_id, Campus_name, Campus_address) values (%s, %s, %s);
             """
             Campus_id = request.form["Campus_id"]
             Campus_name = request.form["Campus_name"]
@@ -96,16 +96,18 @@ def campus():
             else:
                 sql = "update Campus set"
                 if Campus_name:
-                    sql = sql + " Campus_name=" + "\"" + Campus_name + "\","
+                    sql = sql + " Campus_name=" + "\"" + Campus_name + "\""
+                    if Campus_address:
+                        sql = sql + ","
                 if Campus_address:
                     sql = sql + " Campus_address=" + "\"" + Campus_address + "\""
                 sql = sql + " where Campus_id=" + "\"" + Campus_id + "\""
                 print(sql)
                 cursor.execute(sql)
                 flash("操作成功")
-                sql = "select * from Campus;"
-                cursor.execute(sql)
-                res = cursor.fetchall()
+            sql = "select * from Campus;"
+            cursor.execute(sql)
+            res = cursor.fetchall()
         cursor.close()
     else:
         cursor = conn.cursor()
@@ -128,7 +130,7 @@ def major():
         if op == "insert":
             sql = """
                 insert into Major (Major_id, Major_name, Major_address, Major_campus_id, Major_leader) 
-                values (%s,%s,%s, %s, %s);
+                values (%s, %s, %s, %s, %s);
                 """
             Major_id = request.form["major_id"]
             Major_name = request.form["major_name"]
@@ -200,20 +202,26 @@ def major():
             else:
                 sql = "update Major set"
                 if Major_name:
-                    sql = sql + " Major_name=" + "\"" + Major_name + "\","
+                    sql = sql + " Major_name=" + "\"" + Major_name + "\""
+                    if Major_address or Major_campus_id or Major_leader:
+                        sql = sql + ","
                 if Major_address:
                     sql = sql + " Major_address=" + "\"" + Major_address + "\""
+                    if Major_campus_id or Major_leader:
+                        sql = sql + ","
                 if Major_campus_id:
                     sql = sql + " Major_campus_id=" + "\"" + Major_campus_id + "\""
+                    if Major_leader:
+                        sql = sql + ","
                 if Major_leader:
                     sql = sql + " Major_leader=" + "\"" + Major_leader + "\""
                 sql = sql + " where Major_id=" + "\"" + Major_id + "\""
                 print(sql)
                 cursor.execute(sql)
                 flash("操作成功")
-                sql = "select * from Major;"
-                cursor.execute(sql)
-                res = cursor.fetchall()
+            sql = "select * from Major;"
+            cursor.execute(sql)
+            res = cursor.fetchall()
         cursor.close()
     else:
         cursor = conn.cursor()
@@ -234,7 +242,7 @@ def classes():
         if op == "insert":
             sql = """
                     insert into Class (Class_id, Class_name, Class_create_date, Class_head_teacher, Class_grade, Class_major) 
-                    values (%s,%s,%s, %s, %s, %s);
+                    values (%s, %s, %s, %s, %s, %s);
                     """
             Class_id = request.form["class_id"]
             Class_name = request.form["class_name"]
@@ -310,22 +318,30 @@ def classes():
             else:
                 sql = "update Class set"
                 if Class_name:
-                    sql = sql + " Class_name=" + "\"" + Class_name + "\","
+                    sql = sql + " Class_name=" + "\"" + Class_name + "\""
+                    if Class_create_date or Class_head_teacher or Class_grade or Class_major:
+                        sql = sql + ","
                 if Class_create_date:
                     sql = sql + " Class_create_date=" + "\"" + Class_create_date + "\""
+                    if Class_head_teacher or Class_grade or Class_major:
+                        sql = sql + ","
                 if Class_head_teacher:
                     sql = sql + " Class_head_teacher=" + "\"" + Class_head_teacher + "\""
+                    if Class_grade or Class_major:
+                        sql = sql + ","
                 if Class_grade:
                     sql = sql + " Class_grade=" + "\"" + Class_grade + "\""
+                    if Class_major:
+                        sql = sql + ","
                 if Class_major:
                     sql = sql + " Class_major=" + "\"" + Class_major + "\""
                 sql = sql + " where Class_id=" + "\"" + Class_id + "\""
                 print(sql)
                 cursor.execute(sql)
                 flash("操作成功")
-                sql = "select * from Class;"
-                cursor.execute(sql)
-                res = cursor.fetchall()
+            sql = "select * from Class;"
+            cursor.execute(sql)
+            res = cursor.fetchall()
         cursor.close()
     else:
         cursor = conn.cursor()
@@ -348,7 +364,7 @@ def student():
         if op == "insert":
             sql = """
                 insert into Student (Student_id, Student_person_id, Student_email, Student_class, Student_major_id, Student_time_of_enrollment) 
-                values (%s,%s,%s, %s, %s, %s);
+                values (%s, %s, %s, %s, %s, %s);
                 """
             Student_id = request.form["student_id"]
             Student_person_id = request.form["student_person_id"]
@@ -424,22 +440,30 @@ def student():
             else:
                 sql = "update Student set"
                 if Student_person_id:
-                    sql = sql + " Student_person_id=" + "\"" + Student_person_id + "\","
+                    sql = sql + " Student_person_id=" + "\"" + Student_person_id + "\""
+                    if Student_email or Student_class or Student_major_id or Student_time_of_enrollment:
+                        sql = sql + ","
                 if Student_email:
                     sql = sql + " Student_email=" + "\"" + Student_email + "\""
+                    if Student_class or Student_major_id or Student_time_of_enrollment:
+                        sql = sql + ","
                 if Student_class:
                     sql = sql + " Student_class=" + "\"" + Student_class + "\""
+                    if Student_major_id or Student_time_of_enrollment:
+                        sql = sql + ","
                 if Student_major_id:
                     sql = sql + " Student_major_id=" + "\"" + Student_major_id + "\""
+                    if Student_time_of_enrollment:
+                        sql = sql + ","
                 if Student_time_of_enrollment:
                     sql = sql + " Student_time_of_enrollment=" + "\"" + Student_time_of_enrollment + "\""
                 sql = sql + " where Student_id=" + "\"" + Student_id + "\""
                 print(sql)
                 cursor.execute(sql)
                 flash("操作成功")
-                sql = "select * from Student;"
-                cursor.execute(sql)
-                res = cursor.fetchall()
+            sql = "select * from Student;"
+            cursor.execute(sql)
+            res = cursor.fetchall()
         cursor.close()
     else:
         cursor = conn.cursor()
@@ -595,13 +619,21 @@ def personalinfo():
                 if Person_id_type + Person_name + Person_gender + Person_date_of_birth + Person_nationality:
                     sql = "update Person set"
                     if Person_id_type:
-                        sql = sql + " Person_id_type=" + "\"" + Person_id_type + "\","
+                        sql = sql + " Person_id_type=" + "\"" + Person_id_type + "\""
+                        if Person_name or Person_gender or Person_date_of_birth or Person_nationality:
+                            sql = sql + ","
                     if Person_name:
                         sql = sql + " Person_name=" + "\"" + Person_name + "\""
+                        if Person_gender or Person_date_of_birth or Person_nationality:
+                            sql = sql + ","
                     if Person_gender:
                         sql = sql + " Person_gender=" + "\"" + Person_gender + "\""
+                        if Person_date_of_birth or Person_nationality:
+                            sql = sql + ","
                     if Person_date_of_birth:
                         sql = sql + " Person_date_of_birth=" + "\"" + Person_date_of_birth + "\""
+                        if Person_nationality:
+                            sql = sql + ","
                     if Person_nationality:
                         sql = sql + " Person_nationality=" + "\"" + Person_nationality + "\""
                     sql = sql + " where Person_id=" + "\"" + Person_id + "\""
@@ -619,9 +651,9 @@ def personalinfo():
                     print(sql)
                     cursor.execute(sql)
                 flash("操作成功")
-                sql = "select * from Person natural left join `Contact information`;"
-                cursor.execute(sql, Person_id)
-                res = cursor.fetchall()
+            sql = "select * from Person natural left join `Contact information`;"
+            cursor.execute(sql, Person_id)
+            res = cursor.fetchall()
         cursor.close()
     else:
         cursor = conn.cursor()
@@ -642,7 +674,7 @@ def teacher():
         if op == "insert":
             sql = """
                 insert into Teacher (Teacher_id, Teacher_person_id, Teacher_entry_date, Teacher_email, Teacher_major_id, Teacher_rank) 
-                values (%s,%s,%s, %s, %s, %s);
+                values (%s, %s, %s, %s, %s, %s);
                 """
             Teacher_id = request.form["teacher_id"]
             Teacher_person_id = request.form["teacher_person_id"]
@@ -726,22 +758,30 @@ def teacher():
             else:
                 sql = "update Teacher set"
                 if Teacher_person_id:
-                    sql = sql + " Teacher_person_id=" + "\"" + Teacher_person_id + "\","
+                    sql = sql + " Teacher_person_id=" + "\"" + Teacher_person_id + "\""
+                    if Teacher_entry_date or Teacher_email or Teacher_major_id or Teacher_rank:
+                        sql = sql + ","
                 if Teacher_entry_date:
                     sql = sql + " Teacher_entry_date=" + "\"" + Teacher_entry_date + "\""
+                    if Teacher_email or Teacher_major_id or Teacher_rank:
+                        sql = sql + ","
                 if Teacher_email:
                     sql = sql + " Teacher_email=" + "\"" + Teacher_email + "\""
+                    if Teacher_major_id or Teacher_rank:
+                        sql = sql + ","
                 if Teacher_major_id:
                     sql = sql + " Teacher_major_id=" + "\"" + Teacher_major_id + "\""
+                    if Teacher_rank:
+                        sql = sql + ","
                 if Teacher_rank:
                     sql = sql + " Teacher_rank=" + "\"" + Teacher_rank + "\""
-                sql = sql + " where Teacher_id=" + "\"" + Student_id + "\""
+                sql = sql + " where Teacher_id=" + "\"" + Teacher_id + "\""
                 print(sql)
                 cursor.execute(sql)
                 flash("操作成功")
-                sql = "select * from Teacher;"
-                cursor.execute(sql)
-                res = cursor.fetchall()
+            sql = "select * from Teacher;"
+            cursor.execute(sql)
+            res = cursor.fetchall()
         cursor.close()
     else:
         cursor = conn.cursor()
@@ -750,6 +790,211 @@ def teacher():
         res = cursor.fetchall()
         cursor.close()
     return render_template('teacher.html', teacher = res)
+
+
+@app.route('/course', methods=['GET', 'POST'])
+def course():
+    res = []
+    if request.method == 'POST':
+        print(request.form)
+        cursor = conn.cursor()
+        op = request.form["query"]
+        if op == "insert":
+            sql = """
+                insert into Course (Course_id, Course_name, Course_major_id, Course_evaluation_method) 
+                values (%s, %s, %s, %s);
+                """
+            Course_id = request.form["course_id"]
+            Course_name = request.form["course_name"]
+            Course_major_id = request.form["course_major"]
+            Course_evaluation_method = request.form["course_eval"]
+            cursor.execute(sql, [Course_id, Course_name, Course_major_id, Course_evaluation_method])
+            flash("操作成功")
+            sql = "select * from Course;"
+            cursor.execute(sql)
+            res = cursor.fetchall()
+        elif op == "delete":
+            sql = """
+                delete from Course where Course_id=%s;
+                """
+            Course_id = request.form["course_id"]
+            cursor.execute(sql, Course_id)
+            flash("操作成功")
+            sql = "select * from Course;"
+            cursor.execute(sql)
+            res = cursor.fetchall()
+        elif op == "select":
+            sel = []
+            logic = []
+            subclause = []
+            i = 0
+            if "sel0" in request.form:
+                sel.append(request.form["sel0"])
+            else:
+                sel.append("\0")
+            while sel[i]:
+                subclause.append(request.form["subclause" + str(i)])
+                i = i + 1
+                if "logic" + str(i) in request.form:
+                    logic.append(request.form["logic" + str(i)])
+                    sel.append(request.form["sel" + str(i)])
+                else:
+                    break
+            if i == 0:
+                sql = "select * from Course"
+            else:
+                sql = "select * from Course where "
+                for j in range(0, i):
+                    if sel[j] == "ID":
+                        sel[j] = "Course_id"
+                    elif sel[j] == "name":
+                        sel[j] = "Course_name"
+                    elif sel[j] == "major":
+                        sel[j] = "Course_major_id"
+                    else:
+                        sel[j] = "Course_evaluation_method"
+                    sql = sql + sel[j] + "=\"" + subclause[j] + "\""
+                    if not j == i - 1:
+                        sql = sql + " " + logic[j] + " "
+            print(sql)
+            cursor.execute(sql)
+            flash("操作成功")
+            res = cursor.fetchall()
+        elif op == "update":
+            Course_id = request.form["course_id"]
+            Course_name = request.form["course_name"]
+            Course_major_id = request.form["course_major"]
+            Course_evaluation_method = request.form["course_eval"]
+            if not Course_name + Course_major_id + Course_evaluation_method:
+                flash("什么也不做")
+            else:
+                sql = "update Course set"
+                if Course_name:
+                    sql = sql + " Course_name=" + "\"" + Course_name + "\""
+                    if Course_major_id or Course_evaluation_method:
+                        sql = sql + ","
+                if Course_major_id:
+                    sql = sql + " Course_major_id=" + "\"" + Course_major_id + "\""
+                    if Course_evaluation_method:
+                        sql = sql + ","
+                if Course_evaluation_method:
+                    sql = sql + " Course_evaluation_method=" + "\"" + Course_evaluation_method + "\""
+                sql = sql + " where Course_id=" + "\"" + Course_id + "\";"
+                print(sql)
+                cursor.execute(sql)
+                flash("操作成功")
+            sql = "select * from Course;"
+            cursor.execute(sql)
+            res = cursor.fetchall()
+        cursor.close()
+    else:
+        cursor = conn.cursor()
+        sql = "select * from Course;"
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        cursor.close()
+    return render_template('course.html', course = res)
+
+
+@app.route('/section', methods=['GET', 'POST'])
+def section():
+    res = []
+    if request.method == 'POST':
+        print(request.form)
+        cursor = conn.cursor()
+        op = request.form["query"]
+        if op == "insert":
+            sql = """
+                insert into Section (Course_id, Teacher_id, Year, Semester, Time_slot_id) 
+                values (%s, %s, %s, %s, %s, %s);
+                """
+            Course_id = request.form["course_id"]
+            Teacher_id = request.form["teacher_id"]
+            Year = request.form["section_year"]
+            Semester = request.form["section_seme"]
+            Time_slot_id = request.form["section_time"]
+            cursor.execute(sql, [Course_id, Teacher_id, Year, Semester, Time_slot_id])
+            flash("操作成功")
+            sql = "select Course_id, Teacher_id, Year, Semester, Day, Piece  from Section natural left join Time_slot;"
+            res = cursor.fetchall()
+        elif op == "delete":
+            Course_id = request.form["course_id"]
+            Teacher_id = request.form["teacher_id"]
+            Year = request.form["section_year"]
+            Semester = request.form["section_seme"]
+            sql = """
+                delete from Section where Course_id=%s and Teacher_id=%s and Year=%s and Semester=%s;
+                """
+            cursor.execute(sql, [Course_id, Teacher_id, Year, Semester])
+            flash("操作成功")
+            sql = "select Course_id, Teacher_id, Year, Semester, Day, Piece  from Section natural left join Time_slot;"
+            cursor.execute(sql)
+            res = cursor.fetchall()
+        elif op == "select":
+            sel = []
+            logic = []
+            subclause = []
+            i = 0
+            if "sel0" in request.form:
+                sel.append(request.form["sel0"])
+            else:
+                sel.append("\0")
+            while sel[i]:
+                subclause.append(request.form["subclause" + str(i)])
+                i = i + 1
+                if "logic" + str(i) in request.form:
+                    logic.append(request.form["logic" + str(i)])
+                    sel.append(request.form["sel" + str(i)])
+                else:
+                    break
+            if i == 0:
+                sql = "select Course_id, Teacher_id, Year, Semester, Day, Piece  from Section natural left join Time_slot;"
+            else:
+                sql = "select Course_id, Teacher_id, Year, Semester, Day, Piece  from Section natural left join Time_slot where "
+                for j in range(0, i):
+                    if sel[j] == "courseid":
+                        sel[j] = "Section.Course_id"
+                    elif sel[j] == "teacherid":
+                        sel[j] = "Section.Teacher_id"
+                    elif sel[j] == "year":
+                        sel[j] = "Section.Year"
+                    elif sel[j] == "seme":
+                        sel[j] = "Section.Semester"
+                    elif sel[j] == "weekday":
+                        sel[j] = "Time_slot.Day"
+                    else:
+                        sel[j] = "Time_slot.Piece"
+                    sql = sql + sel[j] + "=\"" + subclause[j] + "\""
+                    if not j == i - 1:
+                        sql = sql + " " + logic[j] + " "
+            print(sql)
+            cursor.execute(sql)
+            flash("操作成功")
+            res = cursor.fetchall()
+        elif op == "update":
+            Course_id = request.form["course_id"]
+            Teacher_id = request.form["teacher_id"]
+            Year = request.form["section_year"]
+            Semester = request.form["section_seme"]
+            Time_slot_id = request.form["section_time"]
+            if not Time_slot_id:
+                flash("什么也不做")
+            else:
+                sql = "update Section set Time_slot_id=%s where Course_id=%s and Teacher_id=%s and Year=%s and Semester=%s"
+                print(sql)
+                cursor.execute(sql, [Time_slot_id, Course_id, Teacher_id, Year, Semester])
+                flash("操作成功")
+            sql = "select Course_id, Teacher_id, Year, Semester, Day, Piece  from Section natural left join Time_slot;"
+            cursor.execute(sql, Person_id)
+            res = cursor.fetchall()
+        cursor.close()
+    else:
+        cursor = conn.cursor()
+        sql = "select Course_id, Teacher_id, Year, Semester, Day, Piece  from Section natural left join Time_slot;"
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        cursor.close()
+    return render_template('section.html', section = res)
 
 
 if __name__ == "__main__":
