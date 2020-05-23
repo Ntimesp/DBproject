@@ -47,7 +47,7 @@
         <div id="section-seme" class="display-block">
             <label for="section_seme_inp" class="inp-prompt">semester: </label>
             <select id="section_seme_inp" name="section_seme" class="inp-prompt">
-                <option value="春">春</option>
+                <option value="春" selected="selected">春</option>
                 <option value="秋">秋</option>
             </select>
         </div>
@@ -82,7 +82,7 @@
             <div class="card-header"> 开课信息 </div>
             <div class="card-body text-primary">
                 {% for sectio in section %}
-                <p class="card-text"> {{ sectio }} <button type="button" class="btn btn-primary" id="{{cours[0]}}">删除</button></p>
+                <p class="card-text"> {{ sectio }} <button type="button" class="btn btn-primary" id="{{sectio[0]}}">删除</button></p>
                 {% endfor %}
             </div>
             </div>
