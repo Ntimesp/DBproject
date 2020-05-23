@@ -283,9 +283,9 @@ def student():
         op = request.form["query"]
         if op == "insert":
             sql = """
-                        insert into Student (Student_id, Student_person_id, Student_email, Student_class, Student_major_id, Student_time_of_enrollment) 
-                        values (%s,%s,%s, %s, %s, %s);
-                        """
+                insert into Student (Student_id, Student_person_id, Student_email, Student_class, Student_major_id, Student_time_of_enrollment) 
+                values (%s,%s,%s, %s, %s, %s);
+                """
             Student_id = request.form["student_id"]
             Student_person_id = request.form["student_person_id"]
             Student_email = request.form["student_email_address"]
@@ -375,22 +375,30 @@ def personalinfo():
         cursor = conn.cursor()
         op = request.form["query"]
         if op == "insert":
+            sql = """
+                insert into Person (Person_id, Person_id_type, Person_name, Person_gender, Person_date_of_birth, Person_nationality) 
+                values (%s, %s, %s, %s, %s, %s);
+                """
             Person_id = request.form["info_id"]
             Person_id_type = request.form["info_type"]
+            if Person_id_type == "creditcard":
+                Person_id_type = "身份证"
+            else:
+                Person_id_type = "护照"
             Person_name = request.form["info_name"]
             Person_gender = request.form["info_gender"]
+            if Person_gender == "male":
+                Person_gender = "男"
+            else:
+                Person_gender = "女"
             Person_date_of_birth = request.form["info_birthday"]
             Person_nationality = request.form["info_nationality"]
             Person_address = request.form["info_addr"]
             Person_postcode = request.form["info_postcode"]
             Person_phone_number = request.form["info_phone"]
-            sql = """
-                insert into Person (Person_id, Person_id_type, Person_name, Person_gender, Person_date_of_birth, Person_nationality) 
-                values (%s,%s,%s, %s, %s, %s);
-                """
             cursor.execute(sql, [Person_id, Person_id_type, Person_name, Person_gender, Person_date_of_birth, Person_nationality])
             if Person_address + Person_postcode + Person_phone_number:
-                sql = "insert into `Contact information` ("
+                sql = "insert into `Contact information` (Person_id, "
                 if Person_address:
                     sql = sql + "Person_address"
                     if Person_postcode or Person_phone_number:
@@ -401,7 +409,7 @@ def personalinfo():
                         sql = sql + ", "
                 if Person_phone_number:
                     sql = sql + "Person_phone_number"
-                sql = sql + ") values ("
+                sql = sql + ") values (%s, "
                 if Person_address:
                     sql = sql + "\"" + Person_address + "\""
                     if Person_postcode or Person_phone_number:
@@ -412,10 +420,11 @@ def personalinfo():
                         sql = sql + ", "
                 if Person_phone_number:
                     sql = sql + "\"" + Person_phone_number + "\""
-                cursor.execute(sql, [Person_address, Person_postcode, Person_phone_number])
+                sql = sql + ");"
+                cursor.execute(sql, Person_id)
             flash("操作成功")
             sql = """
-                select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id;
+                select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id where Person.Person_id=%s;
                 """
             cursor.execute(sql, Person_id)
             res = cursor.fetchall()
@@ -466,10 +475,6 @@ def personalinfo():
                     sql = sql + " and `Contact information`.Person_phone_number=" + "\"" + Person_phone_number + "\""
             cursor.execute(sql)
             flash("操作成功")
-            sql = """
-                select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id where Person.Person_id=%s;
-                """
-            cursor.execute(sql, Person_id)
             res = cursor.fetchall()
         elif op == "update":
             Person_id = request.form["info_id"]
@@ -526,7 +531,7 @@ def personalinfo():
         cursor.execute(sql)
         res = cursor.fetchall()
         cursor.close()
-    return render_template('student.html', info = res)
+    return render_template('personalinfo.html', info = res)
 
 
 if __name__ == "__main__":
