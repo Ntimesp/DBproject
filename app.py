@@ -508,7 +508,7 @@ def personalinfo():
                 sql = sql + ");"
                 cursor.execute(sql, Person_id)
             flash("操作成功")
-            sql = "select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id;"
+            sql = "select * from Person natural left join `Contact information`;"
             cursor.execute(sql, Person_id)
             res = cursor.fetchall()
         elif op == "delete":
@@ -522,7 +522,7 @@ def personalinfo():
                 """
             cursor.execute(sql, Person_id)
             flash("操作成功")
-            sql = "select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id;"
+            sql = "select * from Person natural left join `Contact information`;"
             cursor.execute(sql, Person_id)
             res = cursor.fetchall()
         elif op == "select":
@@ -543,9 +543,9 @@ def personalinfo():
                 else:
                     break
             if i == 0:
-                sql = "select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id;"
+                sql = "select * from Person natural left join `Contact information`;"
             else:
-                sql = "select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id where "
+                sql = "select * from Person natural left join `Contact information` where "
                 for j in range(0, i):
                     if sel[j] == "ID":
                         sel[j] = "Person.Person_id"
@@ -613,13 +613,13 @@ def personalinfo():
                     print(sql)
                     cursor.execute(sql)
                 flash("操作成功")
-                sql = "select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id;"
+                sql = "select * from Person natural left join `Contact information`;"
                 cursor.execute(sql, Person_id)
                 res = cursor.fetchall()
         cursor.close()
     else:
         cursor = conn.cursor()
-        sql = "select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id;"
+        sql = "select * from Person natural left join `Contact information`;"
         cursor.execute(sql)
         res = cursor.fetchall()
         cursor.close()
