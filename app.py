@@ -40,6 +40,8 @@ def campus():
             Campus_address = request.form["Campus_address"]
             cursor.execute(sql, [Campus_id, Campus_name, Campus_address])
             flash("操作成功")
+            sql = "select * from Campus;"
+            cursor.execute(sql)
             res = cursor.fetchall()
         elif op == "delete":
             sql = """
@@ -48,21 +50,40 @@ def campus():
             Campus_id = request.form["Campus_id"]
             cursor.execute(sql, Campus_id)
             flash("操作成功")
+            sql = "select * from Campus;"
+            cursor.execute(sql)
             res = cursor.fetchall()
         elif op == "select":
-            Campus_id = request.form["Campus_id"]
-            Campus_name = request.form["Campus_name"]
-            Campus_address = request.form["Campus_address"]
-            if not Campus_id + Campus_name + Campus_address:
+            sel = []
+            logic = []
+            subclause = []
+            i = 0
+            if "sel0" in request.form:
+                sel.append(request.form["sel0"])
+            else:
+                sel.append("\0")
+            while sel[i]:
+                subclause.append(request.form["subclause" + str(i)])
+                i= i + 1
+                if "logic" + str(i) in request.form:
+                    logic.append(request.form["logic" + str(i)])
+                    sel.append(request.form["sel" + str(i)])
+                else:
+                    break
+            if i == 0:
                 sql = "select * from Campus"
             else:
-                sql = "select * from Campus where 1=1"
-                if Campus_id:
-                    sql = sql + " and Campus_id=" + "\"" + Campus_id + "\""
-                if Campus_name:
-                    sql = sql + " and Campus_name=" + "\"" + Campus_name + "\""
-                if Campus_address:
-                    sql = sql + " and Campus_address=" + "\"" + Campus_address + "\""
+                sql = "select * from Campus where "
+                for j in range(0, i):
+                    if sel[j] == "ID":
+                        sel[j] = "Campus_id"
+                    elif sel[j] == "name":
+                        sel[j] = "Campus_name"
+                    else:
+                        sel[j] = "Campus_address"
+                    sql = sql + sel[j] + "=\"" + subclause[j] + "\""
+                    if not j == i-1:
+                        sql = sql + " " + logic[j] + " "
             cursor.execute(sql)
             flash("操作成功")
             res = cursor.fetchall()
@@ -82,6 +103,8 @@ def campus():
                 print(sql)
                 cursor.execute(sql)
                 flash("操作成功")
+                sql = "select * from Campus;"
+                cursor.execute(sql)
                 res = cursor.fetchall()
         cursor.close()
     else:
@@ -114,6 +137,8 @@ def major():
             Major_leader = request.form["major_leader"]
             cursor.execute(sql, [Major_id, Major_name, Major_address, Major_campus_id, Major_leader])
             flash("操作成功")
+            sql = "select * from Major;"
+            cursor.execute(sql)
             res = cursor.fetchall()
         elif op == "delete":
             sql = """
@@ -122,27 +147,45 @@ def major():
             Major_id = request.form["major_id"]
             cursor.execute(sql, Major_id)
             flash("操作成功")
+            sql = "select * from Major;"
+            cursor.execute(sql)
             res = cursor.fetchall()
         elif op == "select":
-            Major_id = request.form["major_id"]
-            Major_name = request.form["major_name"]
-            Major_address = request.form["major_address"]
-            Major_campus_id = request.form["major_campus"]
-            Major_leader = request.form["major_leader"]
-            if not Major_id + Major_name + Major_address + Major_campus_id + Major_leader:
+            sel = []
+            logic = []
+            subclause = []
+            i = 0
+            if "sel0" in request.form:
+                sel.append(request.form["sel0"])
+            else:
+                sel.append("\0")
+            while sel[i]:
+                subclause.append(request.form["subclause" + str(i)])
+                i = i + 1
+                if "logic" + str(i) in request.form:
+                    logic.append(request.form["logic" + str(i)])
+                    sel.append(request.form["sel" + str(i)])
+                else:
+                    break
+            if i == 0:
                 sql = "select * from Major"
             else:
-                sql = "select * from Major where 1=1"
-                if Major_id:
-                    sql = sql + " and Major_id=" + "\"" + Major_id + "\""
-                if Major_name:
-                    sql = sql + " and Major_name=" + "\"" + Major_name + "\""
-                if Major_address:
-                    sql = sql + " and Major_address=" + "\"" + Major_address + "\""
-                if Major_campus_id:
-                    sql = sql + " and Major_campus_id=" + "\"" + Major_campus_id + "\""
-                if Major_leader:
-                    sql = sql + " and Major_leader=" + "\"" + Major_leader + "\""
+                sql = "select * from Major where "
+                for j in range(0, i):
+                    if sel[j] == "ID":
+                        sel[j] = "Major_id"
+                    elif sel[j] == "name":
+                        sel[j] = "Major_name"
+                    elif sel[j] == "addr":
+                        sel[j] = "Major_address"
+                    elif sel[j] == "campus":
+                        sel[j] = "Major_campus_id"
+                    else:
+                        sel[j] = "Major_leader"
+                    sql = sql + sel[j] + "=\"" + subclause[j] + "\""
+                    if not j == i - 1:
+                        sql = sql + " " + logic[j] + " "
+            print(sql)
             cursor.execute(sql)
             flash("操作成功")
             res = cursor.fetchall()
@@ -168,13 +211,13 @@ def major():
                 print(sql)
                 cursor.execute(sql)
                 flash("操作成功")
+                sql = "select * from Major;"
+                cursor.execute(sql)
                 res = cursor.fetchall()
         cursor.close()
     else:
         cursor = conn.cursor()
-        sql = """
-            select * from Major;
-            """
+        sql = "select * from Major;"
         cursor.execute(sql)
         res = cursor.fetchall()
         cursor.close()
@@ -201,6 +244,8 @@ def classes():
             Class_major = request.form["class_major"]
             cursor.execute(sql, [Class_id, Class_name, Class_create_date, Class_head_teacher, Class_grade, Class_major])
             flash("操作成功")
+            sql = "select * from Class;"
+            cursor.execute(sql)
             res = cursor.fetchall()
         elif op == "delete":
             sql = """
@@ -208,31 +253,48 @@ def classes():
                 """
             Class_id = request.form["class_id"]
             cursor.execute(sql, Class_id)
+            sql = "select * from Class;"
+            cursor.execute(sql)
             flash("操作成功")
             res = cursor.fetchall()
         elif op == "select":
-            Class_id = request.form["class_id"]
-            Class_name = request.form["class_name"]
-            Class_create_date = request.form["class_create_date"]
-            Class_head_teacher = request.form["class_teacher"]
-            Class_grade = request.form["class_grade"]
-            Class_major = request.form["class_major"]
-            if not Class_id + Class_name + Class_create_date + Class_head_teacher + Class_grade + Class_major:
+            sel = []
+            logic = []
+            subclause = []
+            i = 0
+            if "sel0" in request.form:
+                sel.append(request.form["sel0"])
+            else:
+                sel.append("\0")
+            while sel[i]:
+                subclause.append(request.form["subclause" + str(i)])
+                i = i + 1
+                if "logic" + str(i) in request.form:
+                    logic.append(request.form["logic" + str(i)])
+                    sel.append(request.form["sel" + str(i)])
+                else:
+                    break
+            if i == 0:
                 sql = "select * from Class"
             else:
-                sql = "select * from Class where 1=1"
-                if Class_id:
-                    sql = sql + " and Class_id=" + "\"" + Class_id + "\""
-                if Class_name:
-                    sql = sql + " and Class_name=" + "\"" + Class_name + "\""
-                if Class_create_date:
-                    sql = sql + " and Class_create_date=" + "\"" + Class_create_date + "\""
-                if Class_head_teacher:
-                    sql = sql + " and Class_head_teacher=" + "\"" + Class_head_teacher + "\""
-                if Class_grade:
-                    sql = sql + " and Class_grade=" + "\"" + Class_grade + "\""
-                if Class_major:
-                    sql = sql + " and Class_major=" + "\"" + Class_major + "\""
+                sql = "select * from Class where "
+                for j in range(0, i):
+                    if sel[j] == "ID":
+                        sel[j] = "Class_id"
+                    elif sel[j] == "name":
+                        sel[j] = "Class_name"
+                    elif sel[j] == "createdate":
+                        sel[j] = "Class_create_date"
+                    elif sel[j] == "headteacher":
+                        sel[j] = "Class_head_teacher"
+                    elif sel[j] == "grade":
+                        sel[j] = "Class_grade"
+                    else:
+                        sel[j] = "Class_major"
+                    sql = sql + sel[j] + "=\"" + subclause[j] + "\""
+                    if not j == i - 1:
+                        sql = sql + " " + logic[j] + " "
+            print(sql)
             cursor.execute(sql)
             flash("操作成功")
             res = cursor.fetchall()
@@ -261,6 +323,8 @@ def classes():
                 print(sql)
                 cursor.execute(sql)
                 flash("操作成功")
+                sql = "select * from Class;"
+                cursor.execute(sql)
                 res = cursor.fetchall()
         cursor.close()
     else:
@@ -294,6 +358,8 @@ def student():
             Student_time_of_enrollment = request.form["student_enrollment"]
             cursor.execute(sql, [Student_id, Student_person_id, Student_email, Student_class, Student_major_id, Student_time_of_enrollment])
             flash("操作成功")
+            sql = "select * from Student;"
+            cursor.execute(sql)
             res = cursor.fetchall()
         elif op == "delete":
             sql = """
@@ -302,30 +368,47 @@ def student():
             Student_id = request.form["student_id"]
             cursor.execute(sql, Student_id)
             flash("操作成功")
+            sql = "select * from Student;"
+            cursor.execute(sql)
             res = cursor.fetchall()
         elif op == "select":
-            Student_id = request.form["student_id"]
-            Student_person_id = request.form["student_person_id"]
-            Student_email = request.form["student_email_address"]
-            Student_class = request.form["student_class"]
-            Student_major_id = request.form["student_major"]
-            Student_time_of_enrollment = request.form["student_enrollment"]
-            if not Student_id + Student_person_id + Student_email + Student_class + Student_major_id + Student_time_of_enrollment:
+            sel = []
+            logic = []
+            subclause = []
+            i = 0
+            if "sel0" in request.form:
+                sel.append(request.form["sel0"])
+            else:
+                sel.append("\0")
+            while sel[i]:
+                subclause.append(request.form["subclause" + str(i)])
+                i = i + 1
+                if "logic" + str(i) in request.form:
+                    logic.append(request.form["logic" + str(i)])
+                    sel.append(request.form["sel" + str(i)])
+                else:
+                    break
+            if i == 0:
                 sql = "select * from Student"
             else:
-                sql = "select * from Student where 1=1"
-                if Student_id:
-                    sql = sql + " and Student_id=" + "\"" + Student_id + "\""
-                if Student_person_id:
-                    sql = sql + " and Student_person_id=" + "\"" + Student_person_id + "\""
-                if Student_email:
-                    sql = sql + " and Student_email=" + "\"" + Student_email + "\""
-                if Student_class:
-                    sql = sql + " and Student_class=" + "\"" + Student_class + "\""
-                if Student_major_id:
-                    sql = sql + " and Student_major_id=" + "\"" + Student_major_id + "\""
-                if Student_time_of_enrollment:
-                    sql = sql + " and Student_time_of_enrollment=" + "\"" + Student_time_of_enrollment + "\""
+                sql = "select * from Student where "
+                for j in range(0, i):
+                    if sel[j] == "ID":
+                        sel[j] = "Student_id"
+                    elif sel[j] == "personal ID":
+                        sel[j] = "Student_person_id"
+                    elif sel[j] == "email":
+                        sel[j] = "Student_email"
+                    elif sel[j] == "class":
+                        sel[j] = "Student_class"
+                    elif sel[j] == "major":
+                        sel[j] = "Student_major_id"
+                    else:
+                        sel[j] = "Student_time_of_enrollment"
+                    sql = sql + sel[j] + "=\"" + subclause[j] + "\""
+                    if not j == i - 1:
+                        sql = sql + " " + logic[j] + " "
+            print(sql)
             cursor.execute(sql)
             flash("操作成功")
             res = cursor.fetchall()
@@ -354,6 +437,8 @@ def student():
                 print(sql)
                 cursor.execute(sql)
                 flash("操作成功")
+                sql = "select * from Student;"
+                cursor.execute(sql)
                 res = cursor.fetchall()
         cursor.close()
     else:
@@ -423,9 +508,7 @@ def personalinfo():
                 sql = sql + ");"
                 cursor.execute(sql, Person_id)
             flash("操作成功")
-            sql = """
-                select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id where Person.Person_id=%s;
-                """
+            sql = "select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id;"
             cursor.execute(sql, Person_id)
             res = cursor.fetchall()
         elif op == "delete":
@@ -439,40 +522,53 @@ def personalinfo():
                 """
             cursor.execute(sql, Person_id)
             flash("操作成功")
+            sql = "select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id;"
+            cursor.execute(sql, Person_id)
             res = cursor.fetchall()
         elif op == "select":
-            Person_id = request.form["info_id"]
-            Person_id_type = request.form["info_type"]
-            Person_name = request.form["info_name"]
-            Person_gender = request.form["info_gender"]
-            Person_date_of_birth = request.form["info_birthday"]
-            Person_nationality = request.form["info_nationality"]
-            Person_address = request.form["info_addr"]
-            Person_postcode = request.form["info_postcode"]
-            Person_phone_number = request.form["info_phone"]
-            if not Person_id + Person_id_type + Person_name + Person_gender + Person_date_of_birth + Person_nationality \
-                   + Person_address + Person_postcode + Person_phone_number:
+            sel = []
+            logic = []
+            subclause = []
+            i = 0
+            if "sel0" in request.form:
+                sel.append(request.form["sel0"])
+            else:
+                sel.append("\0")
+            while sel[i]:
+                subclause.append(request.form["subclause" + str(i)])
+                i = i + 1
+                if "logic" + str(i) in request.form:
+                    logic.append(request.form["logic" + str(i)])
+                    sel.append(request.form["sel" + str(i)])
+                else:
+                    break
+            if i == 0:
                 sql = "select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id;"
             else:
-                sql = "select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id where 1=1"
-                if Person_id:
-                    sql = sql + " and Person.Person_id=" + "\"" + Person_id + "\""
-                if Person_id_type:
-                    sql = sql + " and Person.Person_id_type=" + "\"" + Person_id_type + "\""
-                if Person_name:
-                    sql = sql + " and Person.Person_name=" + "\"" + Person_name + "\""
-                if Person_gender:
-                    sql = sql + " and Person.Person_gender=" + "\"" + Person_gender + "\""
-                if Person_date_of_birth:
-                    sql = sql + " and Person.Person_date_of_birth=" + "\"" + Person_date_of_birth + "\""
-                if Person_nationality:
-                    sql = sql + " and Person.Person_nationality=" + "\"" + Person_nationality + "\""
-                if Person_address:
-                    sql = sql + " and `Contact information`.Person_address=" + "\"" + Person_address + "\""
-                if Person_postcode:
-                    sql = sql + " and `Contact information`.Person_postcode=" + "\"" + Person_postcode + "\""
-                if Person_phone_number:
-                    sql = sql + " and `Contact information`.Person_phone_number=" + "\"" + Person_phone_number + "\""
+                sql = "select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id where "
+                for j in range(0, i):
+                    if sel[j] == "ID":
+                        sel[j] = "Person.Person_id"
+                    elif sel[j] == "type":
+                        sel[j] = "Person.Person_id_type"
+                    elif sel[j] == "name":
+                        sel[j] = "Person.Person_name"
+                    elif sel[j] == "gender":
+                        sel[j] = "Person.Person_gender"
+                    elif sel[j] == "birthday":
+                        sel[j] = "Person.Person_date_of_birth"
+                    elif sel[j] == "nationality":
+                        sel[j] = "Person.Person_nationality"
+                    elif sel[j] == "addr":
+                        sel[j] = "`Contact information`.Person_address"
+                    elif sel[j] == "postcode":
+                        sel[j] = "`Contact information`.Person_postcode"
+                    else:
+                        sel[j] = "`Contact information`.Person_phone_number"
+                    sql = sql + sel[j] + "=\"" + subclause[j] + "\""
+                    if not j == i - 1:
+                        sql = sql + " " + logic[j] + " "
+            print(sql)
             cursor.execute(sql)
             flash("操作成功")
             res = cursor.fetchall()
@@ -517,17 +613,13 @@ def personalinfo():
                     print(sql)
                     cursor.execute(sql)
                 flash("操作成功")
-                sql = """
-                    select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id;
-                    """
+                sql = "select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id;"
                 cursor.execute(sql, Person_id)
                 res = cursor.fetchall()
         cursor.close()
     else:
         cursor = conn.cursor()
-        sql = """
-            select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id;
-            """
+        sql = "select * from Person left join `Contact information` on Person.Person_id=`Contact information`.Person_id;"
         cursor.execute(sql)
         res = cursor.fetchall()
         cursor.close()
