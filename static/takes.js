@@ -13,12 +13,12 @@ queryselect.onchange = function () {
         studentid.classList.add("display-block");
         courseid.classList.remove("display-none");
         courseid.classList.add("display-block");
-        teacherid.classList.remove("display-none");
-        teacherid.classList.add("display-block");
-        sectionyear.classList.remove("display-none");
-        sectionyear.classList.add("display-block");
-        sectionseme.classList.remove("display-none");
-        sectionseme.classList.add("display-block");
+        teacherid.classList.remove("display-block");
+        teacherid.classList.add("display-none");
+        sectionyear.classList.remove("display-block");
+        sectionyear.classList.add("display-none");
+        sectionseme.classList.remove("display-block");
+        sectionseme.classList.add("display-none");
         takesgrade.classList.remove("display-block");
         takesgrade.classList.add("display-none");
         selectfilter.classList.remove("display-block");
