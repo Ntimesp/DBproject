@@ -1,56 +1,56 @@
 const queryselect = document.getElementById("quert-select");
 const studentid = document.getElementById("student-id");
-const studentpersonid = document.getElementById("student-person-id");
-const studentemail = document.getElementById("student-email");
-const studentclass = document.getElementById("student-class");
-const studentmajor = document.getElementById("student-major");
-const studentenrollment = document.getElementById("student-enrollment");
+const courseid = document.getElementById("course-id");
+const teacherid = document.getElementById("teacher-id");
+const sectionyear = document.getElementById("section-year");
+const sectionseme = document.getElementById("section-seme");
+const takesgrade = document.getElementById("takes-grade");
 const selectfilter = document.getElementById("select-filter");
 
 queryselect.onchange = function () {
     if (queryselect.value === "delete") {
         studentid.classList.remove("display-none");
         studentid.classList.add("display-block");
-        studentpersonid.classList.remove("display-block");
-        studentpersonid.classList.add("display-none");
-        studentemail.classList.remove("display-block");
-        studentemail.classList.add("display-none");
-        studentclass.classList.remove("display-block");
-        studentclass.classList.add("display-none");
-        studentmajor.classList.remove("display-block");
-        studentmajor.classList.add("display-none");
-        studentenrollment.classList.remove("display-block");
-        studentenrollment.classList.add("display-none");
+        courseid.classList.remove("display-none");
+        courseid.classList.add("display-block");
+        teacherid.classList.remove("display-block");
+        teacherid.classList.add("display-none");
+        sectionyear.classList.remove("display-block");
+        sectionyear.classList.add("display-none");
+        sectionseme.classList.remove("display-block");
+        sectionseme.classList.add("display-none");
+        takesgrade.classList.remove("display-block");
+        takesgrade.classList.add("display-none");
         selectfilter.classList.remove("display-block");
         selectfilter.classList.add("display-none");
     } else if (queryselect.value === "select") {
         studentid.classList.remove("display-block");
         studentid.classList.add("display-none");
-        studentpersonid.classList.remove("display-block");
-        studentpersonid.classList.add("display-none");
-        studentemail.classList.remove("display-block");
-        studentemail.classList.add("display-none");
-        studentclass.classList.remove("display-block");
-        studentclass.classList.add("display-none");
-        studentmajor.classList.remove("display-block");
-        studentmajor.classList.add("display-none");
-        studentenrollment.classList.remove("display-block");
-        studentenrollment.classList.add("display-none");
+        courseid.classList.remove("display-block");
+        courseid.classList.add("display-none");
+        teacherid.classList.remove("display-block");
+        teacherid.classList.add("display-none");
+        sectionyear.classList.remove("display-block");
+        sectionyear.classList.add("display-none");
+        sectionseme.classList.remove("display-block");
+        sectionseme.classList.add("display-none");
+        takesgrade.classList.remove("display-block");
+        takesgrade.classList.add("display-none");
         selectfilter.classList.remove("display-none");
         selectfilter.classList.add("display-block");
     } else {
         studentid.classList.remove("display-none");
         studentid.classList.add("display-block");
-        studentpersonid.classList.remove("display-none");
-        studentpersonid.classList.add("display-block");
-        studentemail.classList.remove("display-none");
-        studentemail.classList.add("display-block");
-        studentclass.classList.remove("display-none");
-        studentclass.classList.add("display-block");
-        studentmajor.classList.remove("display-none");
-        studentmajor.classList.add("display-block");
-        studentenrollment.classList.remove("display-none");
-        studentenrollment.classList.add("display-block");
+        courseid.classList.remove("display-none");
+        courseid.classList.add("display-block");
+        teacherid.classList.remove("display-none");
+        teacherid.classList.add("display-block");
+        sectionyear.classList.remove("display-none");
+        sectionyear.classList.add("display-block");
+        sectionseme.classList.remove("display-none");
+        sectionseme.classList.add("display-block");
+        takesgrade.classList.remove("display-none");
+        takesgrade.classList.add("display-block");
         selectfilter.classList.remove("display-block");
         selectfilter.classList.add("display-none");
     }
@@ -81,29 +81,29 @@ btn.onclick = function () {
     new_sel.name = "sel" + i;
     new_sel.id = "sel" + i;
     new_opt = document.createElement("option");
-    new_opt.value = "ID";
+    new_opt.value = "studentid";
     new_opt.selected = "selected";
-    new_opt.innerText = "ID";
+    new_opt.innerText = "student ID";
     new_sel.appendChild(new_opt);
     new_opt = document.createElement("option");
-    new_opt.value = "personal ID";
-    new_opt.innerText = "personal ID";
+    new_opt.value = "courseid";
+    new_opt.innerText = "course ID";
     new_sel.appendChild(new_opt);
     new_opt = document.createElement("option");
-    new_opt.value = "email";
-    new_opt.innerText = "email";
+    new_opt.value = "teacherid";
+    new_opt.innerText = "teacher ID";
     new_sel.appendChild(new_opt);
     new_opt = document.createElement("option");
-    new_opt.value = "class";
-    new_opt.innerText = "class";
+    new_opt.value = "year";
+    new_opt.innerText = "year";
     new_sel.appendChild(new_opt);
     new_opt = document.createElement("option");
-    new_opt.value = "major";
-    new_opt.innerText = "major";
+    new_opt.value = "seme";
+    new_opt.innerText = "semester";
     new_sel.appendChild(new_opt);
     new_opt = document.createElement("option");
-    new_opt.value = "enrollment";
-    new_opt.innerText = "enrollment";
+    new_opt.value = "grade";
+    new_opt.innerText = "grade";
     new_sel.appendChild(new_opt);
     new_div.appendChild(new_sel);
     new_div.appendChild(document.createTextNode(" = "));
@@ -114,7 +114,6 @@ btn.onclick = function () {
     new_inp.id = "subclause" + i;
     new_div.appendChild(new_inp);
     selectfilter.appendChild(new_div);
-    //document.getElementById("sel" + (i)).onchange = ChangeSel;
     document.getElementById("sel" + i).addEventListener("change", function () { ChangeSel(this) });
     i++;
 }
@@ -124,26 +123,33 @@ function ChangeSel(val) {
     while (inp.nodeType != 1)
         inp = inp.nextSibling;
     switch (val.value) {
-        case "ID":
+        case "studentid":
             inp.setAttribute("type", "text");
+            inp.placeholder = "";
             break;
-        case "personal ID":
+        case "courseid":
+            inp.setAttribute("type", "text");
+            inp.placeholder = "";
+            break;
+        case "teacherid":
+            inp.setAttribute("type", "text");
+            inp.placeholder = "";
+            break;
+        case "year":
             inp.setAttribute("type", "number");
+            inp.placeholder = "";
             break;
-        case "email":
-            inp.setAttribute("type", "email");
-            break;
-        case "class":
+        case "seme":
             inp.setAttribute("type", "text");
+            inp.placeholder = "春/秋";
             break;
-        case "major":
-            inp.setAttribute("type", "text");
-            break;
-        case "enrollment":
-            inp.setAttribute("type", "date");
+        case "grade":
+            inp.setAttribute("type", "number");
+            inp.placeholder = "";
             break;
         default:
             inp.setAttribute("type", "text");
+            inp.placeholder = "";
             break;
     }
 }

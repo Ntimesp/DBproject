@@ -1,56 +1,56 @@
 const queryselect = document.getElementById("quert-select");
-const studentid = document.getElementById("student-id");
-const studentpersonid = document.getElementById("student-person-id");
-const studentemail = document.getElementById("student-email");
-const studentclass = document.getElementById("student-class");
-const studentmajor = document.getElementById("student-major");
-const studentenrollment = document.getElementById("student-enrollment");
+const teacherid = document.getElementById("teacher-id");
+const teacherpersonid = document.getElementById("teacher-person-id");
+const teacherentry = document.getElementById("teacher-entry");
+const teacheremail = document.getElementById("teacher-email");
+const teachermajor = document.getElementById("teacher-major");
+const teacherrank = document.getElementById("teacher-rank");
 const selectfilter = document.getElementById("select-filter");
 
 queryselect.onchange = function () {
     if (queryselect.value === "delete") {
-        studentid.classList.remove("display-none");
-        studentid.classList.add("display-block");
-        studentpersonid.classList.remove("display-block");
-        studentpersonid.classList.add("display-none");
-        studentemail.classList.remove("display-block");
-        studentemail.classList.add("display-none");
-        studentclass.classList.remove("display-block");
-        studentclass.classList.add("display-none");
-        studentmajor.classList.remove("display-block");
-        studentmajor.classList.add("display-none");
-        studentenrollment.classList.remove("display-block");
-        studentenrollment.classList.add("display-none");
+        teacherid.classList.remove("display-none");
+        teacherid.classList.add("display-block");
+        teacherpersonid.classList.remove("display-block");
+        teacherpersonid.classList.add("display-none");
+        teacherentry.classList.remove("display-block");
+        teacherentry.classList.add("display-none");
+        teacheremail.classList.remove("display-block");
+        teacheremail.classList.add("display-none");
+        teachermajor.classList.remove("display-block");
+        teachermajor.classList.add("display-none");
+        teacherrank.classList.remove("display-block");
+        teacherrank.classList.add("display-none");
         selectfilter.classList.remove("display-block");
         selectfilter.classList.add("display-none");
     } else if (queryselect.value === "select") {
-        studentid.classList.remove("display-block");
-        studentid.classList.add("display-none");
-        studentpersonid.classList.remove("display-block");
-        studentpersonid.classList.add("display-none");
-        studentemail.classList.remove("display-block");
-        studentemail.classList.add("display-none");
-        studentclass.classList.remove("display-block");
-        studentclass.classList.add("display-none");
-        studentmajor.classList.remove("display-block");
-        studentmajor.classList.add("display-none");
-        studentenrollment.classList.remove("display-block");
-        studentenrollment.classList.add("display-none");
+        teacherid.classList.remove("display-block");
+        teacherid.classList.add("display-none");
+        teacherpersonid.classList.remove("display-block");
+        teacherpersonid.classList.add("display-none");
+        teacherentry.classList.remove("display-block");
+        teacherentry.classList.add("display-none");
+        teacheremail.classList.remove("display-block");
+        teacheremail.classList.add("display-none");
+        teachermajor.classList.remove("display-block");
+        teachermajor.classList.add("display-none");
+        teacherrank.classList.remove("display-block");
+        teacherrank.classList.add("display-none");
         selectfilter.classList.remove("display-none");
         selectfilter.classList.add("display-block");
     } else {
-        studentid.classList.remove("display-none");
-        studentid.classList.add("display-block");
-        studentpersonid.classList.remove("display-none");
-        studentpersonid.classList.add("display-block");
-        studentemail.classList.remove("display-none");
-        studentemail.classList.add("display-block");
-        studentclass.classList.remove("display-none");
-        studentclass.classList.add("display-block");
-        studentmajor.classList.remove("display-none");
-        studentmajor.classList.add("display-block");
-        studentenrollment.classList.remove("display-none");
-        studentenrollment.classList.add("display-block");
+        teacherid.classList.remove("display-none");
+        teacherid.classList.add("display-block");
+        teacherpersonid.classList.remove("display-none");
+        teacherpersonid.classList.add("display-block");
+        teacherentry.classList.remove("display-none");
+        teacherentry.classList.add("display-block");
+        teacheremail.classList.remove("display-none");
+        teacheremail.classList.add("display-block");
+        teachermajor.classList.remove("display-none");
+        teachermajor.classList.add("display-block");
+        teacherrank.classList.remove("display-none");
+        teacherrank.classList.add("display-block");
         selectfilter.classList.remove("display-block");
         selectfilter.classList.add("display-none");
     }
@@ -90,20 +90,20 @@ btn.onclick = function () {
     new_opt.innerText = "personal ID";
     new_sel.appendChild(new_opt);
     new_opt = document.createElement("option");
+    new_opt.value = "entry";
+    new_opt.innerText = "entry date";
+    new_sel.appendChild(new_opt);
+    new_opt = document.createElement("option");
     new_opt.value = "email";
     new_opt.innerText = "email";
     new_sel.appendChild(new_opt);
     new_opt = document.createElement("option");
-    new_opt.value = "class";
-    new_opt.innerText = "class";
-    new_sel.appendChild(new_opt);
-    new_opt = document.createElement("option");
     new_opt.value = "major";
-    new_opt.innerText = "major";
+    new_opt.innerText = "major ID";
     new_sel.appendChild(new_opt);
     new_opt = document.createElement("option");
-    new_opt.value = "enrollment";
-    new_opt.innerText = "enrollment";
+    new_opt.value = "rank";
+    new_opt.innerText = "rank";
     new_sel.appendChild(new_opt);
     new_div.appendChild(new_sel);
     new_div.appendChild(document.createTextNode(" = "));
@@ -114,7 +114,6 @@ btn.onclick = function () {
     new_inp.id = "subclause" + i;
     new_div.appendChild(new_inp);
     selectfilter.appendChild(new_div);
-    //document.getElementById("sel" + (i)).onchange = ChangeSel;
     document.getElementById("sel" + i).addEventListener("change", function () { ChangeSel(this) });
     i++;
 }
@@ -126,24 +125,31 @@ function ChangeSel(val) {
     switch (val.value) {
         case "ID":
             inp.setAttribute("type", "text");
+            inp.placeholder = "";
             break;
         case "personal ID":
             inp.setAttribute("type", "number");
+            inp.placeholder = "";
+            break;
+        case "entry":
+            inp.setAttribute("type", "date");
+            inp.placeholder = "";
             break;
         case "email":
             inp.setAttribute("type", "email");
-            break;
-        case "class":
-            inp.setAttribute("type", "text");
+            inp.placeholder = "";
             break;
         case "major":
             inp.setAttribute("type", "text");
+            inp.placeholder = "";
             break;
-        case "enrollment":
-            inp.setAttribute("type", "date");
+        case "rank":
+            inp.setAttribute("type", "text");
+            inp.placeholder = "professor/assistant";
             break;
         default:
             inp.setAttribute("type", "text");
+            inp.placeholder = "";
             break;
     }
 }

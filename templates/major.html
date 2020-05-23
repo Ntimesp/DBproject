@@ -34,28 +34,40 @@
         <!--输入数据-->
         <div id="major-id" class="display-block">
             <label for="major_id_inp" class="inp-prompt">major ID: </label>
-            <input type="text", id="major_id_inp", name="major_id", class="inp-prompt">
+            <input type="text" id="major_id_inp" name="major_id" class="inp-prompt">
         </div>
         <div id="major-name" class="display-block">
             <label for="major_name_inp" class="inp-prompt">major name: </label>
-            <input type="text", id="major_name_inp", name="major_name", class="inp-prompt">
+            <input type="text" id="major_name_inp" name="major_name" class="inp-prompt">
         </div>
         <div id="major-addr" class="display-block">
             <label for="major_addr_inp" class="inp-prompt">major address: </label>
-            <input type="text", id="major_addr_inp", name="major_address", class="inp-prompt">
+            <input type="text" id="major_addr_inp" name="major_address" class="inp-prompt">
         </div>
         <div id="major-campus" class="display-block">
             <label for="major_campus_inp" class="inp-prompt">major campus ID: </label>
-            <input type="text", id="major_campus_inp", name="major_campus", class="inp-prompt">
+            <input type="text" id="major_campus_inp" name="major_campus" class="inp-prompt">
         </div>
         <div id="major-leader" class="display-block">
             <label for="major_leader_inp" class="inp-prompt">major leader: </label>
-            <input type="text", id="major_leader_inp", name="major_leader", class="inp-prompt">
+            <input type="text" id="major_leader_inp" name="major_leader" class="inp-prompt">
+        </div>
+        <div id="select-filter" class="display-none">
+            <input type="button" value="Add Filter" id="add-filter-btn">
+            <select name="sel0" id="sel0">
+                <option value="ID" selected="selected">ID</option>
+                <option value="name">name</option>
+                <option value="addr">address</option>
+                <option value="campus">campus ID</option>
+                <option value="leader">major leader</option>
+            </select>
+            =
+            <input type="text" name="subclause0" id="subclause0">
         </div>
         <!--提交-->
         <div>
-            <input type="submit", value="提交">
-            <input type="reset", value="重置">
+            <input type="submit" value="提交">
+            <input type="reset" value="重置">
         </div>
     </form></div>
     <br>
@@ -66,17 +78,15 @@
             <div class="card-header"> 专业信息 </div>
             <div class="card-body text-primary">
                 {% for majo in major %}
-                <p class="card-text"> {{ majo }} <button type="button" class="btn btn-primary" id="{{majo[0]}}">删除</button></p>
+                <p class="card-text"> {{ majo }} </p>
                 {% endfor %}
             </div>
             </div>
         </div>
         </div>
 
-    <a type="button" class="btn btn-primary " href="{{ url_for('index') }}">换一批</a>
     <a type="button" class="btn btn-primary" href="{{ url_for('index') }}">返回主页</a>
 	<br>
-    <p style="color:white;">本次活动对于愿望池提供点赞功能，对于点赞高的愿望，在男生愿望池中会有更高概率出现，如果最终男生没有成功完成，那么会由项目组抽取部分点赞代表性高的愿望为其完成</p>
 	<script src="{{ url_for('static', filename='major.js') }}"></script>
 </div>
 {% endblock %}
