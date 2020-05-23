@@ -1027,14 +1027,10 @@ def takes():
         elif op == "delete":
             Student_id = request.form["student_id"]
             Section_Course_id = request.form["course_id"]
-            Section_Teacher_id = request.form["teacher_id"]
-            Section_Year = request.form["section_year"]
-            Section_Semester = request.form["section_seme"]
             sql = """
-                delete from Section where Student_id=%s and Section_Course_id=%s and Section_Teacher_id=%s and Section_Year=%s 
-                and Section_Semester=%s;
+                delete from Section where Student_id=%s and Section_Course_id=%s;
                 """
-            cursor.execute(sql, [Student_id, Section_Course_id, Section_Teacher_id, Section_Year, Section_Semester])
+            cursor.execute(sql, [Student_id, Section_Course_id])
             flash("操作成功")
             sql = "select * from Takes;"
             cursor.execute(sql)
@@ -1090,13 +1086,26 @@ def takes():
             Section_Year = request.form["section_year"]
             Section_Semester = request.form["section_seme"]
             Grade = request.form["takes_grade"]
-            if not Grade:
+            if not Section_Teacher_id+Section_Year+Section_Semester+Grade:
                 flash("什么也不做")
             else:
-                sql = "update Takes set Grade=" + Grade + " where Student_id=%s and Section_Course_id=%s " \
-                                                          "and Section_Teacher_id=%s and Section_Year=%s and Section_Semester=%s"
+                sql = "update Takes set "
+                if Section_Teacher_id:
+                    sql = sql+"Section_Teacher_id=" + "\"" + Section_Teacher_id + "\"," 
+                
+                if Section_Year:
+                    sql = sql+"Section_Year=" + "\"" + Section_Year + "\","
+
+                if Section_Semester:
+                    sql = sql+"Section_Semester=" + "\"" + Section_Semester + "\","
+
+                if Grade:
+                    sql = sql+"Grade=" + "\"" + Grade + "\","
+
+                sql=sql[:-1]
+                sql=sql+ " where Student_id=%s and Section_Course_id=%s "
                 print(sql)
-                cursor.execute(sql, [Student_id, Section_Course_id, Section_Teacher_id, Section_Year, Section_Semester])
+                cursor.execute(sql, [Student_id, Section_Course_id])
                 flash("操作成功")
             sql = "select * from Takes;"
             cursor.execute(sql)
